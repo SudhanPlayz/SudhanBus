@@ -35,7 +35,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${nunitoSans.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} ${nunitoSans.variable} antialiased`}
 			>
 				<Providers>
 					<div className="grid min-h-svh grid-rows-[auto_1fr_auto]">

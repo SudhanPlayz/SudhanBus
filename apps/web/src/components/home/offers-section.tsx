@@ -99,8 +99,8 @@ function OffersSection() {
 							</CarouselItem>
 						))}
 					</CarouselContent>
-					<CarouselPrevious className="-left-4 sm:-left-5" />
-					<CarouselNext className="-right-4 sm:-right-5" />
+					<CarouselPrevious className="-left-4 hidden sm:-left-5 sm:flex" />
+					<CarouselNext className="-right-4 hidden sm:-right-5 sm:flex" />
 				</Carousel>
 			</div>
 		</div>

@@ -2,6 +2,7 @@
 
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -10,13 +11,15 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
+	className?: string; // Added className
 	date: Date | undefined;
 	onDateChange: (date: Date | undefined) => void;
 }
 
-function DatePicker({ date, onDateChange }: DatePickerProps) {
+function DatePicker({ className, date, onDateChange }: DatePickerProps) {
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 
@@ -33,14 +36,14 @@ function DatePicker({ date, onDateChange }: DatePickerProps) {
 	};
 
 	return (
-		<Field className="w-full md:w-auto">
+		<Field className={cn("w-full md:w-auto", className)}>
 			<FieldLabel htmlFor="date-picker">Date</FieldLabel>
-			<div className="flex flex-wrap items-center gap-2">
+			<div className="flex flex-wrap items-center gap-2 md:flex-nowrap">
 				<Popover>
 					<PopoverTrigger
 						render={
 							<Button
-								className="w-full justify-start gap-2 font-normal sm:w-44"
+								className="w-full justify-start gap-2 font-normal md:w-40"
 								id="date-picker"
 								variant="outline"
 							>
@@ -55,7 +58,6 @@ function DatePicker({ date, onDateChange }: DatePickerProps) {
 					/>
 					<PopoverContent align="start" className="w-auto p-0">
 						<Calendar
-							defaultMonth={date}
 							disabled={{ before: today }}
 							mode="single"
 							onSelect={onDateChange}
@@ -63,12 +65,15 @@ function DatePicker({ date, onDateChange }: DatePickerProps) {
 						/>
 					</PopoverContent>
 				</Popover>
-				<Button onClick={handleToday} size="sm" variant="outline">
-					Today
-				</Button>
-				<Button onClick={handleTomorrow} size="sm" variant="outline">
-					Tomorrow
-				</Button>
+
+				<div className="flex w-full flex-wrap gap-2 md:w-auto md:flex-nowrap">
+					<Button size="sm" variant="outline">
+						Today
+					</Button>
+					<Button size="sm" variant="outline">
+						Tomorrow
+					</Button>
+				</div>
 			</div>
 		</Field>
 	);

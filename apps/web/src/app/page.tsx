@@ -6,7 +6,7 @@ import { SearchSection } from "@/components/home/search-section";
 
 export default function Home() {
 	return (
-		<div className="flex flex-col items-center gap-10 py-8">
+		<div className="flex flex-col items-center gap-6 md:gap-10">
 			<SearchSection />
 			<OffersSection />
 			<PopularRoutesSection />

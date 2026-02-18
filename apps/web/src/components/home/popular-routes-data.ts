@@ -1,10 +1,10 @@
 interface Route {
-	id: string;
-	from: string;
-	to: string;
 	distance: string;
 	duration: string;
+	from: string;
+	id: string;
 	price: number;
+	to: string;
 }
 
 const POPULAR_ROUTES: Route[] = [
