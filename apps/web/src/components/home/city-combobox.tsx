@@ -9,11 +9,13 @@ import {
 	ComboboxList,
 } from "@/components/ui/combobox";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { cn } from "@/lib/utils";
 import { CITIES } from "./cities";
 
 const cityLabels = CITIES.map((city) => city.label);
 
 interface CityComboboxProps {
+	className?: string;
 	label: string;
 	onValueChange: (value: string | null) => void;
 	placeholder?: string;
@@ -21,6 +23,7 @@ interface CityComboboxProps {
 }
 
 function CityCombobox({
+	className,
 	label,
 	value,
 	onValueChange,
@@ -38,7 +41,7 @@ function CityCombobox({
 	};
 
 	return (
-		<Field className="w-full sm:w-48">
+		<Field className={cn("w-full sm:w-48", className)}>
 			<FieldLabel htmlFor={`city-${label.toLowerCase()}`}>{label}</FieldLabel>
 			<Combobox
 				items={cityLabels}
@@ -66,4 +69,3 @@ function CityCombobox({
 }
 
 export { CityCombobox };
-

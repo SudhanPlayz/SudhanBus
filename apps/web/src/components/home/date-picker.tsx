@@ -33,9 +33,9 @@ function DatePicker({ date, onDateChange }: DatePickerProps) {
 	};
 
 	return (
-		<Field className="w-full sm:w-auto">
+		<Field className="w-full md:w-auto">
 			<FieldLabel htmlFor="date-picker">Date</FieldLabel>
-			<div className="flex items-center gap-2">
+			<div className="flex flex-wrap items-center gap-2">
 				<Popover>
 					<PopoverTrigger
 						render={

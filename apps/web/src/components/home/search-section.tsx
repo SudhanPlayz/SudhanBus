@@ -21,7 +21,7 @@ function SearchSection() {
 
 	return (
 		<div className="flex w-full items-center justify-center px-4">
-			<Card className="w-full max-w-3xl">
+			<Card className="w-full max-w-6xl border-0 shadow-none md:border">
 				<CardHeader className="text-center">
 					<CardTitle className="font-semibold text-2xl tracking-tight sm:text-3xl">
 						Book Your Bus Ticket
@@ -31,21 +31,27 @@ function SearchSection() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+					<div className="flex flex-col gap-3 md:flex-row md:items-end md:gap-4">
 						<CityCombobox
+							className="flex-1"
 							label="From"
 							onValueChange={setFrom}
 							placeholder="Select origin"
 							value={from}
 						/>
 						<CityCombobox
+							className="flex-1"
 							label="To"
 							onValueChange={setTo}
 							placeholder="Select destination"
 							value={to}
 						/>
 						<DatePicker date={date} onDateChange={setDate} />
-						<Button className="h-8 w-full gap-2 sm:w-auto" size="default" variant="outline">
+						<Button
+							className="h-8 w-full gap-2 md:w-auto"
+							size="default"
+							variant="outline"
+						>
 							<Search className="size-4" />
 							Search
 						</Button>

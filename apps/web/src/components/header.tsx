@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { MobileNav } from "./mobile-nav";
 import UserMenu from "./user-menu";
 
 export default function Header() {
@@ -18,11 +19,13 @@ export default function Header() {
 						src="/logo.png"
 						width={28}
 					/>
-					<span className="font-semibold text-sm tracking-tight">
+					<span className="max-w-[180px] truncate font-semibold text-sm tracking-tight sm:max-w-none">
 						SudhanBus
 					</span>
 				</Link>
-				<div className="flex items-center gap-3">
+
+				{/* Desktop nav — hidden below md */}
+				<div className="hidden items-center gap-3 md:flex">
 					<Link
 						className="font-medium text-muted-foreground text-xs transition-colors hover:text-foreground"
 						href={"/bookings" as "/"}
@@ -30,6 +33,11 @@ export default function Header() {
 						My Bookings
 					</Link>
 					<UserMenu />
+				</div>
+
+				{/* Mobile nav — visible below md only */}
+				<div className="block md:hidden">
+					<MobileNav />
 				</div>
 			</div>
 		</header>
