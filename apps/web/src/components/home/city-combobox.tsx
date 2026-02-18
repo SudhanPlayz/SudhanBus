@@ -16,6 +16,7 @@ const cityLabels = CITIES.map((city) => city.label);
 
 interface CityComboboxProps {
 	className?: string;
+	icon?: React.ReactNode;
 	label: string;
 	onValueChange: (value: string | null) => void;
 	placeholder?: string;
@@ -24,6 +25,7 @@ interface CityComboboxProps {
 
 function CityCombobox({
 	className,
+	icon,
 	label,
 	value,
 	onValueChange,
@@ -52,6 +54,7 @@ function CityCombobox({
 					id={`city-${label.toLowerCase()}`}
 					placeholder={placeholder}
 					showTrigger
+					startIcon={icon}
 				/>
 				<ComboboxContent>
 					<ComboboxEmpty>No city found.</ComboboxEmpty>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { MapPin, MapPinned, Search } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { TextAnimate } from "@/components/ui/text-animate";
 import { CityCombobox } from "./city-combobox";
 import { DatePicker } from "./date-picker";
 
@@ -24,16 +25,21 @@ function SearchSection() {
 			<Card className="w-full max-w-6xl border-0 shadow-none md:border">
 				<CardHeader className="text-center">
 					<CardTitle className="font-semibold text-2xl tracking-tight sm:text-3xl">
-						Book Your Bus Ticket
+						<TextAnimate animation="blurInDown" as="span">
+							Book Your Bus Ticket
+						</TextAnimate>
 					</CardTitle>
 					<CardDescription>
-						Search and book bus tickets across India
+						<TextAnimate animation="blurInDown" as="span" delay={0.2}>
+							Search and book bus tickets across India
+						</TextAnimate>
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className="flex flex-col gap-3 md:flex-row md:items-end md:gap-4">
 						<CityCombobox
 							className="flex-1"
+							icon={<MapPin className="size-4 text-muted-foreground" />}
 							label="From"
 							onValueChange={setFrom}
 							placeholder="Select origin"
@@ -41,6 +47,7 @@ function SearchSection() {
 						/>
 						<CityCombobox
 							className="flex-1"
+							icon={<MapPinned className="size-4 text-muted-foreground" />}
 							label="To"
 							onValueChange={setTo}
 							placeholder="Select destination"
