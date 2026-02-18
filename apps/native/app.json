@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "scheme": "sudhanbus",
+    "userInterfaceStyle": "automatic",
+    "orientation": "default",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "sudhanbus",
+    "slug": "sudhanbus",
+    "plugins": ["expo-font"],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
