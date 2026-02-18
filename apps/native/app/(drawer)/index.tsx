@@ -1,50 +1,17 @@
-import { Card, useThemeColor } from "heroui-native";
-import { Pressable, Text, View } from "react-native";
-
 import { Container } from "@/components/container";
-import { SignIn } from "@/components/sign-in";
-import { SignUp } from "@/components/sign-up";
-import { authClient } from "@/lib/auth-client";
+import { OffersSection } from "@/components/home/offers-section";
+import { PopularRoutesSection } from "@/components/home/popular-routes-section";
+import { SearchSection } from "@/components/home/search-section";
+import { View } from "react-native";
 
 export default function Home() {
-	const { data: session } = authClient.useSession();
-
-	const _mutedColor = useThemeColor("muted");
-	const _successColor = useThemeColor("success");
-	const _dangerColor = useThemeColor("danger");
-	const _foregroundColor = useThemeColor("foreground");
-
 	return (
-		<Container className="p-6">
-			<View className="mb-6 py-4">
-				<Text className="mb-2 font-bold text-4xl text-foreground">
-					BETTER T STACK
-				</Text>
+		<Container>
+			<View className="gap-6 pb-8">
+				<SearchSection />
+				<OffersSection />
+				<PopularRoutesSection />
 			</View>
-
-			{session?.user ? (
-				<Card className="mb-6 p-4" variant="secondary">
-					<Text className="mb-2 text-base text-foreground">
-						Welcome, <Text className="font-medium">{session.user.name}</Text>
-					</Text>
-					<Text className="mb-4 text-muted text-sm">{session.user.email}</Text>
-					<Pressable
-						className="self-start rounded-lg bg-danger px-4 py-3 active:opacity-70"
-						onPress={() => {
-							authClient.signOut();
-						}}
-					>
-						<Text className="font-medium text-foreground">Sign Out</Text>
-					</Pressable>
-				</Card>
-			) : null}
-
-			{!session?.user && (
-				<>
-					<SignIn />
-					<SignUp />
-				</>
-			)}
 		</Container>
 	);
 }

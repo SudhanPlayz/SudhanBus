@@ -38,7 +38,7 @@ function MobileAuthSection({ onNavigate, onClose }: MobileAuthSectionProps) {
 		return (
 			<div className="px-4">
 				<SheetClose
-					onClick={() => onNavigate("/login")}
+					onClick={() => onNavigate("/auth")}
 					render={<Button className="w-full" variant="outline" />}
 				>
 					Sign In
