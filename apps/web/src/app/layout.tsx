@@ -6,6 +6,7 @@ import "../index.css";
 import { Footer } from "@/components/footer";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -38,11 +39,13 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} ${nunitoSans.variable} antialiased`}
 			>
 				<Providers>
-					<div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
-						<Header />
-						<main>{children}</main>
-						<Footer />
-					</div>
+					<ScrollArea className="h-screen w-full">
+						<div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
+							<Header />
+							<main>{children}</main>
+							<Footer />
+						</div>
+					</ScrollArea>
 				</Providers>
 			</body>
 		</html>

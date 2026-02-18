@@ -21,6 +21,7 @@ interface CityComboboxProps {
 	onValueChange: (value: string | null) => void;
 	placeholder?: string;
 	value: string | null;
+	disabledValues?: (string | null)[];
 }
 
 function CityCombobox({
@@ -30,6 +31,7 @@ function CityCombobox({
 	value,
 	onValueChange,
 	placeholder = "Select city",
+	disabledValues = [],
 }: CityComboboxProps) {
 	const selectedCity = CITIES.find((city) => city.value === value);
 
@@ -59,11 +61,16 @@ function CityCombobox({
 				<ComboboxContent>
 					<ComboboxEmpty>No city found.</ComboboxEmpty>
 					<ComboboxList>
-						{(item) => (
-							<ComboboxItem key={item} value={item}>
-								{item}
-							</ComboboxItem>
-						)}
+						{(item) => {
+							const isDisabled = disabledValues.includes(
+								CITIES.find((c) => c.label === item)?.value ?? null
+							);
+							return (
+								<ComboboxItem disabled={isDisabled} key={item} value={item}>
+									{item}
+								</ComboboxItem>
+							);
+						}}
 					</ComboboxList>
 				</ComboboxContent>
 			</Combobox>

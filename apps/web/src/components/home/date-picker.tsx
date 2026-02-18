@@ -59,18 +59,20 @@ function DatePicker({ className, date, onDateChange }: DatePickerProps) {
 					<PopoverContent align="start" className="w-auto p-0">
 						<Calendar
 							disabled={{ before: today }}
+							fromDate={today}
 							mode="single"
 							onSelect={onDateChange}
 							selected={date}
+							showOutsideDays={false}
 						/>
 					</PopoverContent>
 				</Popover>
 
 				<div className="flex w-full flex-wrap gap-2 md:w-auto md:flex-nowrap">
-					<Button size="sm" variant="outline">
+					<Button onClick={handleToday} size="sm" variant="outline">
 						Today
 					</Button>
-					<Button size="sm" variant="outline">
+					<Button onClick={handleTomorrow} size="sm" variant="outline">
 						Tomorrow
 					</Button>
 				</div>

@@ -46,6 +46,7 @@ function SearchSection() {
 							<div className="relative flex flex-1 items-center gap-2 pr-0 md:pr-4">
 								<CityCombobox
 									className="flex-1 [&_div[data-slot=input-group]]:border-0 [&_div[data-slot=input-group]]:bg-transparent [&_div[data-slot=input-group]]:shadow-none"
+									disabledValues={[to]}
 									icon={<MapPin className="size-4 text-muted-foreground" />}
 									label="From"
 									onValueChange={setFrom}
@@ -69,6 +70,7 @@ function SearchSection() {
 							<div className="relative flex flex-1 items-center gap-2 px-0 md:px-3">
 								<CityCombobox
 									className="flex-1 [&_div[data-slot=input-group]]:border-0 [&_div[data-slot=input-group]]:bg-transparent [&_div[data-slot=input-group]]:shadow-none"
+									disabledValues={[from]}
 									icon={<MapPinned className="size-4 text-muted-foreground" />}
 									label="To"
 									onValueChange={setTo}
