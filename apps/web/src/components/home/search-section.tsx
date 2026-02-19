@@ -1,7 +1,10 @@
 "use client";
 
+import { format } from "date-fns";
 import { ArrowRightLeft, MapPin, MapPinned, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,9 +13,33 @@ import { CityCombobox } from "./city-combobox";
 import { DatePicker } from "./date-picker";
 
 function SearchSection() {
+	const router = useRouter();
 	const [from, setFrom] = useState<string | null>(null);
 	const [to, setTo] = useState<string | null>(null);
 	const [date, setDate] = useState<Date | undefined>(undefined);
+
+	const handleSearch = () => {
+		if (!from) {
+			toast.error("Please select an origin city");
+			return;
+		}
+		if (!to) {
+			toast.error("Please select a destination city");
+			return;
+		}
+		if (!date) {
+			toast.error("Please select a travel date");
+			return;
+		}
+
+		const params = new URLSearchParams({
+			from,
+			to,
+			date: format(date, "yyyy-MM-dd"),
+		});
+
+		router.push(`/search?${params.toString()}` as "/");
+	};
 
 	const handleSwap = () => {
 		setFrom(to);
@@ -93,6 +120,7 @@ function SearchSection() {
 						<div className="mt-4 flex justify-center md:absolute md:-bottom-6 md:left-1/2 md:mt-0 md:-translate-x-1/2">
 							<Button
 								className="h-12 w-full rounded-full bg-primary font-semibold text-base shadow-lg hover:bg-primary/90 md:w-48"
+								onClick={handleSearch}
 								size="lg"
 							>
 								<Search className="mr-2 size-5" />
