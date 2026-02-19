@@ -107,11 +107,13 @@
 }
 
 /* Auto-hide scrollbars */
-[data-slot="scroll-area-viewport"], [data-radix-scroll-area-viewport] {
-  scrollbar-width: thin;
+[data-slot="scroll-area-viewport"],
+[data-radix-scroll-area-viewport] {
+	scrollbar-width: thin;
 }
 
-[data-slot="scroll-area-scrollbar"], [data-radix-scroll-area-scrollbar] {
+[data-slot="scroll-area-scrollbar"],
+[data-radix-scroll-area-scrollbar] {
 	opacity: 0;
 	transition: opacity 0.2s ease;
 }

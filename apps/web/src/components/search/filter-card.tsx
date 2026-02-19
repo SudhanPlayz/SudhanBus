@@ -19,10 +19,10 @@ const DEPARTURE_TIMES = [
 ];
 
 interface FilterCardProps {
-	selectedTypes: string[];
+	onTimeChange: (time: string, checked: boolean) => void;
 	onTypeChange: (type: string, checked: boolean) => void;
 	selectedTimes: string[];
-	onTimeChange: (time: string, checked: boolean) => void;
+	selectedTypes: string[];
 }
 
 function FilterCard({

@@ -1,17 +1,17 @@
 "use client";
 
-import { Armchair, MapPin, MapPinned, User, Pencil } from "lucide-react";
+import { Armchair, MapPin, MapPinned, Pencil, User } from "lucide-react";
 import { BOARDING_POINTS, DROPPING_POINTS } from "./seat-data";
 import type { PassengerInfo } from "./step-passenger-info";
 
 interface StepReviewProps {
+	boardingPoint: string | null;
+	busName: string;
+	droppingPoint: string | null;
+	onEditStep: (step: number) => void;
+	passengers: PassengerInfo[];
 	selectedSeats: string[];
 	totalPrice: number;
-	boardingPoint: string | null;
-	droppingPoint: string | null;
-	passengers: PassengerInfo[];
-	busName: string;
-	onEditStep: (step: number) => void;
 }
 
 export function StepReview({
@@ -43,7 +43,7 @@ export function StepReview({
 						<span className="font-semibold text-sm">Selected Seats</span>
 					</div>
 					<button
-						className="flex items-center gap-1 text-xs text-primary hover:underline"
+						className="flex items-center gap-1 text-primary text-xs hover:underline"
 						onClick={() => onEditStep(1)}
 						type="button"
 					>
@@ -54,7 +54,7 @@ export function StepReview({
 				<div className="flex flex-wrap gap-2">
 					{selectedSeats.map((seat) => (
 						<span
-							className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary"
+							className="rounded-lg border border-primary/20 bg-primary/5 px-3 py-1.5 font-semibold text-primary text-xs"
 							key={seat}
 						>
 							{seat}
@@ -68,7 +68,7 @@ export function StepReview({
 				<div className="mb-3 flex items-center justify-between">
 					<span className="font-semibold text-sm">Journey Details</span>
 					<button
-						className="flex items-center gap-1 text-xs text-primary hover:underline"
+						className="flex items-center gap-1 text-primary text-xs hover:underline"
 						onClick={() => onEditStep(2)}
 						type="button"
 					>
@@ -89,7 +89,7 @@ export function StepReview({
 									{boarding.name} · {boarding.time}
 								</span>
 								{boarding.address && (
-									<p className="text-xs text-muted-foreground/70">
+									<p className="text-muted-foreground/70 text-xs">
 										{boarding.address}
 									</p>
 								)}
@@ -105,7 +105,7 @@ export function StepReview({
 									{dropping.name} · {dropping.time}
 								</span>
 								{dropping.address && (
-									<p className="text-xs text-muted-foreground/70">
+									<p className="text-muted-foreground/70 text-xs">
 										{dropping.address}
 									</p>
 								)}
@@ -123,7 +123,7 @@ export function StepReview({
 						<span className="font-semibold text-sm">Passengers</span>
 					</div>
 					<button
-						className="flex items-center gap-1 text-xs text-primary hover:underline"
+						className="flex items-center gap-1 text-primary text-xs hover:underline"
 						onClick={() => onEditStep(4)}
 						type="button"
 					>
@@ -133,14 +133,19 @@ export function StepReview({
 				</div>
 				<div className="divide-y">
 					{passengers.map((p, i) => (
-						<div className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0" key={p.seatId}>
+						<div
+							className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0"
+							key={p.seatId}
+						>
 							<div>
-								<span className="font-medium text-sm">{p.name || `Passenger ${i + 1}`}</span>
-								<p className="text-xs text-muted-foreground">
+								<span className="font-medium text-sm">
+									{p.name || `Passenger ${i + 1}`}
+								</span>
+								<p className="text-muted-foreground text-xs">
 									{p.age ? `${p.age} yrs` : "—"} · {p.gender}
 								</p>
 							</div>
-							<span className="rounded-md bg-muted px-2 py-1 text-xs font-medium">
+							<span className="rounded-md bg-muted px-2 py-1 font-medium text-xs">
 								Seat {p.seatId}
 							</span>
 						</div>
@@ -156,8 +161,9 @@ export function StepReview({
 						₹{totalPrice.toLocaleString()}
 					</span>
 				</div>
-				<p className="mt-1 text-xs text-muted-foreground">
-					{selectedSeats.length} seat{selectedSeats.length > 1 ? "s" : ""} × base fare
+				<p className="mt-1 text-muted-foreground text-xs">
+					{selectedSeats.length} seat{selectedSeats.length > 1 ? "s" : ""} ×
+					base fare
 				</p>
 			</section>
 		</div>

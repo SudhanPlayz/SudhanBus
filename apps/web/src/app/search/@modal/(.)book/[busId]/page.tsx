@@ -1,6 +1,6 @@
+import { redirect } from "next/navigation";
 import { DEMO_BUSES } from "@/components/search/bus-data";
 import { BookingModal } from "@/components/search/modal/booking-modal";
-import { redirect } from "next/navigation";
 
 interface ModalPageProps {
 	params: Promise<{ busId: string }>;

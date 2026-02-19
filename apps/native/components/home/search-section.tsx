@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Button, Card, Select, cn, useThemeColor } from "heroui-native";
+import { Button, Card, cn, Select, useThemeColor } from "heroui-native";
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
@@ -27,7 +27,7 @@ function SearchSection() {
 				day: "2-digit",
 				month: "2-digit",
 				year: "2-digit",
-			}),
+			})
 		);
 	};
 
@@ -39,7 +39,7 @@ function SearchSection() {
 				day: "2-digit",
 				month: "2-digit",
 				year: "2-digit",
-			}),
+			})
 		);
 	};
 
@@ -53,7 +53,7 @@ function SearchSection() {
 				<Text className="mb-2 text-center font-bold text-3xl text-accent-foreground">
 					Book Your Bus Ticket
 				</Text>
-				<Text className="text-center text-base text-accent-foreground opacity-80">
+				<Text className="text-center text-accent-foreground text-base opacity-80">
 					Search and book bus tickets across India
 				</Text>
 			</View>
@@ -67,16 +67,16 @@ function SearchSection() {
 							From
 						</Text>
 						<Select
-							value={from}
 							onValueChange={(opt) => setFrom(opt)}
 							presentation="bottom-sheet"
+							value={from}
 						>
 							<Select.Trigger className="w-full">
 								<View className="flex-row items-center gap-2">
 									<Ionicons
+										color={foregroundColor}
 										name="location-outline"
 										size={16}
-										color={foregroundColor}
 									/>
 									<Select.Value placeholder="Select origin" />
 								</View>
@@ -85,12 +85,12 @@ function SearchSection() {
 								<Select.Overlay />
 								<Select.Content presentation="bottom-sheet">
 									{CITIES.filter(
-										(c) => !fromDisabledKeys.includes(c.value),
+										(c) => !fromDisabledKeys.includes(c.value)
 									).map((city) => (
 										<Select.Item
 											key={city.value}
-											value={city.value}
 											label={city.label}
+											value={city.value}
 										>
 											<Select.ItemLabel />
 										</Select.Item>
@@ -107,29 +107,27 @@ function SearchSection() {
 							onPress={handleSwap}
 						>
 							<Ionicons
+								color={foregroundColor}
 								name="swap-vertical"
 								size={16}
-								color={foregroundColor}
 							/>
 						</Pressable>
 					</View>
 
 					{/* To */}
 					<View className="mb-3">
-						<Text className="mb-1 font-medium text-foreground text-xs">
-							To
-						</Text>
+						<Text className="mb-1 font-medium text-foreground text-xs">To</Text>
 						<Select
-							value={to}
 							onValueChange={(opt) => setTo(opt)}
 							presentation="bottom-sheet"
+							value={to}
 						>
 							<Select.Trigger className="w-full">
 								<View className="flex-row items-center gap-2">
 									<Ionicons
+										color={foregroundColor}
 										name="navigate-outline"
 										size={16}
-										color={foregroundColor}
 									/>
 									<Select.Value placeholder="Select destination" />
 								</View>
@@ -137,17 +135,17 @@ function SearchSection() {
 							<Select.Portal>
 								<Select.Overlay />
 								<Select.Content presentation="bottom-sheet">
-									{CITIES.filter(
-										(c) => !toDisabledKeys.includes(c.value),
-									).map((city) => (
-										<Select.Item
-											key={city.value}
-											value={city.value}
-											label={city.label}
-										>
-											<Select.ItemLabel />
-										</Select.Item>
-									))}
+									{CITIES.filter((c) => !toDisabledKeys.includes(c.value)).map(
+										(city) => (
+											<Select.Item
+												key={city.value}
+												label={city.label}
+												value={city.value}
+											>
+												<Select.ItemLabel />
+											</Select.Item>
+										)
+									)}
 								</Select.Content>
 							</Select.Portal>
 						</Select>
@@ -161,36 +159,32 @@ function SearchSection() {
 						<View className="flex-row items-center gap-2">
 							<View className="flex-1 flex-row items-center gap-2 rounded-lg border border-border px-3 py-2.5">
 								<Ionicons
+									color={foregroundColor}
 									name="calendar-outline"
 									size={16}
-									color={foregroundColor}
 								/>
 								<Text
 									className={cn(
 										"text-sm",
-										dateLabel ? "text-foreground" : "text-muted",
+										dateLabel ? "text-foreground" : "text-muted"
 									)}
 								>
 									{dateLabel ?? "Pick a date"}
 								</Text>
 							</View>
-							<Button variant="outline" size="sm" onPress={handleToday}>
+							<Button onPress={handleToday} size="sm" variant="outline">
 								<Button.Label>Today</Button.Label>
 							</Button>
-							<Button variant="outline" size="sm" onPress={handleTomorrow}>
+							<Button onPress={handleTomorrow} size="sm" variant="outline">
 								<Button.Label>Tomorrow</Button.Label>
 							</Button>
 						</View>
 					</View>
 
 					{/* Search button */}
-					<Button
-						className="w-full rounded-full"
-						size="lg"
-						onPress={() => {}}
-					>
+					<Button className="w-full rounded-full" onPress={() => {}} size="lg">
 						<View className="flex-row items-center gap-2">
-							<Ionicons name="search" size={18} color="white" />
+							<Ionicons color="white" name="search" size={18} />
 							<Button.Label className="font-semibold text-base">
 								Search buses
 							</Button.Label>

@@ -1,34 +1,44 @@
 "use client";
 
 import { format } from "date-fns";
-import { ArrowDown, ArrowRightLeft, ArrowUp, MapPin, MapPinned, Search } from "lucide-react";
+import {
+	ArrowDown,
+	ArrowRightLeft,
+	ArrowUp,
+	MapPin,
+	MapPinned,
+	Search,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
-
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { CityCombobox } from "@/components/home/city-combobox";
 import { DatePicker } from "@/components/home/date-picker";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { BusCard } from "./bus-card";
 import { DEMO_BUSES } from "./bus-data";
 import { FilterCard } from "./filter-card";
 
 const SORT_OPTIONS = ["Ratings", "Departure time", "Price"] as const;
-type SortOption = typeof SORT_OPTIONS[number];
+type SortOption = (typeof SORT_OPTIONS)[number];
 
 interface SearchResultsProps {
+	date: string;
 	from: string;
 	to: string;
-	date: string;
 }
 
-function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: SearchResultsProps) {
+function SearchResults({
+	from: initialFrom,
+	to: initialTo,
+	date: initialDate,
+}: SearchResultsProps) {
 	const router = useRouter();
 	const [activeSort, setActiveSort] = useState<SortOption>("Ratings");
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-	
+
 	const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 	const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
 
@@ -89,26 +99,46 @@ function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: 
 		if (selectedTypes.length > 0) {
 			const typeLower = bus.type.toLowerCase();
 			const matchesType = selectedTypes.some((type) => {
-				if (type === "ac") return typeLower.includes("a/c") && !typeLower.includes("non a/c");
-				if (type === "non-ac") return typeLower.includes("non a/c");
-				if (type === "sleeper") return typeLower.includes("sleeper");
-				if (type === "seater") return typeLower.includes("seater");
+				if (type === "ac") {
+					return typeLower.includes("a/c") && !typeLower.includes("non a/c");
+				}
+				if (type === "non-ac") {
+					return typeLower.includes("non a/c");
+				}
+				if (type === "sleeper") {
+					return typeLower.includes("sleeper");
+				}
+				if (type === "seater") {
+					return typeLower.includes("seater");
+				}
 				return false;
 			});
-			if (!matchesType) return false;
+			if (!matchesType) {
+				return false;
+			}
 		}
 
 		// Time filter
 		if (selectedTimes.length > 0) {
-			const hour = parseInt(bus.departureTime.split(":")[0]);
+			const hour = Number.parseInt(bus.departureTime.split(":")[0], 10);
 			const matchesTime = selectedTimes.some((time) => {
-				if (time === "morning") return hour >= 6 && hour < 12;
-				if (time === "afternoon") return hour >= 12 && hour < 18;
-				if (time === "evening") return hour >= 18 && hour < 24;
-				if (time === "night") return hour >= 0 && hour < 6;
+				if (time === "morning") {
+					return hour >= 6 && hour < 12;
+				}
+				if (time === "afternoon") {
+					return hour >= 12 && hour < 18;
+				}
+				if (time === "evening") {
+					return hour >= 18 && hour < 24;
+				}
+				if (time === "night") {
+					return hour >= 0 && hour < 6;
+				}
 				return false;
 			});
-			if (!matchesTime) return false;
+			if (!matchesTime) {
+				return false;
+			}
 		}
 
 		return true;
@@ -116,11 +146,16 @@ function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: 
 
 	const sortedBuses = [...filteredBuses].sort((a, b) => {
 		let comparison = 0;
-		if (activeSort === "Price") comparison = a.price - b.price;
-		if (activeSort === "Ratings") comparison = a.rating - b.rating;
-		if (activeSort === "Departure time")
+		if (activeSort === "Price") {
+			comparison = a.price - b.price;
+		}
+		if (activeSort === "Ratings") {
+			comparison = a.rating - b.rating;
+		}
+		if (activeSort === "Departure time") {
 			comparison = a.departureTime.localeCompare(b.departureTime);
-		
+		}
+
 		return sortOrder === "asc" ? comparison : -comparison;
 	});
 
@@ -193,7 +228,9 @@ function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: 
 						{sortedBuses.length} buses found
 					</span>
 					<div className="flex items-center gap-1">
-						<span className="mr-1 text-muted-foreground text-sm font-medium">Sort by:</span>
+						<span className="mr-1 font-medium text-muted-foreground text-sm">
+							Sort by:
+						</span>
 						{SORT_OPTIONS.map((opt) => (
 							<div className="flex items-center" key={opt}>
 								<button
@@ -209,8 +246,11 @@ function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: 
 										} else {
 											setActiveSort(opt);
 											// Smart default sorting
-											if (opt === "Ratings") setSortOrder("desc");
-											else setSortOrder("asc");
+											if (opt === "Ratings") {
+												setSortOrder("desc");
+											} else {
+												setSortOrder("asc");
+											}
 										}
 									}}
 								>

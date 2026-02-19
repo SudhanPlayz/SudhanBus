@@ -13,7 +13,7 @@ interface SearchPageProps {
 export default async function SearchPage({ searchParams }: SearchPageProps) {
 	const { from, to, date } = await searchParams;
 
-	if (!from || !to || !date) {
+	if (!(from && to && date)) {
 		redirect("/");
 	}
 

@@ -5,8 +5,8 @@ import type { DeckLayout, Seat, SeatStatus } from "./seat-data";
 
 interface SeatLayoutProps {
 	decks: DeckLayout[];
-	selectedSeats: string[];
 	onSeatToggle: (seatId: string, price: number) => void;
+	selectedSeats: string[];
 }
 
 function SteeringWheel() {
@@ -27,19 +27,36 @@ function SteeringWheel() {
 	);
 }
 
-function getSeatStyles(status: SeatStatus, isSelected: boolean, type: "seater" | "sleeper") {
-	const base = "relative flex flex-col items-center justify-center rounded-lg border-2 transition-all cursor-default";
+function getSeatStyles(
+	status: SeatStatus,
+	isSelected: boolean,
+	type: "seater" | "sleeper"
+) {
+	const base =
+		"relative flex flex-col items-center justify-center rounded-lg border-2 transition-all cursor-default";
 	const size = type === "sleeper" ? "h-16 w-10" : "h-10 w-10";
 
 	if (isSelected) {
-		return cn(base, size, "border-emerald-600 bg-emerald-600 text-white cursor-pointer shadow-md shadow-emerald-200");
+		return cn(
+			base,
+			size,
+			"cursor-pointer border-emerald-600 bg-emerald-600 text-white shadow-emerald-200 shadow-md"
+		);
 	}
 
 	switch (status) {
 		case "available":
-			return cn(base, size, "border-emerald-500 bg-white hover:bg-emerald-50 cursor-pointer");
+			return cn(
+				base,
+				size,
+				"cursor-pointer border-emerald-500 bg-white hover:bg-emerald-50"
+			);
 		case "available-female":
-			return cn(base, size, "border-pink-400 bg-white hover:bg-pink-50 cursor-pointer");
+			return cn(
+				base,
+				size,
+				"cursor-pointer border-pink-400 bg-white hover:bg-pink-50"
+			);
 		case "booked":
 			return cn(base, size, "border-gray-200 bg-gray-100 text-gray-400");
 		case "booked-female":
@@ -47,13 +64,23 @@ function getSeatStyles(status: SeatStatus, isSelected: boolean, type: "seater" |
 		case "booked-male":
 			return cn(base, size, "border-gray-200 bg-blue-50 text-blue-300");
 		case "selected":
-			return cn(base, size, "border-emerald-600 bg-emerald-600 text-white shadow-md shadow-emerald-200");
+			return cn(
+				base,
+				size,
+				"border-emerald-600 bg-emerald-600 text-white shadow-emerald-200 shadow-md"
+			);
 		default:
 			return cn(base, size, "border-gray-200 bg-gray-100");
 	}
 }
 
-function SeatIcon({ status, type }: { status: SeatStatus; type: "seater" | "sleeper" }) {
+function SeatIcon({
+	status,
+	type,
+}: {
+	status: SeatStatus;
+	type: "seater" | "sleeper";
+}) {
 	if (status === "booked-female" || status === "available-female") {
 		return (
 			<svg className="size-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -78,7 +105,13 @@ function SeatIcon({ status, type }: { status: SeatStatus; type: "seater" | "slee
 	// Available seats get a small seat icon
 	if (type === "seater") {
 		return (
-			<svg className="size-4 text-emerald-500" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+			<svg
+				className="size-4 text-emerald-500"
+				fill="none"
+				stroke="currentColor"
+				strokeWidth={1.5}
+				viewBox="0 0 24 24"
+			>
 				<rect height="8" rx="1" width="10" x="7" y="6" />
 				<path d="M7 14v4M17 14v4M9 18h6" />
 			</svg>
@@ -97,7 +130,9 @@ function SeatCell({
 	onToggle: (seatId: string, price: number) => void;
 }) {
 	const isClickable =
-		seat.status === "available" || seat.status === "available-female" || isSelected;
+		seat.status === "available" ||
+		seat.status === "available-female" ||
+		isSelected;
 
 	const handleClick = () => {
 		if (isClickable) {
@@ -105,7 +140,10 @@ function SeatCell({
 		}
 	};
 
-	const isBooked = seat.status === "booked" || seat.status === "booked-female" || seat.status === "booked-male";
+	const isBooked =
+		seat.status === "booked" ||
+		seat.status === "booked-female" ||
+		seat.status === "booked-male";
 
 	return (
 		<div className="flex flex-col items-center gap-1">
@@ -116,8 +154,18 @@ function SeatCell({
 				type="button"
 			>
 				{isSelected ? (
-					<svg className="size-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-						<path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+					<svg
+						className="size-4"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth={2.5}
+						viewBox="0 0 24 24"
+					>
+						<path
+							d="M5 13l4 4L19 7"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
 					</svg>
 				) : (
 					<SeatIcon status={seat.status} type={seat.type} />
@@ -130,7 +178,12 @@ function SeatCell({
 					<div className="absolute bottom-1.5 h-0.5 w-5 rounded-full bg-white/60" />
 				)}
 			</button>
-			<span className={cn("text-[10px] font-semibold", isBooked ? "text-muted-foreground" : "text-foreground")}>
+			<span
+				className={cn(
+					"font-semibold text-[10px]",
+					isBooked ? "text-muted-foreground" : "text-foreground"
+				)}
+			>
 				{isBooked ? "Sold" : `₹${seat.price.toLocaleString()}`}
 			</span>
 		</div>
@@ -211,7 +264,11 @@ function SeatLegend() {
 	);
 }
 
-export function SeatLayout({ decks, selectedSeats, onSeatToggle }: SeatLayoutProps) {
+export function SeatLayout({
+	decks,
+	selectedSeats,
+	onSeatToggle,
+}: SeatLayoutProps) {
 	return (
 		<div className="space-y-3">
 			<div className="flex flex-col gap-3 sm:flex-row">

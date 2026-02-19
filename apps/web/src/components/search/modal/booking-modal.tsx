@@ -1,36 +1,35 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
+	DialogDescription,
 	DialogOverlay,
 	DialogPortal,
 	DialogTitle,
-	DialogDescription,
 } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
 	Stepper,
-	StepperItem,
-	StepperTrigger,
 	StepperIndicator,
+	StepperItem,
+	StepperNav,
 	StepperSeparator,
 	StepperTitle,
-	StepperContent,
-	StepperNav,
+	StepperTrigger,
 } from "@/components/ui/stepper";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 import type { Bus } from "../bus-data";
 import { generateDemoSeatLayout } from "./seat-data";
 import { SeatLayout } from "./seat-layout";
 import { StepBoarding } from "./step-boarding";
 import { StepDropping } from "./step-dropping";
-import { StepPassengerInfo, type PassengerInfo } from "./step-passenger-info";
+import { type PassengerInfo, StepPassengerInfo } from "./step-passenger-info";
 import { StepPayment } from "./step-payment";
 import { StepReview } from "./step-review";
 
@@ -80,7 +79,12 @@ export function BookingModal({ bus }: BookingModalProps) {
 			const existing = new Map(prev.map((p) => [p.seatId, p]));
 			return selectedSeats.map(
 				(seatId) =>
-					existing.get(seatId) || { seatId, name: "", age: "", gender: "male" as const }
+					existing.get(seatId) || {
+						seatId,
+						name: "",
+						age: "",
+						gender: "male" as const,
+					}
 			);
 		});
 	}, [selectedSeats]);
@@ -116,10 +120,14 @@ export function BookingModal({ bus }: BookingModalProps) {
 
 	const canGoToStep = (target: number) => {
 		// Always allow going back
-		if (target <= activeStep) return true;
+		if (target <= activeStep) {
+			return true;
+		}
 		// For going forward, all steps before target must be valid
 		for (let s = 1; s < target; s++) {
-			if (!isStepValid(s)) return false;
+			if (!isStepValid(s)) {
+				return false;
+			}
 		}
 		return true;
 	};
@@ -142,13 +150,18 @@ export function BookingModal({ bus }: BookingModalProps) {
 	return (
 		<Dialog
 			onOpenChange={(open) => {
-				if (!open) handleClose();
+				if (!open) {
+					handleClose();
+				}
 			}}
 			open
 		>
 			<DialogPortal>
 				<DialogOverlay />
-				<div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleClose}>
+				<div
+					className="fixed inset-0 z-50 flex items-center justify-center p-4"
+					onClick={handleClose}
+				>
 					<div
 						className="relative flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-foreground/10"
 						onClick={(e) => e.stopPropagation()}
@@ -166,7 +179,9 @@ export function BookingModal({ bus }: BookingModalProps) {
 									</button>
 								)}
 								<div>
-									<DialogTitle className="font-bold text-base">{bus.name}</DialogTitle>
+									<DialogTitle className="font-bold text-base">
+										{bus.name}
+									</DialogTitle>
 									<DialogDescription className="text-muted-foreground text-xs">
 										{bus.type} · {bus.departureTime} → {bus.arrivalTime}
 									</DialogDescription>
@@ -174,8 +189,10 @@ export function BookingModal({ bus }: BookingModalProps) {
 							</div>
 							<div className="flex items-center gap-3">
 								{selectedSeats.length > 0 && (
-									<div className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-										{selectedSeats.length} seat{selectedSeats.length > 1 ? "s" : ""} · ₹{totalPrice.toLocaleString()}
+									<div className="rounded-full bg-primary/10 px-3 py-1 font-semibold text-primary text-xs">
+										{selectedSeats.length} seat
+										{selectedSeats.length > 1 ? "s" : ""} · ₹
+										{totalPrice.toLocaleString()}
 									</div>
 								)}
 								<button
@@ -190,7 +207,16 @@ export function BookingModal({ bus }: BookingModalProps) {
 
 						{/* Stepper Nav */}
 						<div className="border-b px-5 py-3">
-							<Stepper onValueChange={(v) => { if (!canGoToStep(v)) return; setDirection(v > activeStep ? 1 : -1); setActiveStep(v); }} value={activeStep}>
+							<Stepper
+								onValueChange={(v) => {
+									if (!canGoToStep(v)) {
+										return;
+									}
+									setDirection(v > activeStep ? 1 : -1);
+									setActiveStep(v);
+								}}
+								value={activeStep}
+							>
 								<StepperNav>
 									{STEPS.map(({ label, step }) => (
 										<StepperItem
@@ -206,7 +232,9 @@ export function BookingModal({ bus }: BookingModalProps) {
 														<span className="text-[10px]">{step}</span>
 													)}
 												</StepperIndicator>
-												<StepperTitle className="hidden sm:block">{label}</StepperTitle>
+												<StepperTitle className="hidden sm:block">
+													{label}
+												</StepperTitle>
 											</StepperTrigger>
 											{step < STEPS.length && <StepperSeparator />}
 										</StepperItem>
@@ -215,7 +243,7 @@ export function BookingModal({ bus }: BookingModalProps) {
 							</Stepper>
 						</div>
 
-						<ScrollArea className="flex-1 min-h-0">
+						<ScrollArea className="min-h-0 flex-1">
 							<div className="p-5">
 								<AnimatePresence custom={direction} mode="wait">
 									<motion.div
@@ -235,10 +263,16 @@ export function BookingModal({ bus }: BookingModalProps) {
 											/>
 										)}
 										{activeStep === 2 && (
-											<StepBoarding onSelect={setBoardingPoint} selected={boardingPoint} />
+											<StepBoarding
+												onSelect={setBoardingPoint}
+												selected={boardingPoint}
+											/>
 										)}
 										{activeStep === 3 && (
-											<StepDropping onSelect={setDroppingPoint} selected={droppingPoint} />
+											<StepDropping
+												onSelect={setDroppingPoint}
+												selected={droppingPoint}
+											/>
 										)}
 										{activeStep === 4 && (
 											<StepPassengerInfo
@@ -252,7 +286,10 @@ export function BookingModal({ bus }: BookingModalProps) {
 												boardingPoint={boardingPoint}
 												busName={bus.name}
 												droppingPoint={droppingPoint}
-												onEditStep={(s) => { setDirection(-1); setActiveStep(s); }}
+												onEditStep={(s) => {
+													setDirection(-1);
+													setActiveStep(s);
+												}}
 												passengers={passengers}
 												selectedSeats={selectedSeats}
 												totalPrice={totalPrice}

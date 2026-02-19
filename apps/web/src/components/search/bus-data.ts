@@ -1,17 +1,17 @@
 export interface Bus {
+	amenities: string[];
+	arrivalTime: string;
+	departureTime: string;
+	duration: string;
 	id: string;
 	name: string;
-	type: string;
-	departureTime: string;
-	arrivalTime: string;
-	duration: string;
-	price: number;
-	originalPrice: number;
-	rating: number;
-	totalRatings: number;
-	seatsAvailable: number;
-	amenities: string[];
 	offer?: string;
+	originalPrice: number;
+	price: number;
+	rating: number;
+	seatsAvailable: number;
+	totalRatings: number;
+	type: string;
 }
 
 export const DEMO_BUSES: Bus[] = [

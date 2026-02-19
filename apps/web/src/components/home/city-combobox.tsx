@@ -16,12 +16,12 @@ const cityLabels = CITIES.map((city) => city.label);
 
 interface CityComboboxProps {
 	className?: string;
+	disabledValues?: (string | null)[];
 	icon?: React.ReactNode;
 	label: string;
 	onValueChange: (value: string | null) => void;
 	placeholder?: string;
 	value: string | null;
-	disabledValues?: (string | null)[];
 }
 
 function CityCombobox({

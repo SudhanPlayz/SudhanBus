@@ -4,7 +4,6 @@ import { Tag } from "lucide-react";
 import { useEffect, useState } from "react";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
 	Carousel,
 	type CarouselApi,
@@ -13,6 +12,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from "@/components/ui/carousel";
+import { cn } from "@/lib/utils";
 
 import { OFFERS, type Offer } from "./offers-data";
 
@@ -112,7 +112,7 @@ function OffersSection() {
 				</div>
 
 				{/* Carousel */}
-				<Carousel setApi={setApi} className="w-full" opts={{ align: "start" }}>
+				<Carousel className="w-full" opts={{ align: "start" }} setApi={setApi}>
 					<CarouselContent className="-ml-3">
 						{filteredOffers.map((offer) => (
 							<CarouselItem

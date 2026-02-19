@@ -1,8 +1,8 @@
+import { View } from "react-native";
 import { Container } from "@/components/container";
 import { OffersSection } from "@/components/home/offers-section";
 import { PopularRoutesSection } from "@/components/home/popular-routes-section";
 import { SearchSection } from "@/components/home/search-section";
-import { View } from "react-native";
 
 export default function Home() {
 	return (

@@ -31,12 +31,12 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
 
 function OfferBadge({ text }: { text: string }) {
 	return (
-		<div className="relative mb-2 inline-flex items-center gap-1 overflow-hidden rounded-md bg-[#FCE39E] px-3 py-1 font-medium text-[11px] text-[#212121]">
+		<div className="relative mb-2 inline-flex items-center gap-1 overflow-hidden rounded-md bg-[#FCE39E] px-3 py-1 font-medium text-[#212121] text-[11px]">
 			{/* Left cutout */}
 			<div className="absolute top-1/2 -left-1.5 size-3 -translate-y-1/2 rounded-full bg-white" />
 			{/* Right cutout */}
 			<div className="absolute top-1/2 -right-1.5 size-3 -translate-y-1/2 rounded-full bg-white" />
-			
+
 			<Tag className="size-3 fill-current" />
 			{text}
 		</div>
@@ -53,9 +53,7 @@ function BusCard({ bus }: BusCardProps) {
 					{/* Left: Operator info */}
 					<div className="min-w-0 flex-1 space-y-1">
 						<div className="flex flex-wrap items-center gap-2">
-							<h4 className="truncate font-semibold text-sm">
-								{bus.name}
-							</h4>
+							<h4 className="truncate font-semibold text-sm">{bus.name}</h4>
 							{/* Rating badge */}
 							<Badge
 								className="gap-1 rounded-md px-1.5 py-0.5 text-[11px]"
@@ -91,7 +89,7 @@ function BusCard({ bus }: BusCardProps) {
 							<p className="font-bold text-base">{bus.departureTime}</p>
 						</div>
 						<div className="flex flex-col items-center gap-0.5">
-							<span className="text-muted-foreground text-[11px]">
+							<span className="text-[11px] text-muted-foreground">
 								{bus.duration}
 							</span>
 							<div className="flex items-center gap-1">

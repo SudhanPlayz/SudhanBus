@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
-
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 import { LoginForm } from "@/components/auth/login-form";
 import { SignupForm } from "@/components/auth/signup-form";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 type AuthTab = "login" | "signup";
 
@@ -24,26 +23,26 @@ export default function AuthPage() {
 							{/* Tab Switcher */}
 							<div className="mb-6 flex rounded-lg bg-muted p-1">
 								<button
-									type="button"
-									onClick={() => setActiveTab("login")}
 									className={cn(
-										"flex-1 rounded-md py-2 text-sm font-medium transition-all cursor-pointer",
+										"flex-1 cursor-pointer rounded-md py-2 font-medium text-sm transition-all",
 										activeTab === "login"
 											? "bg-background text-foreground shadow-sm"
-											: "text-muted-foreground hover:text-foreground",
+											: "text-muted-foreground hover:text-foreground"
 									)}
+									onClick={() => setActiveTab("login")}
+									type="button"
 								>
 									Sign In
 								</button>
 								<button
-									type="button"
-									onClick={() => setActiveTab("signup")}
 									className={cn(
-										"flex-1 rounded-md py-2 text-sm font-medium transition-all cursor-pointer",
+										"flex-1 cursor-pointer rounded-md py-2 font-medium text-sm transition-all",
 										activeTab === "signup"
 											? "bg-background text-foreground shadow-sm"
-											: "text-muted-foreground hover:text-foreground",
+											: "text-muted-foreground hover:text-foreground"
 									)}
+									onClick={() => setActiveTab("signup")}
+									type="button"
 								>
 									Sign Up
 								</button>
@@ -52,14 +51,16 @@ export default function AuthPage() {
 							{/* Form Content */}
 							<AnimatePresence mode="wait">
 								<motion.div
-									key={activeTab}
-									initial={{ opacity: 0, x: 20 }}
 									animate={{ opacity: 1, x: 0 }}
 									exit={{ opacity: 0, x: -20 }}
+									initial={{ opacity: 0, x: 20 }}
+									key={activeTab}
 									transition={{ duration: 0.2 }}
 								>
 									{activeTab === "login" ? (
-										<LoginForm onSwitchToSignup={() => setActiveTab("signup")} />
+										<LoginForm
+											onSwitchToSignup={() => setActiveTab("signup")}
+										/>
 									) : (
 										<SignupForm onSwitchToLogin={() => setActiveTab("login")} />
 									)}
@@ -68,7 +69,7 @@ export default function AuthPage() {
 						</div>
 
 						{/* Image Side */}
-						<div className="bg-muted relative hidden md:block">
+						<div className="relative hidden bg-muted md:block">
 							<div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center">
 								<Image
 									alt="SudhanBus logo"
@@ -77,10 +78,8 @@ export default function AuthPage() {
 									src="/logo.png"
 									width={64}
 								/>
-								<h2 className="text-2xl font-bold tracking-tight">
-									SudhanBus
-								</h2>
-								<p className="text-muted-foreground text-sm text-balance max-w-[280px]">
+								<h2 className="font-bold text-2xl tracking-tight">SudhanBus</h2>
+								<p className="max-w-[280px] text-balance text-muted-foreground text-sm">
 									Book bus tickets across India with ease. Safe, reliable, and
 									affordable travel at your fingertips.
 								</p>
@@ -90,13 +89,19 @@ export default function AuthPage() {
 				</Card>
 
 				{/* Footer */}
-				<p className="mt-4 px-6 text-center text-xs text-muted-foreground">
+				<p className="mt-4 px-6 text-center text-muted-foreground text-xs">
 					By continuing, you agree to our{" "}
-					<a href="#" className="underline underline-offset-2 hover:text-foreground">
+					<a
+						className="underline underline-offset-2 hover:text-foreground"
+						href="#"
+					>
 						Terms of Service
 					</a>{" "}
 					and{" "}
-					<a href="#" className="underline underline-offset-2 hover:text-foreground">
+					<a
+						className="underline underline-offset-2 hover:text-foreground"
+						href="#"
+					>
 						Privacy Policy
 					</a>
 					.

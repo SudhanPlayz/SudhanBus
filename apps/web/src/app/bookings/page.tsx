@@ -1,6 +1,6 @@
+import { TicketX } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { TicketX } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,8 +28,8 @@ export default function MyBookingsPage() {
 					<EmptyContent>
 						<EmptyTitle>No bookings yet</EmptyTitle>
 						<EmptyDescription>
-							You haven&apos;t booked any bus tickets yet. Start by searching for
-							available routes and grab your seat!
+							You haven&apos;t booked any bus tickets yet. Start by searching
+							for available routes and grab your seat!
 						</EmptyDescription>
 					</EmptyContent>
 				</EmptyHeader>

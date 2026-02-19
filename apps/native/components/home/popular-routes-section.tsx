@@ -14,18 +14,18 @@ function RouteItem({ route }: { route: Route }) {
 				<Text className="font-medium text-foreground text-sm">
 					{route.from}
 				</Text>
-				<Ionicons name="arrow-forward" size={14} color={mutedColor} />
+				<Ionicons color={mutedColor} name="arrow-forward" size={14} />
 				<Text className="font-medium text-foreground text-sm">{route.to}</Text>
 			</View>
 
 			{/* Meta row */}
 			<View className="mb-3 flex-row items-center gap-4">
 				<View className="flex-row items-center gap-1">
-					<Ionicons name="location-outline" size={12} color={mutedColor} />
+					<Ionicons color={mutedColor} name="location-outline" size={12} />
 					<Text className="text-muted text-xs">{route.distance}</Text>
 				</View>
 				<View className="flex-row items-center gap-1">
-					<Ionicons name="time-outline" size={12} color={mutedColor} />
+					<Ionicons color={mutedColor} name="time-outline" size={12} />
 					<Text className="text-muted text-xs">{route.duration}</Text>
 				</View>
 			</View>
@@ -38,11 +38,7 @@ function RouteItem({ route }: { route: Route }) {
 					</Text>
 					<Text className="text-muted text-xs">onwards</Text>
 				</View>
-				<Button
-					size="sm"
-					className="rounded-full px-5"
-					onPress={() => {}}
-				>
+				<Button className="rounded-full px-5" onPress={() => {}} size="sm">
 					<Button.Label className="font-semibold text-xs">
 						Book Now
 					</Button.Label>

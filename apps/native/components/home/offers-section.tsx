@@ -28,7 +28,7 @@ function OfferCard({ offer }: { offer: Offer }) {
 
 			{/* Coupon code */}
 			<View className="flex-row items-center gap-1.5">
-				<Ionicons name="pricetag-outline" size={12} color={accentColor} />
+				<Ionicons color={accentColor} name="pricetag-outline" size={12} />
 				<Text className="font-bold text-accent text-xs tracking-wide">
 					{offer.code}
 				</Text>
@@ -59,11 +59,11 @@ function OffersSection() {
 			<View className="mb-3 flex-row gap-2">
 				{FILTERS.map((f) => (
 					<Button
-						key={f}
-						variant={filter === f ? "primary" : "outline"}
-						size="sm"
 						className="rounded-full px-3"
+						key={f}
 						onPress={() => setFilter(f)}
+						size="sm"
+						variant={filter === f ? "primary" : "outline"}
 					>
 						<Button.Label className="text-xs">{f}</Button.Label>
 					</Button>
@@ -72,12 +72,12 @@ function OffersSection() {
 
 			{/* Horizontal list */}
 			<FlatList
-				horizontal
+				contentContainerStyle={{ paddingRight: 16 }}
 				data={filteredOffers}
+				horizontal
 				keyExtractor={(item) => item.id}
 				renderItem={({ item }) => <OfferCard offer={item} />}
 				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={{ paddingRight: 16 }}
 			/>
 		</View>
 	);

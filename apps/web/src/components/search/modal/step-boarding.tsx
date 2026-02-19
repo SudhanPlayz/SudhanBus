@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { BOARDING_POINTS } from "./seat-data";
 
 interface StepBoardingProps {
-	selected: string | null;
 	onSelect: (id: string) => void;
+	selected: string | null;
 }
 
 export function StepBoarding({ selected, onSelect }: StepBoardingProps) {
@@ -14,7 +14,9 @@ export function StepBoarding({ selected, onSelect }: StepBoardingProps) {
 		<div className="space-y-3">
 			<div>
 				<h3 className="font-semibold text-base">Select Boarding Point</h3>
-				<p className="text-muted-foreground text-sm">Choose your pickup location</p>
+				<p className="text-muted-foreground text-sm">
+					Choose your pickup location
+				</p>
 			</div>
 			<div className="space-y-2">
 				{BOARDING_POINTS.map((point) => (
@@ -42,9 +44,13 @@ export function StepBoarding({ selected, onSelect }: StepBoardingProps) {
 						<div className="min-w-0 flex-1">
 							<div className="flex items-center justify-between">
 								<span className="font-medium text-sm">{point.name}</span>
-								<span className="font-semibold text-sm text-primary">{point.time}</span>
+								<span className="font-semibold text-primary text-sm">
+									{point.time}
+								</span>
 							</div>
-							<p className="mt-0.5 truncate text-muted-foreground text-xs">{point.address}</p>
+							<p className="mt-0.5 truncate text-muted-foreground text-xs">
+								{point.address}
+							</p>
 						</div>
 					</button>
 				))}
