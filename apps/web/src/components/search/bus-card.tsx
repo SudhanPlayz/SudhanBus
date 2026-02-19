@@ -10,9 +10,9 @@ import {
 	Tv,
 	Wifi,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Bus } from "./bus-data";
 
@@ -122,11 +122,12 @@ function BusCard({ bus }: BusCardProps) {
 								{bus.seatsAvailable} seats left
 							</p>
 						</div>
-						<Button
-							className="h-9 min-w-[120px] rounded-full bg-primary font-bold text-sm text-white shadow-md hover:bg-primary/90"
+						<Link
+							className="inline-flex h-9 min-w-[120px] items-center justify-center rounded-full bg-primary font-bold text-sm text-white shadow-md hover:bg-primary/90"
+							href={`/search/book/${bus.id}`}
 						>
 							View seats
-						</Button>
+						</Link>
 					</div>
 				</div>
 			</CardContent>
