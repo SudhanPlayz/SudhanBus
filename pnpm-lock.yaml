@@ -78,9 +78,9 @@ importers:
       '@gorhom/bottom-sheet':
         specifier: ^5
         version: 5.2.8(@types/react@19.1.17)(react-native-gesture-handler@2.30.0(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-reanimated@4.1.6(@babel/core@7.29.0)(react-native-worklets@0.5.1(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
-      '@react-native-community/datetimepicker':
-        specifier: ^8.0.1
-        version: 8.6.0(expo@54.0.33)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      '@marceloterreiro/flash-calendar':
+        specifier: ^1.6.0
+        version: 1.6.0(@shopify/flash-list@2.2.2(@babel/runtime@7.28.6)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
       '@react-navigation/elements':
         specifier: ^2.8.1
         version: 2.9.5(@react-navigation/native@7.1.28(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.6.2(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -1771,6 +1771,13 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@marceloterreiro/flash-calendar@1.6.0':
+    resolution: {integrity: sha512-sCptZm4Y5O8DOeIs2tXxBKkIlFwnQa4GrLSjSZLY1U+olT8vU0+Fsd/c+GlmOqfrFkx4leQ712l5UX4CLeIu/w==}
+    peerDependencies:
+      '@shopify/flash-list': '*'
+      react: '*'
+      react-native: '*'
+
   '@modelcontextprotocol/sdk@1.26.0':
     resolution: {integrity: sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==}
     engines: {node: '>=18'}
@@ -2121,19 +2128,6 @@ packages:
       '@types/react':
         optional: true
 
-  '@react-native-community/datetimepicker@8.6.0':
-    resolution: {integrity: sha512-yxPSqNfxgpGaqHQIpatqe6ykeBdU/1pdsk/G3x01mY2bpTflLpmVTLqFSJYd3MiZzxNZcMs/j1dQakUczSjcYA==}
-    peerDependencies:
-      expo: '>=52.0.0'
-      react: '*'
-      react-native: '*'
-      react-native-windows: '*'
-    peerDependenciesMeta:
-      expo:
-        optional: true
-      react-native-windows:
-        optional: true
-
   '@react-native/assets-registry@0.81.5':
     resolution: {integrity: sha512-705B6x/5Kxm1RKRvSv0ADYWm5JOnoiQ1ufW7h8uu2E6G9Of/eE6hP/Ivw3U5jI16ERqZxiKQwk34VJbB0niX9w==}
     engines: {node: '>= 20.19.4'}
@@ -2430,6 +2424,13 @@ packages:
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
+
+  '@shopify/flash-list@2.2.2':
+    resolution: {integrity: sha512-YrvLBK5FCpvuX+d9QvJvjVqyi4eBUaEamkyfh9CjPdF6c+AukP0RSBh97qHyTwOEaVq21A5ukwgyWMDIbmxpmQ==}
+    peerDependencies:
+      '@babel/runtime': '*'
+      react: '*'
+      react-native: '*'
 
   '@sinclair/typebox@0.27.10':
     resolution: {integrity: sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA==}
@@ -4667,6 +4668,9 @@ packages:
   minizlib@3.1.0:
     resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
     engines: {node: '>= 18'}
+
+  mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
 
   mkdirp@1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
@@ -7814,6 +7818,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@marceloterreiro/flash-calendar@1.6.0(@shopify/flash-list@2.2.2(@babel/runtime@7.28.6)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@shopify/flash-list': 2.2.2(@babel/runtime@7.28.6)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      mitt: 3.0.1
+      react: 19.1.0
+      react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
+
   '@modelcontextprotocol/sdk@1.26.0(zod@3.25.76)':
     dependencies:
       '@hono/node-server': 1.19.9(hono@4.11.10)
@@ -8324,14 +8335,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
 
-  '@react-native-community/datetimepicker@8.6.0(expo@54.0.33)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      invariant: 2.2.4
-      react: 19.1.0
-      react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
-    optionalDependencies:
-      expo: 54.0.33(@babel/core@7.29.0)(@expo/metro-runtime@6.1.2)(expo-router@6.0.23)(graphql@16.12.0)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
-
   '@react-native/assets-registry@0.81.5': {}
 
   '@react-native/babel-plugin-codegen@0.81.5(@babel/core@7.29.0)':
@@ -8715,6 +8718,12 @@ snapshots:
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
   '@sec-ant/readable-stream@0.4.1': {}
+
+  '@shopify/flash-list@2.2.2(@babel/runtime@7.28.6)(react-native@0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@babel/runtime': 7.28.6
+      react: 19.1.0
+      react-native: 0.81.5(@babel/core@7.29.0)(@types/react@19.1.17)(react@19.1.0)
 
   '@sinclair/typebox@0.27.10': {}
 
@@ -11109,6 +11118,8 @@ snapshots:
   minizlib@3.1.0:
     dependencies:
       minipass: 7.1.2
+
+  mitt@3.0.1: {}
 
   mkdirp@1.0.4: {}
 

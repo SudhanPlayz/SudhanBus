@@ -1,25 +1,28 @@
 import { Ionicons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { format } from "date-fns";
+import { Calendar, toDateId } from "@marceloterreiro/flash-calendar";
+import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-	ImageBackground,
-	Platform,
+	Modal,
 	Pressable,
 	StyleSheet,
 	Text,
 	View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CityPickerModal } from "./city-picker-modal";
 import { Colors } from "@/constants/colors";
 import { CITIES } from "@/data/cities.data";
 
+const todayId = toDateId(new Date());
+
 export function SearchSection() {
 	const router = useRouter();
+	const insets = useSafeAreaInsets();
 	const [from, setFrom] = useState<string | null>(null);
 	const [to, setTo] = useState<string | null>(null);
-	const [date, setDate] = useState<Date | undefined>(undefined);
+	const [selectedDateId, setSelectedDateId] = useState<string | null>(null);
 
 	const [showFromPicker, setShowFromPicker] = useState(false);
 	const [showToPicker, setShowToPicker] = useState(false);
@@ -34,16 +37,25 @@ export function SearchSection() {
 	};
 
 	const handleSearch = () => {
-		if (!from || !to || !date) return;
+		if (!from || !to || !selectedDateId) return;
 		router.push({
 			pathname: "/search" as any,
 			params: {
 				from,
 				to,
-				date: format(date, "yyyy-MM-dd"),
+				date: selectedDateId,
 			},
 		});
 	};
+
+	const handleDateSelect = (dateId: string) => {
+		setSelectedDateId(dateId);
+		setShowDatePicker(false);
+	};
+
+	const displayDate = selectedDateId
+		? format(parseISO(selectedDateId), "EEE, dd MMM yyyy")
+		: null;
 
 	return (
 		<View>
@@ -118,10 +130,10 @@ export function SearchSection() {
 							<Text
 								style={[
 									styles.fieldValue,
-									!date && styles.fieldPlaceholder,
+									!displayDate && styles.fieldPlaceholder,
 								]}
 							>
-								{date ? format(date, "EEE, dd MMM yyyy") : "Pick a date"}
+								{displayDate || "Pick a date"}
 							</Text>
 						</View>
 					</Pressable>
@@ -130,10 +142,10 @@ export function SearchSection() {
 					<Pressable
 						style={[
 							styles.searchButton,
-							(!from || !to || !date) && styles.searchButtonDisabled,
+							(!from || !to || !selectedDateId) && styles.searchButtonDisabled,
 						]}
 						onPress={handleSearch}
-						disabled={!from || !to || !date}
+						disabled={!from || !to || !selectedDateId}
 					>
 						<Ionicons name="search" size={20} color="#FFFFFF" />
 						<Text style={styles.searchButtonText}>Search buses</Text>
@@ -156,17 +168,37 @@ export function SearchSection() {
 				disabledValues={[from]}
 				title="Select Destination"
 			/>
-			{showDatePicker && (
-				<DateTimePicker
-					value={date || new Date()}
-					mode="date"
-					minimumDate={new Date()}
-					onChange={(event: any, selectedDate: Date | undefined) => {
-						setShowDatePicker(Platform.OS === "ios");
-						if (selectedDate) setDate(selectedDate);
-					}}
+
+			{/* Date picker modal */}
+			<Modal
+				visible={showDatePicker}
+				animationType="slide"
+				transparent={true}
+				onRequestClose={() => setShowDatePicker(false)}
+			>
+				<Pressable
+					style={styles.modalOverlay}
+					onPress={() => setShowDatePicker(false)}
 				/>
-			)}
+				<View style={[styles.dateModalContainer, { paddingBottom: insets.bottom }]}>
+					<View style={styles.dateModalHeader}>
+						<Text style={styles.dateModalTitle}>Select Travel Date</Text>
+						<Pressable onPress={() => setShowDatePicker(false)} hitSlop={12}>
+							<Ionicons name="close" size={24} color={Colors.text} />
+						</Pressable>
+					</View>
+					<Calendar
+						calendarActiveDateRanges={
+							selectedDateId
+								? [{ startId: selectedDateId, endId: selectedDateId }]
+								: []
+						}
+						calendarMinDateId={todayId}
+						calendarMonthId={todayId}
+						onCalendarDayPress={handleDateSelect}
+					/>
+				</View>
+			</Modal>
 		</View>
 	);
 }
@@ -272,5 +304,32 @@ const styles = StyleSheet.create({
 		color: "#FFFFFF",
 		fontWeight: "600",
 		fontSize: 15,
+	},
+	modalOverlay: {
+		flex: 1,
+		backgroundColor: "rgba(0,0,0,0.5)",
+	},
+	dateModalContainer: {
+		height: "50%",
+		backgroundColor: Colors.background,
+		borderTopLeftRadius: 20,
+		borderTopRightRadius: 20,
+		paddingHorizontal: 16,
+		paddingTop: 16,
+		position: "absolute",
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
+	dateModalHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginBottom: 12,
+	},
+	dateModalTitle: {
+		fontSize: 18,
+		fontWeight: "700",
+		color: Colors.text,
 	},
 });
