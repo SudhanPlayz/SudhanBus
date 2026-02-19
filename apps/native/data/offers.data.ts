@@ -1,4 +1,4 @@
-interface Offer {
+export interface Offer {
 	category: "Bus";
 	code: string;
 	id: string;
@@ -6,7 +6,7 @@ interface Offer {
 	validity: string;
 }
 
-const OFFERS: Offer[] = [
+export const OFFERS: Offer[] = [
 	{
 		id: "1",
 		category: "Bus",
@@ -43,6 +43,3 @@ const OFFERS: Offer[] = [
 		code: "FIRST100",
 	},
 ];
-
-export { OFFERS };
-export type { Offer };

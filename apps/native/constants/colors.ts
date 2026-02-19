@@ -1,0 +1,16 @@
+export const Colors = {
+	primary: "#E11D48",
+	primaryLight: "#FFF1F2",
+	background: "#FFFFFF",
+	card: "#FFFFFF",
+	text: "#09090B",
+	textSecondary: "#71717A",
+	textMuted: "#A1A1AA",
+	border: "#E4E4E7",
+	muted: "#F4F4F5",
+	success: "#22C55E",
+	warning: "#F59E0B",
+	danger: "#EF4444",
+	offerBadgeBg: "#FCE39E",
+	offerBadgeText: "#212121",
+};

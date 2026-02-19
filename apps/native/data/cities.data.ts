@@ -1,9 +1,9 @@
-interface City {
+export interface City {
 	label: string;
 	value: string;
 }
 
-const CITIES: City[] = [
+export const CITIES: City[] = [
 	{ label: "Chennai", value: "chennai" },
 	{ label: "Bangalore", value: "bangalore" },
 	{ label: "Hyderabad", value: "hyderabad" },
@@ -25,6 +25,3 @@ const CITIES: City[] = [
 	{ label: "Vizag", value: "vizag" },
 	{ label: "Mangalore", value: "mangalore" },
 ];
-
-export { CITIES };
-export type { City };

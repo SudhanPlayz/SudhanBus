@@ -1,4 +1,4 @@
-interface Route {
+export interface Route {
 	distance: string;
 	duration: string;
 	from: string;
@@ -7,7 +7,7 @@ interface Route {
 	to: string;
 }
 
-const POPULAR_ROUTES: Route[] = [
+export const POPULAR_ROUTES: Route[] = [
 	{
 		id: "1",
 		from: "Chennai",
@@ -49,6 +49,3 @@ const POPULAR_ROUTES: Route[] = [
 		price: 400,
 	},
 ];
-
-export { POPULAR_ROUTES };
-export type { Route };
