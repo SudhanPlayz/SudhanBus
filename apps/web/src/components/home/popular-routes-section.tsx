@@ -1,10 +1,27 @@
+"use client";
+
+import { format } from "date-fns";
 import { ArrowRight, Clock, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 import { POPULAR_ROUTES, type Route } from "./popular-routes-data";
 
 function RouteItem({ route }: { route: Route }) {
+	const router = useRouter();
+
+	const handleBookNow = () => {
+		const params = new URLSearchParams({
+			from: route.from.toLowerCase(),
+			to: route.to.toLowerCase(),
+			date: format(new Date(), "yyyy-MM-dd"),
+		});
+
+		router.push(`/search?${params.toString()}`);
+	};
+
 	return (
 		<div className="flex flex-col gap-3 rounded-lg border border-border px-4 py-3 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
 			{/* Route info */}
@@ -32,7 +49,10 @@ function RouteItem({ route }: { route: Route }) {
 					<p className="font-semibold text-primary text-sm">₹{route.price}</p>
 					<p className="text-muted-foreground text-xs">onwards</p>
 				</div>
-				<InteractiveHoverButton className="w-full py-1.5 text-xs sm:w-32">
+				<InteractiveHoverButton
+					className="w-full py-1.5 text-xs sm:w-32"
+					onClick={handleBookNow}
+				>
 					Book Now
 				</InteractiveHoverButton>
 			</div>
