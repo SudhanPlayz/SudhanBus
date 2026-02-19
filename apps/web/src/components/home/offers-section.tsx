@@ -1,11 +1,13 @@
 "use client";
 
 import { Tag } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
 	Carousel,
+	type CarouselApi,
 	CarouselContent,
 	CarouselItem,
 	CarouselNext,
@@ -52,6 +54,28 @@ function OfferCard({ offer }: { offer: Offer }) {
 
 function OffersSection() {
 	const [filter, setFilter] = useState<Filter>("All");
+	const [api, setApi] = useState<CarouselApi>();
+	const [canScrollPrev, setCanScrollPrev] = useState(false);
+	const [canScrollNext, setCanScrollNext] = useState(false);
+
+	useEffect(() => {
+		if (!api) {
+			return;
+		}
+
+		setCanScrollPrev(api.canScrollPrev());
+		setCanScrollNext(api.canScrollNext());
+
+		api.on("select", () => {
+			setCanScrollPrev(api.canScrollPrev());
+			setCanScrollNext(api.canScrollNext());
+		});
+
+		api.on("reInit", () => {
+			setCanScrollPrev(api.canScrollPrev());
+			setCanScrollNext(api.canScrollNext());
+		});
+	}, [api]);
 
 	const filteredOffers =
 		filter === "All" ? OFFERS : OFFERS.filter((o) => o.category === filter);
@@ -88,7 +112,7 @@ function OffersSection() {
 				</div>
 
 				{/* Carousel */}
-				<Carousel className="w-full" opts={{ align: "start" }}>
+				<Carousel setApi={setApi} className="w-full" opts={{ align: "start" }}>
 					<CarouselContent className="-ml-3">
 						{filteredOffers.map((offer) => (
 							<CarouselItem
@@ -99,8 +123,18 @@ function OffersSection() {
 							</CarouselItem>
 						))}
 					</CarouselContent>
-					<CarouselPrevious className="-left-4 hidden sm:-left-5 sm:flex" />
-					<CarouselNext className="-right-4 hidden sm:-right-5 sm:flex" />
+					<CarouselPrevious
+						className={cn(
+							"-left-4 hidden sm:-left-5 sm:flex",
+							!canScrollPrev && "hidden sm:hidden"
+						)}
+					/>
+					<CarouselNext
+						className={cn(
+							"-right-4 hidden sm:-right-5 sm:flex",
+							!canScrollNext && "hidden sm:hidden"
+						)}
+					/>
 				</Carousel>
 			</div>
 		</div>
