@@ -1,9 +1,9 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -71,23 +71,17 @@ export function BookingModal({ bus }: BookingModalProps) {
 			return [...prev, seatId];
 		});
 		setSeatPrices((prev) => ({ ...prev, [seatId]: price }));
-	}, []);
-
-	// Sync passengers with selectedSeats
-	useEffect(() => {
 		setPassengers((prev) => {
-			const existing = new Map(prev.map((p) => [p.seatId, p]));
-			return selectedSeats.map(
-				(seatId) =>
-					existing.get(seatId) || {
-						seatId,
-						name: "",
-						age: "",
-						gender: "male" as const,
-					}
-			);
+			const isRemoving = prev.some((p) => p.seatId === seatId);
+			if (isRemoving) {
+				return prev.filter((p) => p.seatId !== seatId);
+			}
+			return [
+				...prev,
+				{ seatId, name: "", age: "", gender: "male" as const },
+			];
 		});
-	}, [selectedSeats]);
+	}, []);
 
 	const handleNext = () => {
 		setDirection(1);
@@ -161,10 +155,18 @@ export function BookingModal({ bus }: BookingModalProps) {
 				<div
 					className="fixed inset-0 z-50 flex items-center justify-center p-4"
 					onClick={handleClose}
+					onKeyDown={(e) => {
+						if (e.key === "Escape") {
+							handleClose();
+						}
+					}}
+					role="presentation"
 				>
 					<div
 						className="relative flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-foreground/10"
 						onClick={(e) => e.stopPropagation()}
+						onKeyDown={(e) => e.stopPropagation()}
+						role="dialog"
 					>
 						{/* Header */}
 						<div className="flex items-center justify-between border-b px-5 py-3">
@@ -245,68 +247,70 @@ export function BookingModal({ bus }: BookingModalProps) {
 
 						<ScrollArea className="min-h-0 flex-1">
 							<div className="p-5">
-								<AnimatePresence custom={direction} mode="wait">
-									<motion.div
-										animate="center"
-										custom={direction}
-										exit="exit"
-										initial="enter"
-										key={activeStep}
-										transition={{ duration: 0.25, ease: "easeInOut" }}
-										variants={slideVariants}
-									>
-										{activeStep === 1 && (
-											<SeatLayout
-												decks={decks}
-												onSeatToggle={handleSeatToggle}
-												selectedSeats={selectedSeats}
-											/>
-										)}
-										{activeStep === 2 && (
-											<StepBoarding
-												onSelect={setBoardingPoint}
-												selected={boardingPoint}
-											/>
-										)}
-										{activeStep === 3 && (
-											<StepDropping
-												onSelect={setDroppingPoint}
-												selected={droppingPoint}
-											/>
-										)}
-										{activeStep === 4 && (
-											<StepPassengerInfo
-												onPassengerChange={setPassengers}
-												passengers={passengers}
-												selectedSeats={selectedSeats}
-											/>
-										)}
-										{activeStep === 5 && (
-											<StepReview
-												boardingPoint={boardingPoint}
-												busName={bus.name}
-												droppingPoint={droppingPoint}
-												onEditStep={(s) => {
-													setDirection(-1);
-													setActiveStep(s);
-												}}
-												passengers={passengers}
-												selectedSeats={selectedSeats}
-												totalPrice={totalPrice}
-											/>
-										)}
-										{activeStep === 6 && (
-											<StepPayment
-												boardingPoint={boardingPoint}
-												busName={bus.name}
-												droppingPoint={droppingPoint}
-												passengers={passengers}
-												selectedSeats={selectedSeats}
-												totalPrice={totalPrice}
-											/>
-										)}
-									</motion.div>
-								</AnimatePresence>
+								<LazyMotion features={domAnimation}>
+									<AnimatePresence custom={direction} mode="wait">
+										<m.div
+											animate="center"
+											custom={direction}
+											exit="exit"
+											initial="enter"
+											key={activeStep}
+											transition={{ duration: 0.25, ease: "easeInOut" }}
+											variants={slideVariants}
+										>
+											{activeStep === 1 && (
+												<SeatLayout
+													decks={decks}
+													onSeatToggle={handleSeatToggle}
+													selectedSeats={selectedSeats}
+												/>
+											)}
+											{activeStep === 2 && (
+												<StepBoarding
+													onSelect={setBoardingPoint}
+													selected={boardingPoint}
+												/>
+											)}
+											{activeStep === 3 && (
+												<StepDropping
+													onSelect={setDroppingPoint}
+													selected={droppingPoint}
+												/>
+											)}
+											{activeStep === 4 && (
+												<StepPassengerInfo
+													onPassengerChange={setPassengers}
+													passengers={passengers}
+													selectedSeats={selectedSeats}
+												/>
+											)}
+											{activeStep === 5 && (
+												<StepReview
+													boardingPoint={boardingPoint}
+													busName={bus.name}
+													droppingPoint={droppingPoint}
+													onEditStep={(s) => {
+														setDirection(-1);
+														setActiveStep(s);
+													}}
+													passengers={passengers}
+													selectedSeats={selectedSeats}
+													totalPrice={totalPrice}
+												/>
+											)}
+											{activeStep === 6 && (
+												<StepPayment
+													boardingPoint={boardingPoint}
+													busName={bus.name}
+													droppingPoint={droppingPoint}
+													passengers={passengers}
+													selectedSeats={selectedSeats}
+													totalPrice={totalPrice}
+												/>
+											)}
+										</m.div>
+									</AnimatePresence>
+								</LazyMotion>
 							</div>
 						</ScrollArea>
 

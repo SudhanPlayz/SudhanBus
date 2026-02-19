@@ -63,18 +63,14 @@ function OffersSection() {
 			return;
 		}
 
-		setCanScrollPrev(api.canScrollPrev());
-		setCanScrollNext(api.canScrollNext());
-
-		api.on("select", () => {
+		const updateScrollState = () => {
 			setCanScrollPrev(api.canScrollPrev());
 			setCanScrollNext(api.canScrollNext());
-		});
+		};
 
-		api.on("reInit", () => {
-			setCanScrollPrev(api.canScrollPrev());
-			setCanScrollNext(api.canScrollNext());
-		});
+		updateScrollState();
+		api.on("select", updateScrollState);
+		api.on("reInit", updateScrollState);
 	}, [api]);
 
 	const filteredOffers =

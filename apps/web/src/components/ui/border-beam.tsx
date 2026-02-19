@@ -1,4 +1,4 @@
-import { type MotionStyle, motion, type Transition } from "motion/react";
+import { type MotionStyle, type Transition, LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -62,44 +62,52 @@ export const BorderBeam = ({
 	initialOffset = 0,
 	borderWidth = 1,
 }: BorderBeamProps) => {
+	const shouldReduceMotion = useReducedMotion();
+
+	if (shouldReduceMotion) {
+		return null;
+	}
+
 	return (
-		<div
-			className="border-(length:--border-beam-width) mask-[linear-gradient(transparent,transparent),linear-gradient(#000,#000)] mask-intersect pointer-events-none absolute inset-0 rounded-[inherit] border-transparent [mask-clip:padding-box,border-box]"
-			style={
-				{
-					"--border-beam-width": `${borderWidth}px`,
-				} as React.CSSProperties
-			}
-		>
-			<motion.div
-				animate={{
-					offsetDistance: reverse
-						? [`${100 - initialOffset}%`, `${-initialOffset}%`]
-						: [`${initialOffset}%`, `${100 + initialOffset}%`],
-				}}
-				className={cn(
-					"absolute aspect-square",
-					"bg-linear-to-l from-(--color-from) via-(--color-to) to-transparent",
-					className
-				)}
-				initial={{ offsetDistance: `${initialOffset}%` }}
+		<LazyMotion features={domAnimation}>
+			<div
+				className="border-(length:--border-beam-width) mask-[linear-gradient(transparent,transparent),linear-gradient(#000,#000)] mask-intersect pointer-events-none absolute inset-0 rounded-[inherit] border-transparent [mask-clip:padding-box,border-box]"
 				style={
 					{
-						width: size,
-						offsetPath: `rect(0 auto auto 0 round ${size}px)`,
-						"--color-from": colorFrom,
-						"--color-to": colorTo,
-						...style,
-					} as MotionStyle
+						"--border-beam-width": `${borderWidth}px`,
+					} as React.CSSProperties
 				}
-				transition={{
-					repeat: Number.POSITIVE_INFINITY,
-					ease: "linear",
-					duration,
-					delay: -delay,
-					...transition,
-				}}
-			/>
-		</div>
+			>
+				<m.div
+					animate={{
+						offsetDistance: reverse
+							? [`${100 - initialOffset}%`, `${-initialOffset}%`]
+							: [`${initialOffset}%`, `${100 + initialOffset}%`],
+					}}
+					className={cn(
+						"absolute aspect-square",
+						"bg-linear-to-l from-(--color-from) via-(--color-to) to-transparent",
+						className
+					)}
+					initial={{ offsetDistance: `${initialOffset}%` }}
+					style={
+						{
+							width: size,
+							offsetPath: `rect(0 auto auto 0 round ${size}px)`,
+							"--color-from": colorFrom,
+							"--color-to": colorTo,
+							...style,
+						} as MotionStyle
+					}
+					transition={{
+						repeat: Number.POSITIVE_INFINITY,
+						ease: "linear",
+						duration,
+						delay: -delay,
+						...transition,
+					}}
+				/>
+			</div>
+		</LazyMotion>
 	);
 };

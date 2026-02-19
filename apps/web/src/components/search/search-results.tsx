@@ -258,24 +258,36 @@ function SearchResults({
 								</button>
 								{opt === activeSort && (
 									<div className="ml-1 flex flex-col -space-y-1.5">
-										<ArrowUp
-											className={cn(
-												"size-3 cursor-pointer transition-colors hover:text-primary",
-												sortOrder === "asc"
-													? "text-primary"
-													: "text-muted-foreground/30"
-											)}
+										<button
+											className="cursor-pointer"
 											onClick={() => setSortOrder("asc")}
-										/>
-										<ArrowDown
-											className={cn(
-												"size-3 cursor-pointer transition-colors hover:text-primary",
-												sortOrder === "desc"
-													? "text-primary"
-													: "text-muted-foreground/30"
-											)}
+											type="button"
+										>
+											<ArrowUp
+												className={cn(
+													"size-3 transition-colors hover:text-primary",
+													sortOrder === "asc"
+														? "text-primary"
+														: "text-muted-foreground/30"
+												)}
+											/>
+											<span className="sr-only">Sort ascending</span>
+										</button>
+										<button
+											className="cursor-pointer"
 											onClick={() => setSortOrder("desc")}
-										/>
+											type="button"
+										>
+											<ArrowDown
+												className={cn(
+													"size-3 transition-colors hover:text-primary",
+													sortOrder === "desc"
+														? "text-primary"
+														: "text-muted-foreground/30"
+												)}
+											/>
+											<span className="sr-only">Sort descending</span>
+										</button>
 									</div>
 								)}
 							</div>

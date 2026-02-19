@@ -1,7 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { LoginForm } from "@/components/auth/login-form";
 import { SignupForm } from "@/components/auth/signup-form";
@@ -49,23 +50,25 @@ export default function AuthPage() {
 							</div>
 
 							{/* Form Content */}
-							<AnimatePresence mode="wait">
-								<motion.div
-									animate={{ opacity: 1, x: 0 }}
-									exit={{ opacity: 0, x: -20 }}
-									initial={{ opacity: 0, x: 20 }}
-									key={activeTab}
-									transition={{ duration: 0.2 }}
-								>
-									{activeTab === "login" ? (
-										<LoginForm
-											onSwitchToSignup={() => setActiveTab("signup")}
-										/>
-									) : (
-										<SignupForm onSwitchToLogin={() => setActiveTab("login")} />
-									)}
-								</motion.div>
-							</AnimatePresence>
+							<LazyMotion features={domAnimation}>
+								<AnimatePresence mode="wait">
+									<m.div
+										animate={{ opacity: 1, x: 0 }}
+										exit={{ opacity: 0, x: -20 }}
+										initial={{ opacity: 0, x: 20 }}
+										key={activeTab}
+										transition={{ duration: 0.2 }}
+									>
+										{activeTab === "login" ? (
+											<LoginForm
+												onSwitchToSignup={() => setActiveTab("signup")}
+											/>
+										) : (
+											<SignupForm onSwitchToLogin={() => setActiveTab("login")} />
+										)}
+									</m.div>
+								</AnimatePresence>
+							</LazyMotion>
 						</div>
 
 						{/* Image Side */}
@@ -91,19 +94,19 @@ export default function AuthPage() {
 				{/* Footer */}
 				<p className="mt-4 px-6 text-center text-muted-foreground text-xs">
 					By continuing, you agree to our{" "}
-					<a
+					<Link
 						className="underline underline-offset-2 hover:text-foreground"
-						href="#"
+						href="/"
 					>
 						Terms of Service
-					</a>{" "}
+					</Link>{" "}
 					and{" "}
-					<a
+					<Link
 						className="underline underline-offset-2 hover:text-foreground"
-						href="#"
+						href="/"
 					>
 						Privacy Policy
-					</a>
+					</Link>
 					.
 				</p>
 			</div>

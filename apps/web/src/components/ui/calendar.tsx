@@ -13,6 +13,79 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+const RTL_BUTTON_NEXT = "rtl:**:[.rdp-button\\_next>svg]:rotate-180";
+const RTL_BUTTON_PREVIOUS = "rtl:**:[.rdp-button\\_previous>svg]:rotate-180";
+
+const CalendarLocaleContext = React.createContext<
+	Partial<Locale> | undefined
+>(undefined);
+
+function CalendarRoot({
+	className,
+	rootRef,
+	...props
+}: {
+	className?: string;
+	rootRef?: React.Ref<HTMLDivElement>;
+} & Omit<React.ComponentProps<"div">, "className">) {
+	return (
+		<div
+			className={cn(className)}
+			data-slot="calendar"
+			ref={rootRef}
+			{...props}
+		/>
+	);
+}
+
+function CalendarChevron({
+	className,
+	orientation,
+	...props
+}: {
+	className?: string;
+	orientation?: string;
+} & Omit<React.ComponentProps<"svg">, "className" | "orientation">) {
+	if (orientation === "left") {
+		return (
+			<ChevronLeftIcon className={cn("size-4", className)} {...props} />
+		);
+	}
+
+	if (orientation === "right") {
+		return (
+			<ChevronRightIcon
+				className={cn("size-4", className)}
+				{...props}
+			/>
+		);
+	}
+
+	return (
+		<ChevronDownIcon className={cn("size-4", className)} {...props} />
+	);
+}
+
+function CalendarDayButtonWithLocale(
+	props: React.ComponentProps<typeof DayButton>,
+) {
+	const locale = React.useContext(CalendarLocaleContext);
+	return <CalendarDayButton locale={locale} {...props} />;
+}
+
+function CalendarWeekNumber({
+	children,
+	...props
+}: React.ComponentProps<"td">) {
+	return (
+		<td {...props}>
+			<div className="flex size-(--cell-size) items-center justify-center text-center">
+				{children}
+			</div>
+		</td>
+	);
+}
+
 function Calendar({
 	className,
 	classNames,
@@ -29,12 +102,13 @@ function Calendar({
 	const defaultClassNames = getDefaultClassNames();
 
 	return (
+		<CalendarLocaleContext.Provider value={locale}>
 		<DayPicker
 			captionLayout={captionLayout}
 			className={cn(
 				"group/calendar bg-background in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent p-2 [--cell-radius:var(--radius-md)] [--cell-size:--spacing(7)]",
-				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-				String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
+				RTL_BUTTON_NEXT,
+				RTL_BUTTON_PREVIOUS,
 				className
 			)}
 			classNames={{
@@ -128,48 +202,10 @@ function Calendar({
 				...classNames,
 			}}
 			components={{
-				Root: ({ className, rootRef, ...props }) => {
-					return (
-						<div
-							className={cn(className)}
-							data-slot="calendar"
-							ref={rootRef}
-							{...props}
-						/>
-					);
-				},
-				Chevron: ({ className, orientation, ...props }) => {
-					if (orientation === "left") {
-						return (
-							<ChevronLeftIcon className={cn("size-4", className)} {...props} />
-						);
-					}
-
-					if (orientation === "right") {
-						return (
-							<ChevronRightIcon
-								className={cn("size-4", className)}
-								{...props}
-							/>
-						);
-					}
-
-					return (
-						<ChevronDownIcon className={cn("size-4", className)} {...props} />
-					);
-				},
-				DayButton: ({ ...props }) => (
-					<CalendarDayButton locale={locale} {...props} />
-				),
-				WeekNumber: ({ children, ...props }) => {
-					return (
-						<td {...props}>
-							<div className="flex size-(--cell-size) items-center justify-center text-center">
-								{children}
-							</div>
-						</td>
-					);
-				},
+				Root: CalendarRoot,
+				Chevron: CalendarChevron,
+				DayButton: CalendarDayButtonWithLocale,
+				WeekNumber: CalendarWeekNumber,
 				...components,
 			}}
 			formatters={{
@@ -181,6 +217,7 @@ function Calendar({
 			showOutsideDays={showOutsideDays}
 			{...props}
 		/>
+		</CalendarLocaleContext.Provider>
 	);
 }
 

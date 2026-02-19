@@ -2,11 +2,23 @@ import {
 	AnimatePresence,
 	type MotionProps,
 	motion,
+	useReducedMotion,
 	type Variants,
 } from "motion/react";
 import { type ElementType, memo } from "react";
 
 import { cn } from "@/lib/utils";
+
+const motionComponentCache = new Map<ElementType, ElementType>();
+
+function getMotionComponent(component: ElementType) {
+	let cached = motionComponentCache.get(component);
+	if (!cached) {
+		cached = motion.create(component);
+		motionComponentCache.set(component, cached);
+	}
+	return cached;
+}
 
 type AnimationType = "text" | "word" | "character" | "line";
 type AnimationVariant =
@@ -320,7 +332,13 @@ const TextAnimateBase = ({
 	accessible = true,
 	...props
 }: TextAnimateProps) => {
-	const MotionComponent = motion.create(Component);
+	const shouldReduceMotion = useReducedMotion();
+
+	if (shouldReduceMotion) {
+		return <Component className={className}>{children}</Component>;
+	}
+
+	const MotionComponent = getMotionComponent(Component);
 
 	let segments: string[] = [];
 	switch (by) {

@@ -76,6 +76,8 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
 	value?: number;
 }
 
+const EMPTY_INDICATORS: StepIndicators = {};
+
 function Stepper({
 	defaultValue = 1,
 	value,
@@ -83,7 +85,7 @@ function Stepper({
 	orientation = "horizontal",
 	className,
 	children,
-	indicators = {},
+	indicators = EMPTY_INDICATORS,
 	...props
 }: StepperProps) {
 	const [activeStep, setActiveStep] = useState(defaultValue);
@@ -261,14 +263,8 @@ function StepperTrigger({
 		}
 	}, [registerTrigger]);
 
-	// Find our index among triggers for navigation
-	const myIdx = useMemo(
-		() =>
-			triggerNodes.findIndex((n: HTMLButtonElement) => n === btnRef.current),
-		[triggerNodes]
-	);
-
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+		const myIdx = triggerNodes.findIndex((n) => n === btnRef.current);
 		switch (e.key) {
 			case "ArrowRight":
 			case "ArrowDown":

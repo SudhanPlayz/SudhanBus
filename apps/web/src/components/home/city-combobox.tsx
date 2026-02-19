@@ -14,6 +14,8 @@ import { CITIES } from "./cities";
 
 const cityLabels = CITIES.map((city) => city.label);
 
+const EMPTY_DISABLED_VALUES: (string | null)[] = [];
+
 interface CityComboboxProps {
 	className?: string;
 	disabledValues?: (string | null)[];
@@ -31,7 +33,7 @@ function CityCombobox({
 	value,
 	onValueChange,
 	placeholder = "Select city",
-	disabledValues = [],
+	disabledValues = EMPTY_DISABLED_VALUES,
 }: CityComboboxProps) {
 	const selectedCity = CITIES.find((city) => city.value === value);
 
