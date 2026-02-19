@@ -3,17 +3,11 @@ import { Calendar, toDateId } from "@marceloterreiro/flash-calendar";
 import { format, parseISO } from "date-fns";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import {
-	Modal,
-	Pressable,
-	StyleSheet,
-	Text,
-	View,
-} from "react-native";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { CityPickerModal } from "./city-picker-modal";
 import { Colors } from "@/constants/colors";
 import { CITIES } from "@/data/cities.data";
+import { CityPickerModal } from "./city-picker-modal";
 
 const todayId = toDateId(new Date());
 
@@ -37,7 +31,9 @@ export function SearchSection() {
 	};
 
 	const handleSearch = () => {
-		if (!from || !to || !selectedDateId) return;
+		if (!(from && to && selectedDateId)) {
+			return;
+		}
 		router.push({
 			pathname: "/search" as any,
 			params: {
@@ -72,10 +68,14 @@ export function SearchSection() {
 				<View style={styles.card}>
 					{/* From */}
 					<Pressable
-						style={styles.fieldRow}
 						onPress={() => setShowFromPicker(true)}
+						style={styles.fieldRow}
 					>
-						<Ionicons name="location-outline" size={18} color={Colors.textSecondary} />
+						<Ionicons
+							color={Colors.textSecondary}
+							name="location-outline"
+							size={18}
+						/>
 						<View style={styles.fieldContent}>
 							<Text style={styles.fieldLabel}>From</Text>
 							<Text
@@ -92,25 +92,26 @@ export function SearchSection() {
 					{/* Swap button */}
 					<View style={styles.swapRow}>
 						<View style={styles.divider} />
-						<Pressable style={styles.swapButton} onPress={handleSwap}>
-							<Ionicons name="swap-vertical" size={16} color={Colors.primary} />
+						<Pressable onPress={handleSwap} style={styles.swapButton}>
+							<Ionicons color={Colors.primary} name="swap-vertical" size={16} />
 						</Pressable>
 						<View style={styles.divider} />
 					</View>
 
 					{/* To */}
 					<Pressable
-						style={styles.fieldRow}
 						onPress={() => setShowToPicker(true)}
+						style={styles.fieldRow}
 					>
-						<Ionicons name="navigate-outline" size={18} color={Colors.textSecondary} />
+						<Ionicons
+							color={Colors.textSecondary}
+							name="navigate-outline"
+							size={18}
+						/>
 						<View style={styles.fieldContent}>
 							<Text style={styles.fieldLabel}>To</Text>
 							<Text
-								style={[
-									styles.fieldValue,
-									!toLabel && styles.fieldPlaceholder,
-								]}
+								style={[styles.fieldValue, !toLabel && styles.fieldPlaceholder]}
 							>
 								{toLabel || "Select destination"}
 							</Text>
@@ -121,10 +122,14 @@ export function SearchSection() {
 
 					{/* Date */}
 					<Pressable
-						style={styles.fieldRow}
 						onPress={() => setShowDatePicker(true)}
+						style={styles.fieldRow}
 					>
-						<Ionicons name="calendar-outline" size={18} color={Colors.textSecondary} />
+						<Ionicons
+							color={Colors.textSecondary}
+							name="calendar-outline"
+							size={18}
+						/>
 						<View style={styles.fieldContent}>
 							<Text style={styles.fieldLabel}>Travel Date</Text>
 							<Text
@@ -140,14 +145,14 @@ export function SearchSection() {
 
 					{/* Search button */}
 					<Pressable
+						disabled={!(from && to && selectedDateId)}
+						onPress={handleSearch}
 						style={[
 							styles.searchButton,
-							(!from || !to || !selectedDateId) && styles.searchButtonDisabled,
+							!(from && to && selectedDateId) && styles.searchButtonDisabled,
 						]}
-						onPress={handleSearch}
-						disabled={!from || !to || !selectedDateId}
 					>
-						<Ionicons name="search" size={20} color="#FFFFFF" />
+						<Ionicons color="#FFFFFF" name="search" size={20} />
 						<Text style={styles.searchButtonText}>Search buses</Text>
 					</Pressable>
 				</View>
@@ -155,36 +160,38 @@ export function SearchSection() {
 
 			{/* Modals */}
 			<CityPickerModal
-				visible={showFromPicker}
+				disabledValues={[to]}
 				onClose={() => setShowFromPicker(false)}
 				onSelect={setFrom}
-				disabledValues={[to]}
 				title="Select Origin"
+				visible={showFromPicker}
 			/>
 			<CityPickerModal
-				visible={showToPicker}
+				disabledValues={[from]}
 				onClose={() => setShowToPicker(false)}
 				onSelect={setTo}
-				disabledValues={[from]}
 				title="Select Destination"
+				visible={showToPicker}
 			/>
 
 			{/* Date picker modal */}
 			<Modal
-				visible={showDatePicker}
 				animationType="slide"
-				transparent={true}
 				onRequestClose={() => setShowDatePicker(false)}
+				transparent={true}
+				visible={showDatePicker}
 			>
 				<Pressable
-					style={styles.modalOverlay}
 					onPress={() => setShowDatePicker(false)}
+					style={styles.modalOverlay}
 				/>
-				<View style={[styles.dateModalContainer, { paddingBottom: insets.bottom }]}>
+				<View
+					style={[styles.dateModalContainer, { paddingBottom: insets.bottom }]}
+				>
 					<View style={styles.dateModalHeader}>
 						<Text style={styles.dateModalTitle}>Select Travel Date</Text>
-						<Pressable onPress={() => setShowDatePicker(false)} hitSlop={12}>
-							<Ionicons name="close" size={24} color={Colors.text} />
+						<Pressable hitSlop={12} onPress={() => setShowDatePicker(false)}>
+							<Ionicons color={Colors.text} name="close" size={24} />
 						</Pressable>
 					</View>
 					<Calendar

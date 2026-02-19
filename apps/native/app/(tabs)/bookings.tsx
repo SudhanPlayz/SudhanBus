@@ -10,7 +10,7 @@ export default function BookingsScreen() {
 		<View style={styles.container}>
 			<View style={styles.emptyCard}>
 				<View style={styles.iconCircle}>
-					<Ionicons name="ticket-outline" size={48} color={Colors.textMuted} />
+					<Ionicons color={Colors.textMuted} name="ticket-outline" size={48} />
 				</View>
 				<Text style={styles.emptyTitle}>No bookings yet</Text>
 				<Text style={styles.emptyDescription}>
@@ -18,8 +18,8 @@ export default function BookingsScreen() {
 					available routes and grab your seat!
 				</Text>
 				<Pressable
-					style={styles.button}
 					onPress={() => router.push("/(tabs)" as any)}
+					style={styles.button}
 				>
 					<Text style={styles.buttonText}>Book a Bus</Text>
 				</Pressable>

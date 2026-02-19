@@ -10,15 +10,15 @@ import {
 	View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { type City, CITIES } from "@/data/cities.data";
 import { Colors } from "@/constants/colors";
+import { CITIES, type City } from "@/data/cities.data";
 
 interface CityPickerModalProps {
-	visible: boolean;
+	disabledValues?: (string | null)[];
 	onClose: () => void;
 	onSelect: (value: string) => void;
-	disabledValues?: (string | null)[];
 	title: string;
+	visible: boolean;
 }
 
 export function CityPickerModal({
@@ -45,55 +45,55 @@ export function CityPickerModal({
 
 	return (
 		<Modal
-			visible={visible}
 			animationType="slide"
-			presentationStyle="pageSheet"
 			onRequestClose={onClose}
+			presentationStyle="pageSheet"
+			visible={visible}
 		>
 			<View style={[styles.container, { paddingTop: insets.top + 8 }]}>
 				{/* Header */}
 				<View style={styles.header}>
 					<Text style={styles.headerTitle}>{title}</Text>
-					<Pressable onPress={onClose} hitSlop={12}>
-						<Ionicons name="close" size={24} color={Colors.text} />
+					<Pressable hitSlop={12} onPress={onClose}>
+						<Ionicons color={Colors.text} name="close" size={24} />
 					</Pressable>
 				</View>
 
 				{/* Search bar */}
 				<View style={styles.searchBar}>
-					<Ionicons name="search" size={18} color={Colors.textMuted} />
+					<Ionicons color={Colors.textMuted} name="search" size={18} />
 					<TextInput
-						style={styles.searchInput}
+						autoFocus
+						onChangeText={setSearch}
 						placeholder="Search city..."
 						placeholderTextColor={Colors.textMuted}
+						style={styles.searchInput}
 						value={search}
-						onChangeText={setSearch}
-						autoFocus
 					/>
 				</View>
 
 				{/* City list */}
 				<FlatList
+					contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
 					data={filtered}
 					keyExtractor={(item) => item.value}
-					contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
-					showsVerticalScrollIndicator={false}
+					ListEmptyComponent={
+						<Text style={styles.emptyText}>No cities found</Text>
+					}
 					renderItem={({ item }) => (
 						<Pressable
-							style={styles.cityRow}
 							onPress={() => handleSelect(item)}
+							style={styles.cityRow}
 						>
 							<Ionicons
+								color={Colors.textSecondary}
 								name="location-outline"
 								size={18}
-								color={Colors.textSecondary}
 							/>
 							<Text style={styles.cityLabel}>{item.label}</Text>
 						</Pressable>
 					)}
-					ListEmptyComponent={
-						<Text style={styles.emptyText}>No cities found</Text>
-					}
+					showsVerticalScrollIndicator={false}
 				/>
 			</View>
 		</Modal>

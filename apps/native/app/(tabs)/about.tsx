@@ -44,9 +44,9 @@ const FEATURES = [
 export default function AboutScreen() {
 	return (
 		<ScrollView
-			style={styles.container}
 			contentContainerStyle={styles.content}
 			showsVerticalScrollIndicator={false}
+			style={styles.container}
 		>
 			{/* Hero */}
 			<View style={styles.hero}>
@@ -64,7 +64,11 @@ export default function AboutScreen() {
 			<View style={styles.section}>
 				<View style={styles.sectionHeader}>
 					<View style={styles.iconBox}>
-						<Ionicons name="navigate-outline" size={24} color={Colors.primary} />
+						<Ionicons
+							color={Colors.primary}
+							name="navigate-outline"
+							size={24}
+						/>
 					</View>
 					<View style={styles.sectionContent}>
 						<Text style={styles.sectionTitle}>Our Mission</Text>
@@ -84,7 +88,7 @@ export default function AboutScreen() {
 			<View style={[styles.section, { marginTop: 24 }]}>
 				<View style={styles.sectionHeader}>
 					<View style={styles.iconBox}>
-						<Ionicons name="people-outline" size={24} color={Colors.primary} />
+						<Ionicons color={Colors.primary} name="people-outline" size={24} />
 					</View>
 					<View style={styles.sectionContent}>
 						<Text style={styles.sectionTitle}>Who We Are</Text>
@@ -107,7 +111,7 @@ export default function AboutScreen() {
 				{FEATURES.map((feature) => (
 					<View key={feature.title} style={styles.featureCard}>
 						<View style={styles.featureIconBox}>
-							<Ionicons name={feature.icon} size={24} color={Colors.primary} />
+							<Ionicons color={Colors.primary} name={feature.icon} size={24} />
 						</View>
 						<Text style={styles.featureTitle}>{feature.title}</Text>
 						<Text style={styles.featureDesc}>{feature.description}</Text>

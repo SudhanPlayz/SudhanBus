@@ -25,7 +25,7 @@ export default function TabLayout() {
 					title: "Home",
 					headerTitle: "SudhanBus",
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="home-outline" size={size} color={color} />
+						<Ionicons color={color} name="home-outline" size={size} />
 					),
 				}}
 			/>
@@ -34,7 +34,7 @@ export default function TabLayout() {
 				options={{
 					title: "Bookings",
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="ticket-outline" size={size} color={color} />
+						<Ionicons color={color} name="ticket-outline" size={size} />
 					),
 				}}
 			/>
@@ -43,7 +43,11 @@ export default function TabLayout() {
 				options={{
 					title: "About",
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="information-circle-outline" size={size} color={color} />
+						<Ionicons
+							color={color}
+							name="information-circle-outline"
+							size={size}
+						/>
 					),
 				}}
 			/>
@@ -52,7 +56,7 @@ export default function TabLayout() {
 				options={{
 					title: "Contact",
 					tabBarIcon: ({ color, size }) => (
-						<Ionicons name="call-outline" size={size} color={color} />
+						<Ionicons color={color} name="call-outline" size={size} />
 					),
 				}}
 			/>

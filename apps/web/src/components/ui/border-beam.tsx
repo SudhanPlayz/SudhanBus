@@ -1,4 +1,11 @@
-import { type MotionStyle, type Transition, LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
+import {
+	domAnimation,
+	LazyMotion,
+	type MotionStyle,
+	m,
+	type Transition,
+	useReducedMotion,
+} from "motion/react";
 
 import { cn } from "@/lib/utils";
 

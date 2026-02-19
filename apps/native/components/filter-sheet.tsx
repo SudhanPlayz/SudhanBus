@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { forwardRef, useCallback, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 
@@ -19,10 +19,10 @@ const DEPARTURE_TIMES = [
 ];
 
 interface FilterSheetProps {
-	selectedTypes: string[];
-	selectedTimes: string[];
-	onTypeChange: (type: string, checked: boolean) => void;
 	onTimeChange: (time: string, checked: boolean) => void;
+	onTypeChange: (type: string, checked: boolean) => void;
+	selectedTimes: string[];
+	selectedTypes: string[];
 }
 
 export const FilterSheet = forwardRef<BottomSheet, FilterSheetProps>(
@@ -40,15 +40,11 @@ export const FilterSheet = forwardRef<BottomSheet, FilterSheetProps>(
 		) => (
 			<Pressable
 				key={id}
-				style={styles.checkboxRow}
 				onPress={() => onChange(id, !checked)}
+				style={styles.checkboxRow}
 			>
-				<View
-					style={[styles.checkbox, checked && styles.checkboxChecked]}
-				>
-					{checked && (
-						<Ionicons name="checkmark" size={14} color="#FFFFFF" />
-					)}
+				<View style={[styles.checkbox, checked && styles.checkboxChecked]}>
+					{checked && <Ionicons color="#FFFFFF" name="checkmark" size={14} />}
 				</View>
 				<Text style={styles.checkboxLabel}>{label}</Text>
 			</Pressable>
@@ -56,16 +52,14 @@ export const FilterSheet = forwardRef<BottomSheet, FilterSheetProps>(
 
 		return (
 			<BottomSheet
-				ref={ref}
-				index={-1}
-				snapPoints={snapPoints}
-				enablePanDownToClose
 				backgroundStyle={styles.sheetBackground}
+				enablePanDownToClose
 				handleIndicatorStyle={styles.handle}
+				index={-1}
+				ref={ref}
+				snapPoints={snapPoints}
 			>
-				<BottomSheetScrollView
-					contentContainerStyle={styles.sheetContent}
-				>
+				<BottomSheetScrollView contentContainerStyle={styles.sheetContent}>
 					<Text style={styles.sheetTitle}>Filter buses</Text>
 					<View style={styles.separator} />
 

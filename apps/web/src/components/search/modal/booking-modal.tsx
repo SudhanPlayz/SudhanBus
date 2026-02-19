@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
-import { AnimatePresence, LazyMotion, domAnimation, m } from "motion/react";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 
@@ -76,10 +76,7 @@ export function BookingModal({ bus }: BookingModalProps) {
 			if (isRemoving) {
 				return prev.filter((p) => p.seatId !== seatId);
 			}
-			return [
-				...prev,
-				{ seatId, name: "", age: "", gender: "male" as const },
-			];
+			return [...prev, { seatId, name: "", age: "", gender: "male" as const }];
 		});
 	}, []);
 

@@ -19,8 +19,8 @@ export default function LoginScreen() {
 
 	return (
 		<KeyboardAvoidingView
-			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : undefined}
+			style={styles.container}
 		>
 			<ScrollView
 				contentContainerStyle={styles.scrollContent}
@@ -29,23 +29,21 @@ export default function LoginScreen() {
 			>
 				<View style={styles.header}>
 					<Text style={styles.title}>Welcome back</Text>
-					<Text style={styles.subtitle}>
-						Sign in to your SudhanBus account
-					</Text>
+					<Text style={styles.subtitle}>Sign in to your SudhanBus account</Text>
 				</View>
 
 				<View style={styles.form}>
 					<View style={styles.field}>
 						<Text style={styles.label}>Email</Text>
 						<TextInput
-							style={styles.input}
-							placeholder="you@example.com"
-							placeholderTextColor={Colors.textMuted}
-							keyboardType="email-address"
 							autoCapitalize="none"
 							autoComplete="email"
-							value={email}
+							keyboardType="email-address"
 							onChangeText={setEmail}
+							placeholder="you@example.com"
+							placeholderTextColor={Colors.textMuted}
+							style={styles.input}
+							value={email}
 						/>
 					</View>
 
@@ -57,11 +55,11 @@ export default function LoginScreen() {
 							</Pressable>
 						</View>
 						<TextInput
-							style={styles.input}
-							secureTextEntry
 							autoCapitalize="none"
-							value={password}
 							onChangeText={setPassword}
+							secureTextEntry
+							style={styles.input}
+							value={password}
 						/>
 					</View>
 

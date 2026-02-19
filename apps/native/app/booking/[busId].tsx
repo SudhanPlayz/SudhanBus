@@ -20,7 +20,6 @@ import {
 	BOARDING_POINTS,
 	DROPPING_POINTS,
 	generateDemoSeatLayout,
-	type DeckLayout,
 	type Seat,
 } from "@/data/seat.data";
 
@@ -58,7 +57,7 @@ export default function BookingScreen() {
 		return (
 			<View style={[styles.centered, { paddingTop: insets.top }]}>
 				<Text style={styles.errorText}>Bus not found</Text>
-				<Pressable style={styles.backBtn} onPress={() => router.back()}>
+				<Pressable onPress={() => router.back()} style={styles.backBtn}>
 					<Text style={styles.backBtnText}>Go back</Text>
 				</Pressable>
 			</View>
@@ -77,7 +76,9 @@ export default function BookingScreen() {
 
 	const handleSeatPress = (seatId: string) => {
 		setSelectedSeats((prev) =>
-			prev.includes(seatId) ? prev.filter((s) => s !== seatId) : [...prev, seatId]
+			prev.includes(seatId)
+				? prev.filter((s) => s !== seatId)
+				: [...prev, seatId]
 		);
 	};
 
@@ -104,17 +105,26 @@ export default function BookingScreen() {
 
 	const canGoNext = () => {
 		switch (step) {
-			case 0: return selectedSeats.length > 0;
-			case 1: return boardingPoint !== null;
-			case 2: return droppingPoint !== null;
-			case 3: return passengers.every((p) => p.name.trim() && p.age.trim());
-			default: return true;
+			case 0:
+				return selectedSeats.length > 0;
+			case 1:
+				return boardingPoint !== null;
+			case 2:
+				return droppingPoint !== null;
+			case 3:
+				return passengers.every((p) => p.name.trim() && p.age.trim());
+			default:
+				return true;
 		}
 	};
 
 	const handleNext = () => {
-		if (step === 0) initPassengers();
-		if (step < STEP_LABELS.length - 1) setStep(step + 1);
+		if (step === 0) {
+			initPassengers();
+		}
+		if (step < STEP_LABELS.length - 1) {
+			setStep(step + 1);
+		}
 	};
 
 	const handleConfirm = () => {
@@ -134,13 +144,14 @@ export default function BookingScreen() {
 			</Text>
 			<SeatLayout
 				decks={decks}
-				selectedSeats={selectedSeats}
 				onSeatPress={handleSeatPress}
+				selectedSeats={selectedSeats}
 			/>
 			{selectedSeats.length > 0 && (
 				<View style={styles.selectionSummary}>
 					<Text style={styles.summaryLabel}>
-						{selectedSeats.length} seat{selectedSeats.length > 1 ? "s" : ""} selected
+						{selectedSeats.length} seat{selectedSeats.length > 1 ? "s" : ""}{" "}
+						selected
 					</Text>
 					<Text style={styles.summaryPrice}>
 						₹{totalPrice.toLocaleString()}
@@ -158,11 +169,11 @@ export default function BookingScreen() {
 			{BOARDING_POINTS.map((point) => (
 				<Pressable
 					key={point.id}
+					onPress={() => setBoardingPoint(point.id)}
 					style={[
 						styles.pointCard,
 						boardingPoint === point.id && styles.pointCardActive,
 					]}
-					onPress={() => setBoardingPoint(point.id)}
 				>
 					<View
 						style={[
@@ -171,11 +182,9 @@ export default function BookingScreen() {
 						]}
 					>
 						<Ionicons
+							color={boardingPoint === point.id ? "#FFFFFF" : Colors.textMuted}
 							name="location"
 							size={16}
-							color={
-								boardingPoint === point.id ? "#FFFFFF" : Colors.textMuted
-							}
 						/>
 					</View>
 					<View style={styles.pointContent}>
@@ -198,11 +207,11 @@ export default function BookingScreen() {
 			{DROPPING_POINTS.map((point) => (
 				<Pressable
 					key={point.id}
+					onPress={() => setDroppingPoint(point.id)}
 					style={[
 						styles.pointCard,
 						droppingPoint === point.id && styles.pointCardActive,
 					]}
-					onPress={() => setDroppingPoint(point.id)}
 				>
 					<View
 						style={[
@@ -211,11 +220,9 @@ export default function BookingScreen() {
 						]}
 					>
 						<Ionicons
+							color={droppingPoint === point.id ? "#FFFFFF" : Colors.textMuted}
 							name="navigate"
 							size={16}
-							color={
-								droppingPoint === point.id ? "#FFFFFF" : Colors.textMuted
-							}
 						/>
 					</View>
 					<View style={styles.pointContent}>
@@ -242,42 +249,40 @@ export default function BookingScreen() {
 				<View key={passenger.seatId} style={styles.passengerCard}>
 					<View style={styles.passengerHeader}>
 						<View style={styles.passengerBadge}>
-							<Ionicons name="person" size={12} color="#FFFFFF" />
+							<Ionicons color="#FFFFFF" name="person" size={12} />
 						</View>
 						<Text style={styles.passengerLabel}>
 							Passenger {idx + 1} — Seat {passenger.seatId}
 						</Text>
 					</View>
 					<TextInput
-						style={styles.input}
-						placeholder="Full Name"
-						placeholderTextColor={Colors.textMuted}
-						value={passenger.name}
 						onChangeText={(val) =>
 							updatePassenger(passenger.seatId, "name", val)
 						}
+						placeholder="Full Name"
+						placeholderTextColor={Colors.textMuted}
+						style={styles.input}
+						value={passenger.name}
 					/>
 					<TextInput
-						style={styles.input}
-						placeholder="Age"
-						placeholderTextColor={Colors.textMuted}
 						keyboardType="numeric"
-						value={passenger.age}
 						onChangeText={(val) =>
 							updatePassenger(passenger.seatId, "age", val)
 						}
+						placeholder="Age"
+						placeholderTextColor={Colors.textMuted}
+						style={styles.input}
+						value={passenger.age}
 					/>
 					<View style={styles.genderRow}>
 						{(["male", "female", "other"] as const).map((g) => (
 							<Pressable
 								key={g}
+								onPress={() => updatePassenger(passenger.seatId, "gender", g)}
 								style={[
 									styles.genderBtn,
 									passenger.gender === g && styles.genderBtnActive,
 								]}
-								onPress={() =>
-									updatePassenger(passenger.seatId, "gender", g)
-								}
 							>
 								<Text
 									style={[
@@ -334,7 +339,7 @@ export default function BookingScreen() {
 				<Text style={styles.reviewBusName}>{bus.name}</Text>
 				{boarding && (
 					<View style={styles.journeyRow}>
-						<Ionicons name="location" size={14} color={Colors.success} />
+						<Ionicons color={Colors.success} name="location" size={14} />
 						<Text style={styles.journeyText}>
 							{boarding.name} · {boarding.time}
 						</Text>
@@ -342,7 +347,7 @@ export default function BookingScreen() {
 				)}
 				{dropping && (
 					<View style={styles.journeyRow}>
-						<Ionicons name="navigate" size={14} color={Colors.danger} />
+						<Ionicons color={Colors.danger} name="navigate" size={14} />
 						<Text style={styles.journeyText}>
 							{dropping.name} · {dropping.time}
 						</Text>
@@ -373,9 +378,7 @@ export default function BookingScreen() {
 			{/* Price */}
 			<View style={styles.totalCard}>
 				<Text style={styles.totalLabel}>Total Amount</Text>
-				<Text style={styles.totalPrice}>
-					₹{totalPrice.toLocaleString()}
-				</Text>
+				<Text style={styles.totalPrice}>₹{totalPrice.toLocaleString()}</Text>
 			</View>
 		</View>
 	);
@@ -441,8 +444,8 @@ export default function BookingScreen() {
 				</View>
 			</View>
 
-			<Pressable style={styles.payButton} onPress={handleConfirm}>
-				<Ionicons name="card" size={18} color="#FFFFFF" />
+			<Pressable onPress={handleConfirm} style={styles.payButton}>
+				<Ionicons color="#FFFFFF" name="card" size={18} />
 				<Text style={styles.payButtonText}>
 					Proceed to Pay ₹{totalPrice.toLocaleString()}
 				</Text>
@@ -452,28 +455,35 @@ export default function BookingScreen() {
 
 	const renderStep = () => {
 		switch (step) {
-			case 0: return renderSeatStep();
-			case 1: return renderBoardingStep();
-			case 2: return renderDroppingStep();
-			case 3: return renderPassengerStep();
-			case 4: return renderReviewStep();
-			case 5: return renderPaymentStep();
-			default: return null;
+			case 0:
+				return renderSeatStep();
+			case 1:
+				return renderBoardingStep();
+			case 2:
+				return renderDroppingStep();
+			case 3:
+				return renderPassengerStep();
+			case 4:
+				return renderReviewStep();
+			case 5:
+				return renderPaymentStep();
+			default:
+				return null;
 		}
 	};
 
 	return (
 		<KeyboardAvoidingView
-			style={styles.root}
 			behavior={Platform.OS === "ios" ? "padding" : undefined}
+			style={styles.root}
 		>
 			{/* Modal header */}
 			<View style={[styles.header, { paddingTop: insets.top + 8 }]}>
-				<Pressable onPress={() => router.back()} hitSlop={12}>
-					<Ionicons name="close" size={24} color={Colors.text} />
+				<Pressable hitSlop={12} onPress={() => router.back()}>
+					<Ionicons color={Colors.text} name="close" size={24} />
 				</Pressable>
 				<View style={styles.headerCenter}>
-					<Text style={styles.headerTitle} numberOfLines={1}>
+					<Text numberOfLines={1} style={styles.headerTitle}>
 						{bus.name}
 					</Text>
 					<Text style={styles.headerSubtitle}>{STEP_LABELS[step]}</Text>
@@ -495,44 +505,42 @@ export default function BookingScreen() {
 
 			{/* Content */}
 			<ScrollView
-				style={styles.scrollView}
 				contentContainerStyle={[
 					styles.scrollContent,
 					{ paddingBottom: insets.bottom + 80 },
 				]}
-				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps="handled"
+				showsVerticalScrollIndicator={false}
+				style={styles.scrollView}
 			>
 				{renderStep()}
 			</ScrollView>
 
 			{/* Bottom bar */}
 			{step < 5 && (
-				<View
-					style={[styles.bottomBar, { paddingBottom: insets.bottom + 12 }]}
-				>
+				<View style={[styles.bottomBar, { paddingBottom: insets.bottom + 12 }]}>
 					{step > 0 && (
 						<Pressable
-							style={styles.backButton}
 							onPress={() => setStep(step - 1)}
+							style={styles.backButton}
 						>
-							<Ionicons name="arrow-back" size={18} color={Colors.text} />
+							<Ionicons color={Colors.text} name="arrow-back" size={18} />
 							<Text style={styles.backButtonText}>Back</Text>
 						</Pressable>
 					)}
 					<View style={{ flex: 1 }} />
 					<Pressable
+						disabled={!canGoNext()}
+						onPress={handleNext}
 						style={[
 							styles.nextButton,
 							!canGoNext() && styles.nextButtonDisabled,
 						]}
-						onPress={handleNext}
-						disabled={!canGoNext()}
 					>
 						<Text style={styles.nextButtonText}>
 							{step === 4 ? "Proceed to Payment" : "Continue"}
 						</Text>
-						<Ionicons name="arrow-forward" size={16} color="#FFFFFF" />
+						<Ionicons color="#FFFFFF" name="arrow-forward" size={16} />
 					</Pressable>
 				</View>
 			)}

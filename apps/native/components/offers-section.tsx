@@ -1,14 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import {
-	FlatList,
-	Pressable,
-	StyleSheet,
-	Text,
-	View,
-} from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
-import { type Offer, OFFERS } from "@/data/offers.data";
+import { OFFERS, type Offer } from "@/data/offers.data";
 
 type Filter = "All" | "Bus";
 const FILTERS: Filter[] = ["All", "Bus"];
@@ -22,7 +16,7 @@ function OfferCard({ offer }: { offer: Offer }) {
 			<Text style={styles.offerTitle}>{offer.title}</Text>
 			<Text style={styles.offerValidity}>{offer.validity}</Text>
 			<View style={styles.offerCodeRow}>
-				<Ionicons name="pricetag-outline" size={13} color={Colors.primary} />
+				<Ionicons color={Colors.primary} name="pricetag-outline" size={13} />
 				<Text style={styles.offerCode}>{offer.code}</Text>
 			</View>
 		</View>
@@ -50,18 +44,16 @@ export function OffersSection() {
 				{FILTERS.map((f) => (
 					<Pressable
 						key={f}
+						onPress={() => setFilter(f)}
 						style={[
 							styles.chip,
 							filter === f ? styles.chipActive : styles.chipInactive,
 						]}
-						onPress={() => setFilter(f)}
 					>
 						<Text
 							style={[
 								styles.chipText,
-								filter === f
-									? styles.chipTextActive
-									: styles.chipTextInactive,
+								filter === f ? styles.chipTextActive : styles.chipTextInactive,
 							]}
 						>
 							{f}
@@ -72,14 +64,14 @@ export function OffersSection() {
 
 			{/* Horizontal carousel */}
 			<FlatList
-				data={filteredOffers}
-				keyExtractor={(item) => item.id}
-				horizontal
-				showsHorizontalScrollIndicator={false}
 				contentContainerStyle={styles.carousel}
-				snapToInterval={272}
+				data={filteredOffers}
 				decelerationRate="fast"
+				horizontal
+				keyExtractor={(item) => item.id}
 				renderItem={({ item }) => <OfferCard offer={item} />}
+				showsHorizontalScrollIndicator={false}
+				snapToInterval={272}
 			/>
 		</View>
 	);

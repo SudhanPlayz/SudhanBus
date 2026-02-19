@@ -16,7 +16,7 @@ const AMENITY_ICONS: Record<string, string> = {
 function OfferBadge({ text }: { text: string }) {
 	return (
 		<View style={styles.offerBadge}>
-			<Ionicons name="pricetag" size={11} color={Colors.offerBadgeText} />
+			<Ionicons color={Colors.offerBadgeText} name="pricetag" size={11} />
 			<Text style={styles.offerBadgeText}>{text}</Text>
 		</View>
 	);
@@ -31,11 +31,11 @@ export function BusCard({ bus }: { bus: Bus }) {
 			{/* Top: Name + Rating */}
 			<View style={styles.topRow}>
 				<View style={styles.nameRow}>
-					<Text style={styles.busName} numberOfLines={1}>
+					<Text numberOfLines={1} style={styles.busName}>
 						{bus.name}
 					</Text>
 					<View style={styles.ratingBadge}>
-						<Ionicons name="star" size={11} color="#FFFFFF" />
+						<Ionicons color="#FFFFFF" name="star" size={11} />
 						<Text style={styles.ratingText}>{bus.rating}</Text>
 					</View>
 					<Text style={styles.totalRatings}>
@@ -51,9 +51,9 @@ export function BusCard({ bus }: { bus: Bus }) {
 					{bus.amenities.map((amenity) => (
 						<View key={amenity} style={styles.amenityChip}>
 							<Ionicons
+								color={Colors.textSecondary}
 								name={(AMENITY_ICONS[amenity] || "ellipse-outline") as any}
 								size={10}
-								color={Colors.textSecondary}
 							/>
 							<Text style={styles.amenityText}>{amenity}</Text>
 						</View>
@@ -85,18 +85,12 @@ export function BusCard({ bus }: { bus: Bus }) {
 								₹{bus.originalPrice.toLocaleString()}
 							</Text>
 						)}
-						<Text style={styles.price}>
-							₹{bus.price.toLocaleString()}
-						</Text>
+						<Text style={styles.price}>₹{bus.price.toLocaleString()}</Text>
 					</View>
-					<Text style={styles.seatsLeft}>
-						{bus.seatsAvailable} seats left
-					</Text>
+					<Text style={styles.seatsLeft}>{bus.seatsAvailable} seats left</Text>
 					<Pressable
+						onPress={() => router.push(`/booking/${bus.id}` as any)}
 						style={styles.viewSeatsButton}
-						onPress={() =>
-							router.push(`/booking/${bus.id}` as any)
-						}
 					>
 						<Text style={styles.viewSeatsText}>View seats</Text>
 					</Pressable>

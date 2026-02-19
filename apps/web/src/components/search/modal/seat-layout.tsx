@@ -209,7 +209,10 @@ function DeckSection({
 			</div>
 			<div className="flex flex-col gap-3">
 				{deck.seats.map((row, rowIdx) => (
-					<div className="flex items-end justify-center gap-2" key={row.find((s) => s)?.id ?? `row-${rowIdx}`}>
+					<div
+						className="flex items-end justify-center gap-2"
+						key={row.find((s) => s)?.id ?? `row-${rowIdx}`}
+					>
 						{row.map((seat, colIdx) => {
 							if (!seat) {
 								return <div className="w-10" key={`empty-${colIdx}`} />;

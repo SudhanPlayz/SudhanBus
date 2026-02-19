@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, LazyMotion, domAnimation, m } from "motion/react";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -64,7 +64,9 @@ export default function AuthPage() {
 												onSwitchToSignup={() => setActiveTab("signup")}
 											/>
 										) : (
-											<SignupForm onSwitchToLogin={() => setActiveTab("login")} />
+											<SignupForm
+												onSwitchToLogin={() => setActiveTab("login")}
+											/>
 										)}
 									</m.div>
 								</AnimatePresence>

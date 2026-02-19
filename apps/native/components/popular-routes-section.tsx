@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
-import { type Route, POPULAR_ROUTES } from "@/data/popular-routes.data";
+import { POPULAR_ROUTES, type Route } from "@/data/popular-routes.data";
 
 function RouteItem({ route }: { route: Route }) {
 	const router = useRouter();
@@ -25,20 +25,20 @@ function RouteItem({ route }: { route: Route }) {
 			<View style={styles.routeInfo}>
 				<View style={styles.routeRow}>
 					<Text style={styles.routeCity}>{route.from}</Text>
-					<Ionicons
-						name="arrow-forward"
-						size={12}
-						color={Colors.textMuted}
-					/>
+					<Ionicons color={Colors.textMuted} name="arrow-forward" size={12} />
 					<Text style={styles.routeCity}>{route.to}</Text>
 				</View>
 				<View style={styles.routeMeta}>
 					<View style={styles.metaItem}>
-						<Ionicons name="location-outline" size={12} color={Colors.textMuted} />
+						<Ionicons
+							color={Colors.textMuted}
+							name="location-outline"
+							size={12}
+						/>
 						<Text style={styles.metaText}>{route.distance}</Text>
 					</View>
 					<View style={styles.metaItem}>
-						<Ionicons name="time-outline" size={12} color={Colors.textMuted} />
+						<Ionicons color={Colors.textMuted} name="time-outline" size={12} />
 						<Text style={styles.metaText}>{route.duration}</Text>
 					</View>
 				</View>
@@ -50,9 +50,9 @@ function RouteItem({ route }: { route: Route }) {
 					<Text style={styles.routePrice}>₹{route.price}</Text>
 					<Text style={styles.routePriceLabel}>onwards</Text>
 				</View>
-				<Pressable style={styles.bookButton} onPress={handleBookNow}>
+				<Pressable onPress={handleBookNow} style={styles.bookButton}>
 					<Text style={styles.bookButtonText}>Book Now</Text>
-					<Ionicons name="arrow-forward" size={14} color={Colors.primary} />
+					<Ionicons color={Colors.primary} name="arrow-forward" size={14} />
 				</Pressable>
 			</View>
 		</View>

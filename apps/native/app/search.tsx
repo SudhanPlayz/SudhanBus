@@ -1,14 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import type BottomSheet from "@gorhom/bottom-sheet";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useCallback, useRef, useState } from "react";
-import {
-	FlatList,
-	Pressable,
-	StyleSheet,
-	Text,
-	View,
-} from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BusCard } from "@/components/bus-card";
 import { FilterSheet } from "@/components/filter-sheet";
@@ -37,57 +31,75 @@ export default function SearchScreen() {
 	const fromLabel = CITIES.find((c) => c.value === from)?.label ?? from;
 	const toLabel = CITIES.find((c) => c.value === to)?.label ?? to;
 
-	const handleTypeChange = useCallback(
-		(type: string, checked: boolean) => {
-			setSelectedTypes((prev) =>
-				checked ? [...prev, type] : prev.filter((t) => t !== type)
-			);
-		},
-		[]
-	);
+	const handleTypeChange = useCallback((type: string, checked: boolean) => {
+		setSelectedTypes((prev) =>
+			checked ? [...prev, type] : prev.filter((t) => t !== type)
+		);
+	}, []);
 
-	const handleTimeChange = useCallback(
-		(time: string, checked: boolean) => {
-			setSelectedTimes((prev) =>
-				checked ? [...prev, time] : prev.filter((t) => t !== time)
-			);
-		},
-		[]
-	);
+	const handleTimeChange = useCallback((time: string, checked: boolean) => {
+		setSelectedTimes((prev) =>
+			checked ? [...prev, time] : prev.filter((t) => t !== time)
+		);
+	}, []);
 
 	const filteredBuses = DEMO_BUSES.filter((bus) => {
 		if (selectedTypes.length > 0) {
 			const typeLower = bus.type.toLowerCase();
 			const matchesType = selectedTypes.some((type) => {
-				if (type === "ac")
+				if (type === "ac") {
 					return typeLower.includes("a/c") && !typeLower.includes("non a/c");
-				if (type === "non-ac") return typeLower.includes("non a/c");
-				if (type === "sleeper") return typeLower.includes("sleeper");
-				if (type === "seater") return typeLower.includes("seater");
+				}
+				if (type === "non-ac") {
+					return typeLower.includes("non a/c");
+				}
+				if (type === "sleeper") {
+					return typeLower.includes("sleeper");
+				}
+				if (type === "seater") {
+					return typeLower.includes("seater");
+				}
 				return false;
 			});
-			if (!matchesType) return false;
+			if (!matchesType) {
+				return false;
+			}
 		}
 		if (selectedTimes.length > 0) {
 			const hour = Number.parseInt(bus.departureTime.split(":")[0], 10);
 			const matchesTime = selectedTimes.some((time) => {
-				if (time === "morning") return hour >= 6 && hour < 12;
-				if (time === "afternoon") return hour >= 12 && hour < 18;
-				if (time === "evening") return hour >= 18 && hour < 24;
-				if (time === "night") return hour >= 0 && hour < 6;
+				if (time === "morning") {
+					return hour >= 6 && hour < 12;
+				}
+				if (time === "afternoon") {
+					return hour >= 12 && hour < 18;
+				}
+				if (time === "evening") {
+					return hour >= 18 && hour < 24;
+				}
+				if (time === "night") {
+					return hour >= 0 && hour < 6;
+				}
 				return false;
 			});
-			if (!matchesTime) return false;
+			if (!matchesTime) {
+				return false;
+			}
 		}
 		return true;
 	});
 
 	const sortedBuses = [...filteredBuses].sort((a, b) => {
 		let comparison = 0;
-		if (activeSort === "Price") comparison = a.price - b.price;
-		if (activeSort === "Ratings") comparison = a.rating - b.rating;
-		if (activeSort === "Departure time")
+		if (activeSort === "Price") {
+			comparison = a.price - b.price;
+		}
+		if (activeSort === "Ratings") {
+			comparison = a.rating - b.rating;
+		}
+		if (activeSort === "Departure time") {
 			comparison = a.departureTime.localeCompare(b.departureTime);
+		}
 		return sortOrder === "asc" ? comparison : -comparison;
 	});
 
@@ -112,15 +124,13 @@ export default function SearchScreen() {
 
 			{/* Sort bar */}
 			<View style={styles.sortBar}>
-				<Text style={styles.busCount}>
-					{sortedBuses.length} buses found
-				</Text>
+				<Text style={styles.busCount}>{sortedBuses.length} buses found</Text>
 				<View style={styles.sortActions}>
 					<Pressable
-						style={styles.filterButton}
 						onPress={() => filterRef.current?.expand()}
+						style={styles.filterButton}
 					>
-						<Ionicons name="filter-outline" size={16} color={Colors.primary} />
+						<Ionicons color={Colors.primary} name="filter-outline" size={16} />
 						<Text style={styles.filterButtonText}>Filter</Text>
 					</Pressable>
 				</View>
@@ -131,11 +141,11 @@ export default function SearchScreen() {
 				{SORT_OPTIONS.map((opt) => (
 					<Pressable
 						key={opt}
+						onPress={() => handleSortPress(opt)}
 						style={[
 							styles.sortChip,
 							activeSort === opt && styles.sortChipActive,
 						]}
-						onPress={() => handleSortPress(opt)}
 					>
 						<Text
 							style={[
@@ -147,9 +157,9 @@ export default function SearchScreen() {
 						</Text>
 						{activeSort === opt && (
 							<Ionicons
+								color={Colors.primary}
 								name={sortOrder === "asc" ? "arrow-up" : "arrow-down"}
 								size={12}
-								color={Colors.primary}
 							/>
 						)}
 					</Pressable>
@@ -158,31 +168,31 @@ export default function SearchScreen() {
 
 			{/* Bus list */}
 			<FlatList
-				data={sortedBuses}
-				keyExtractor={(item) => item.id}
 				contentContainerStyle={[
 					styles.listContent,
 					{ paddingBottom: insets.bottom + 16 },
 				]}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => <BusCard bus={item} />}
+				data={sortedBuses}
+				keyExtractor={(item) => item.id}
 				ListEmptyComponent={
 					<View style={styles.emptyState}>
-						<Ionicons name="bus-outline" size={48} color={Colors.textMuted} />
+						<Ionicons color={Colors.textMuted} name="bus-outline" size={48} />
 						<Text style={styles.emptyText}>
 							No buses found matching your criteria.
 						</Text>
 					</View>
 				}
+				renderItem={({ item }) => <BusCard bus={item} />}
+				showsVerticalScrollIndicator={false}
 			/>
 
 			{/* Filter bottom sheet */}
 			<FilterSheet
-				ref={filterRef}
-				selectedTypes={selectedTypes}
-				selectedTimes={selectedTimes}
-				onTypeChange={handleTypeChange}
 				onTimeChange={handleTimeChange}
+				onTypeChange={handleTypeChange}
+				ref={filterRef}
+				selectedTimes={selectedTimes}
+				selectedTypes={selectedTypes}
 			/>
 		</View>
 	);

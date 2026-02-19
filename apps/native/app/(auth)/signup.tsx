@@ -22,8 +22,8 @@ export default function SignupScreen() {
 
 	return (
 		<KeyboardAvoidingView
-			style={styles.container}
 			behavior={Platform.OS === "ios" ? "padding" : undefined}
+			style={styles.container}
 		>
 			<ScrollView
 				contentContainerStyle={styles.scrollContent}
@@ -41,40 +41,40 @@ export default function SignupScreen() {
 					<View style={styles.field}>
 						<Text style={styles.label}>Full Name</Text>
 						<TextInput
-							style={styles.input}
-							placeholder="John Doe"
-							placeholderTextColor={Colors.textMuted}
 							autoCapitalize="words"
 							autoComplete="name"
-							value={name}
 							onChangeText={setName}
+							placeholder="John Doe"
+							placeholderTextColor={Colors.textMuted}
+							style={styles.input}
+							value={name}
 						/>
 					</View>
 
 					<View style={styles.field}>
 						<Text style={styles.label}>Email</Text>
 						<TextInput
-							style={styles.input}
-							placeholder="you@example.com"
-							placeholderTextColor={Colors.textMuted}
-							keyboardType="email-address"
 							autoCapitalize="none"
 							autoComplete="email"
-							value={email}
+							keyboardType="email-address"
 							onChangeText={setEmail}
+							placeholder="you@example.com"
+							placeholderTextColor={Colors.textMuted}
+							style={styles.input}
+							value={email}
 						/>
 					</View>
 
 					<View style={styles.field}>
 						<Text style={styles.label}>Phone Number</Text>
 						<TextInput
-							style={styles.input}
+							autoComplete="tel"
+							keyboardType="phone-pad"
+							onChangeText={setPhone}
 							placeholder="+91 98765 43210"
 							placeholderTextColor={Colors.textMuted}
-							keyboardType="phone-pad"
-							autoComplete="tel"
+							style={styles.input}
 							value={phone}
-							onChangeText={setPhone}
 						/>
 					</View>
 
@@ -83,27 +83,25 @@ export default function SignupScreen() {
 							<View style={styles.passwordField}>
 								<Text style={styles.label}>Password</Text>
 								<TextInput
-									style={styles.input}
-									secureTextEntry
 									autoCapitalize="none"
-									value={password}
 									onChangeText={setPassword}
+									secureTextEntry
+									style={styles.input}
+									value={password}
 								/>
 							</View>
 							<View style={styles.passwordField}>
 								<Text style={styles.label}>Confirm</Text>
 								<TextInput
-									style={styles.input}
-									secureTextEntry
 									autoCapitalize="none"
-									value={confirmPassword}
 									onChangeText={setConfirmPassword}
+									secureTextEntry
+									style={styles.input}
+									value={confirmPassword}
 								/>
 							</View>
 						</View>
-						<Text style={styles.hint}>
-							Must be at least 8 characters long.
-						</Text>
+						<Text style={styles.hint}>Must be at least 8 characters long.</Text>
 					</View>
 
 					<Pressable style={styles.button}>

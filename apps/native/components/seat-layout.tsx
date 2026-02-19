@@ -1,5 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import type { DeckLayout, Seat, SeatStatus } from "@/data/seat.data";
 
@@ -7,7 +6,11 @@ const STATUS_COLORS: Record<
 	SeatStatus,
 	{ bg: string; border: string; text: string }
 > = {
-	available: { bg: Colors.background, border: Colors.border, text: Colors.text },
+	available: {
+		bg: Colors.background,
+		border: Colors.border,
+		text: Colors.text,
+	},
 	booked: { bg: "#E5E7EB", border: "#D1D5DB", text: "#9CA3AF" },
 	selected: { bg: Colors.primary, border: Colors.primary, text: "#FFFFFF" },
 	"available-female": {
@@ -21,8 +24,8 @@ const STATUS_COLORS: Record<
 
 interface SeatLayoutProps {
 	decks: DeckLayout[];
-	selectedSeats: string[];
 	onSeatPress: (seatId: string) => void;
+	selectedSeats: string[];
 }
 
 function SeatButton({
@@ -44,6 +47,8 @@ function SeatButton({
 
 	return (
 		<Pressable
+			disabled={isDisabled}
+			onPress={onPress}
 			style={[
 				styles.seatBase,
 				isSleeper ? styles.sleeper : styles.seater,
@@ -52,8 +57,6 @@ function SeatButton({
 					borderColor: colors.border,
 				},
 			]}
-			onPress={onPress}
-			disabled={isDisabled}
 		>
 			<Text
 				style={[
@@ -64,9 +67,7 @@ function SeatButton({
 			>
 				{seat.id}
 			</Text>
-			<Text
-				style={[styles.seatPrice, { color: colors.text }]}
-			>
+			<Text style={[styles.seatPrice, { color: colors.text }]}>
 				₹{seat.price}
 			</Text>
 		</Pressable>
@@ -83,7 +84,11 @@ export function SeatLayout({
 			{/* Legend */}
 			<View style={styles.legend}>
 				{[
-					{ label: "Available", color: Colors.background, border: Colors.border },
+					{
+						label: "Available",
+						color: Colors.background,
+						border: Colors.border,
+					},
 					{ label: "Selected", color: Colors.primary, border: Colors.primary },
 					{ label: "Booked", color: "#E5E7EB", border: "#D1D5DB" },
 					{ label: "Female", color: "#FCE7F3", border: "#F9A8D4" },
@@ -113,10 +118,10 @@ export function SeatLayout({
 								{row.map((seat, colIndex) =>
 									seat ? (
 										<SeatButton
-											key={seat.id}
-											seat={seat}
 											isSelected={selectedSeats.includes(seat.id)}
+											key={seat.id}
 											onPress={() => onSeatPress(seat.id)}
+											seat={seat}
 										/>
 									) : (
 										<View key={`empty-${colIndex}`} style={styles.emptySlot} />

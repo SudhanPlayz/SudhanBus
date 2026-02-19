@@ -264,7 +264,7 @@ function StepperTrigger({
 	}, [registerTrigger]);
 
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-		const myIdx = triggerNodes.findIndex((n) => n === btnRef.current);
+		const myIdx = triggerNodes.indexOf(btnRef.current);
 		switch (e.key) {
 			case "ArrowRight":
 			case "ArrowDown":

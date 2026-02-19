@@ -1,12 +1,12 @@
 import {
-	ShieldCheck,
-	Zap,
 	BadgeCheck,
-	Smartphone,
 	Headphones,
 	Heart,
+	ShieldCheck,
+	Smartphone,
 	Target,
 	Users,
+	Zap,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -64,9 +64,9 @@ export default function AboutPage() {
 					About SudhanBus
 				</h1>
 				<p className="mt-4 max-w-2xl text-muted-foreground md:text-lg">
-					We&apos;re building a simple and reliable way to book bus
-					tickets across cities — fast search, transparent prices, and
-					trusted operators, all in one place.
+					We&apos;re building a simple and reliable way to book bus tickets
+					across cities — fast search, transparent prices, and trusted
+					operators, all in one place.
 				</p>
 			</section>
 
@@ -80,17 +80,14 @@ export default function AboutPage() {
 					</div>
 				</div>
 				<div>
-					<h2 className="font-semibold text-xl md:text-2xl">
-						Our Mission
-					</h2>
-					<p className="mt-3 leading-relaxed text-muted-foreground">
-						Booking bus tickets shouldn&apos;t be confusing or
-						stressful. Our goal is to remove friction from bus travel
-						by offering a clean, easy-to-use platform that puts
-						passengers first. We believe that everyone deserves
-						access to safe, comfortable, and affordable
-						transportation — and that&apos;s exactly what we&apos;re
-						working to deliver every single day.
+					<h2 className="font-semibold text-xl md:text-2xl">Our Mission</h2>
+					<p className="mt-3 text-muted-foreground leading-relaxed">
+						Booking bus tickets shouldn&apos;t be confusing or stressful. Our
+						goal is to remove friction from bus travel by offering a clean,
+						easy-to-use platform that puts passengers first. We believe that
+						everyone deserves access to safe, comfortable, and affordable
+						transportation — and that&apos;s exactly what we&apos;re working to
+						deliver every single day.
 					</p>
 				</div>
 			</section>
@@ -102,16 +99,13 @@ export default function AboutPage() {
 					</div>
 				</div>
 				<div>
-					<h2 className="font-semibold text-xl md:text-2xl">
-						Who We Are
-					</h2>
-					<p className="mt-3 leading-relaxed text-muted-foreground">
-						We are a passionate team dedicated to transforming the
-						bus travel experience in India. We work closely with
-						trusted operators to ensure safe, comfortable, and
-						dependable journeys. Every trip listed on our platform
-						meets our quality standards — because your trust matters
-						to us.
+					<h2 className="font-semibold text-xl md:text-2xl">Who We Are</h2>
+					<p className="mt-3 text-muted-foreground leading-relaxed">
+						We are a passionate team dedicated to transforming the bus travel
+						experience in India. We work closely with trusted operators to
+						ensure safe, comfortable, and dependable journeys. Every trip listed
+						on our platform meets our quality standards — because your trust
+						matters to us.
 					</p>
 				</div>
 			</section>
@@ -126,15 +120,13 @@ export default function AboutPage() {
 				<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{FEATURES.map((feature) => (
 						<div
-							key={feature.title}
 							className="group flex flex-col items-center rounded-xl border bg-card p-6 text-center shadow-sm transition-shadow hover:shadow-md"
+							key={feature.title}
 						>
 							<div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
 								<feature.icon className="size-6" />
 							</div>
-							<h3 className="font-semibold text-sm">
-								{feature.title}
-							</h3>
+							<h3 className="font-semibold text-sm">{feature.title}</h3>
 							<p className="mt-2 text-muted-foreground text-xs leading-relaxed">
 								{feature.description}
 							</p>
@@ -147,20 +139,12 @@ export default function AboutPage() {
 
 			{/* CTA */}
 			<section className="flex flex-col items-center text-center">
-				<p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
+				<p className="max-w-xl text-lg text-muted-foreground leading-relaxed">
 					Our mission is to make bus travel{" "}
-					<span className="font-semibold text-foreground">
-						accessible
-					</span>
-					,{" "}
-					<span className="font-semibold text-foreground">
-						affordable
-					</span>
-					, and{" "}
-					<span className="font-semibold text-foreground">
-						stress-free
-					</span>{" "}
-					for everyone.
+					<span className="font-semibold text-foreground">accessible</span>,{" "}
+					<span className="font-semibold text-foreground">affordable</span>, and{" "}
+					<span className="font-semibold text-foreground">stress-free</span> for
+					everyone.
 				</p>
 			</section>
 		</div>

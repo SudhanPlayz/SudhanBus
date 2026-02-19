@@ -34,16 +34,16 @@ const MAPS_URL =
 export default function ContactScreen() {
 	return (
 		<ScrollView
-			style={styles.container}
 			contentContainerStyle={styles.content}
 			showsVerticalScrollIndicator={false}
+			style={styles.container}
 		>
 			{/* Map button */}
 			<Pressable
-				style={styles.mapButton}
 				onPress={() => Linking.openURL(MAPS_URL)}
+				style={styles.mapButton}
 			>
-				<Ionicons name="map-outline" size={24} color="#FFFFFF" />
+				<Ionicons color="#FFFFFF" name="map-outline" size={24} />
 				<Text style={styles.mapButtonText}>View on Google Maps</Text>
 			</Pressable>
 
@@ -63,24 +63,21 @@ export default function ContactScreen() {
 			<View style={styles.card}>
 				{CONTACT_ITEMS.map((item, index) => (
 					<Pressable
+						disabled={!item.action}
 						key={item.title}
+						onPress={item.action}
 						style={[
 							styles.contactRow,
 							index < CONTACT_ITEMS.length - 1 && styles.contactRowBorder,
 						]}
-						onPress={item.action}
-						disabled={!item.action}
 					>
 						<View style={styles.contactIcon}>
-							<Ionicons name={item.icon} size={20} color={Colors.primary} />
+							<Ionicons color={Colors.primary} name={item.icon} size={20} />
 						</View>
 						<View style={styles.contactContent}>
 							<Text style={styles.contactTitle}>{item.title}</Text>
 							<Text
-								style={[
-									styles.contactValue,
-									item.action && styles.contactLink,
-								]}
+								style={[styles.contactValue, item.action && styles.contactLink]}
 							>
 								{item.value}
 							</Text>
