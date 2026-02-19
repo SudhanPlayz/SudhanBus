@@ -204,10 +204,14 @@ function SearchResults({ from: initialFrom, to: initialTo, date: initialDate }: 
 											: "text-foreground hover:text-primary"
 									)}
 									onClick={() => {
-										setActiveSort(opt);
-										// Smart default sorting
-										if (opt === "Ratings") setSortOrder("desc");
-										else setSortOrder("asc");
+										if (activeSort === opt) {
+											setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+										} else {
+											setActiveSort(opt);
+											// Smart default sorting
+											if (opt === "Ratings") setSortOrder("desc");
+											else setSortOrder("asc");
+										}
 									}}
 								>
 									{opt}
