@@ -11,6 +11,23 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+
+		// Redis
+		REDIS_URL: z.string().min(1).optional(),
+
+		// CC Avenue
+		CCAVENUE_MERCHANT_ID: z.string().min(1).optional(),
+		CCAVENUE_ACCESS_CODE: z.string().min(1).optional(),
+		CCAVENUE_WORKING_KEY: z.string().min(1).optional(),
+		CCAVENUE_REDIRECT_URL: z.string().min(1).optional(),
+		CCAVENUE_CANCEL_URL: z.string().min(1).optional(),
+		CCAVENUE_BASE_URL: z
+			.string()
+			.min(1)
+			.default("https://test.ccavenue.com/transaction/transaction.do"),
+
+		// Seat locking
+		SEAT_LOCK_TTL_SECONDS: z.coerce.number().default(600),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

@@ -1,0 +1,5 @@
+[
+  { "id": "seater", "label": "Seater", "multiplier": 1.0 },
+  { "id": "sleeper", "label": "Sleeper", "multiplier": 1.5 },
+  { "id": "semi_sleeper", "label": "Semi-Sleeper", "multiplier": 1.25 }
+]

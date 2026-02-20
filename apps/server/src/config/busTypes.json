@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ac_sleeper",
+    "label": "AC Sleeper",
+    "acType": "ac",
+    "layoutType": "sleeper"
+  },
+  {
+    "id": "non_ac_sleeper",
+    "label": "Non AC Sleeper",
+    "acType": "non_ac",
+    "layoutType": "sleeper"
+  },
+  {
+    "id": "ac_seater",
+    "label": "AC Seater",
+    "acType": "ac",
+    "layoutType": "seater"
+  },
+  {
+    "id": "non_ac_seater",
+    "label": "Non AC Seater",
+    "acType": "non_ac",
+    "layoutType": "seater"
+  },
+  {
+    "id": "volvo_ac_multi_axle",
+    "label": "Volvo A/C Multi-Axle Sleeper",
+    "acType": "ac",
+    "layoutType": "sleeper"
+  },
+  {
+    "id": "ac_semi_sleeper",
+    "label": "AC Semi-Sleeper",
+    "acType": "ac",
+    "layoutType": "semi_sleeper"
+  },
+  {
+    "id": "non_ac_semi_sleeper",
+    "label": "Non AC Semi-Sleeper",
+    "acType": "non_ac",
+    "layoutType": "semi_sleeper"
+  },
+  {
+    "id": "volvo_ac_seater",
+    "label": "Volvo A/C Seater",
+    "acType": "ac",
+    "layoutType": "seater"
+  }
+]

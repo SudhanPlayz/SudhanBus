@@ -1,0 +1,12 @@
+[
+  { "id": "wifi", "label": "Wi-Fi", "icon": "wifi" },
+  { "id": "charging", "label": "Charging Point", "icon": "plug" },
+  { "id": "blanket", "label": "Blanket", "icon": "blanket" },
+  { "id": "water", "label": "Water Bottle", "icon": "droplet" },
+  { "id": "reading_light", "label": "Reading Light", "icon": "lamp" },
+  { "id": "track_my_bus", "label": "Track My Bus", "icon": "map-pin" },
+  { "id": "movie", "label": "Movie", "icon": "film" },
+  { "id": "snacks", "label": "Snacks", "icon": "cookie" },
+  { "id": "ac", "label": "Air Conditioning", "icon": "snowflake" },
+  { "id": "toilet", "label": "Toilet", "icon": "bath" }
+]

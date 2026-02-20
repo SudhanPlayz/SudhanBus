@@ -1,7 +1,7 @@
 {
   "extends": "@sudhanbus/config/tsconfig.base.json",
+  "include": ["src/**/*.ts", "src/**/*.json"],
   "compilerOptions": {
-    "composite": true,
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
@@ -9,6 +9,7 @@
     },
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true
   }
 }

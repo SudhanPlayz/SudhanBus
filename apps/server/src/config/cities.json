@@ -1,0 +1,107 @@
+[
+  {
+    "id": "bengaluru",
+    "name": "Bengaluru",
+    "slug": "bengaluru",
+    "state": "KA",
+    "popularRank": 1
+  },
+  {
+    "id": "chennai",
+    "name": "Chennai",
+    "slug": "chennai",
+    "state": "TN",
+    "popularRank": 2
+  },
+  {
+    "id": "hyderabad",
+    "name": "Hyderabad",
+    "slug": "hyderabad",
+    "state": "TS",
+    "popularRank": 3
+  },
+  {
+    "id": "mumbai",
+    "name": "Mumbai",
+    "slug": "mumbai",
+    "state": "MH",
+    "popularRank": 4
+  },
+  {
+    "id": "delhi",
+    "name": "Delhi",
+    "slug": "delhi",
+    "state": "DL",
+    "popularRank": 5
+  },
+  {
+    "id": "pune",
+    "name": "Pune",
+    "slug": "pune",
+    "state": "MH",
+    "popularRank": 6
+  },
+  {
+    "id": "goa",
+    "name": "Goa",
+    "slug": "goa",
+    "state": "GA",
+    "popularRank": 7
+  },
+  {
+    "id": "coimbatore",
+    "name": "Coimbatore",
+    "slug": "coimbatore",
+    "state": "TN",
+    "popularRank": 8
+  },
+  {
+    "id": "mysuru",
+    "name": "Mysuru",
+    "slug": "mysuru",
+    "state": "KA",
+    "popularRank": 9
+  },
+  {
+    "id": "vijayawada",
+    "name": "Vijayawada",
+    "slug": "vijayawada",
+    "state": "AP",
+    "popularRank": 10
+  },
+  {
+    "id": "tirupati",
+    "name": "Tirupati",
+    "slug": "tirupati",
+    "state": "AP",
+    "popularRank": 11
+  },
+  {
+    "id": "visakhapatnam",
+    "name": "Visakhapatnam",
+    "slug": "visakhapatnam",
+    "state": "AP",
+    "popularRank": 12
+  },
+  {
+    "id": "madurai",
+    "name": "Madurai",
+    "slug": "madurai",
+    "state": "TN",
+    "popularRank": 13
+  },
+  {
+    "id": "kochi",
+    "name": "Kochi",
+    "slug": "kochi",
+    "state": "KL",
+    "popularRank": 14
+  },
+  {
+    "id": "mangaluru",
+    "name": "Mangaluru",
+    "slug": "mangaluru",
+    "state": "KA",
+    "popularRank": 15
+  }
+]
