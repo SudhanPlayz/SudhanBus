@@ -3,21 +3,21 @@ import { agents, agentWallets, agentWalletTxns } from "@sudhanbus/db/schema";
 import { count, desc, eq, sql } from "drizzle-orm";
 
 export const getAgentByUserId = async (userId: string) => {
-	return db.query.agents.findFirst({
+	return await db.query.agents.findFirst({
 		where: eq(agents.userId, userId),
 		with: { wallet: true },
 	});
 };
 
 export const getAgentById = async (agentId: string) => {
-	return db.query.agents.findFirst({
+	return await db.query.agents.findFirst({
 		where: eq(agents.id, agentId),
 		with: { wallet: true },
 	});
 };
 
 export const getWalletBalance = async (agentId: string) => {
-	return db.query.agentWallets.findFirst({
+	return await db.query.agentWallets.findFirst({
 		where: eq(agentWallets.agentId, agentId),
 	});
 };
@@ -53,7 +53,7 @@ export const creditWallet = async (
 	referenceId?: string,
 	note?: string
 ) => {
-	return db.transaction(async (tx) => {
+	return await db.transaction(async (tx) => {
 		await tx
 			.update(agentWallets)
 			.set({

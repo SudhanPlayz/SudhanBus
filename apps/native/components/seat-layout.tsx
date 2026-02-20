@@ -114,7 +114,7 @@ export function SeatLayout({
 					<Text style={styles.deckTitle}>{deck.name}</Text>
 					<View style={styles.deckGrid}>
 						{deck.seats.map((row, rowIndex) => (
-							<View key={rowIndex} style={styles.seatRow}>
+							<View key={`row-${rowIndex}-${deck.name}`} style={styles.seatRow}>
 								{row.map((seat, colIndex) =>
 									seat ? (
 										<SeatButton
@@ -124,7 +124,10 @@ export function SeatLayout({
 											seat={seat}
 										/>
 									) : (
-										<View key={`empty-${colIndex}`} style={styles.emptySlot} />
+										<View
+											key={`empty-${colIndex}-${deck.name}`}
+											style={styles.emptySlot}
+										/>
 									)
 								)}
 							</View>

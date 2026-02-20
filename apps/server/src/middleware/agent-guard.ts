@@ -12,7 +12,7 @@ export const agentGuard = () =>
 			where: eq(agents.userId, userId),
 		});
 
-		if (!(agent && agent.isActive)) {
+		if (!agent?.isActive) {
 			return c.json(
 				{
 					ok: false,
