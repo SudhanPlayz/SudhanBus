@@ -1,4 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
+import { env } from "@sudhanbus/env/server";
 import { Hono } from "hono";
 import { z } from "zod";
 import { authGuard } from "@/middleware/auth-guard";
@@ -72,17 +73,16 @@ paymentsRoutes.post("/response", async (c) => {
 
 		const result = await handlePaymentResponse(encResp, requestId);
 
-		const corsOrigin = c.req.header("Origin") ?? "";
-		const baseUrl = corsOrigin || "/";
+		const frontendUrl = env.CORS_ORIGIN;
 
 		if (result.status === "success") {
 			return c.redirect(
-				`${baseUrl}/payment/success?bookingId=${result.bookingId}`
+				`${frontendUrl}/payment/success?bookingId=${result.bookingId}`
 			);
 		}
 
 		return c.redirect(
-			`${baseUrl}/payment/failure?bookingId=${result.bookingId}`
+			`${frontendUrl}/payment/failure?bookingId=${result.bookingId}`
 		);
 	} catch (error) {
 		console.error("[payments] Response handler error:", error);

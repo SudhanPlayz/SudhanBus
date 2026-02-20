@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
 	boolean,
 	index,
@@ -9,7 +8,6 @@ import {
 	timestamp,
 	uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { seatLayouts } from "./seat-layouts";
 
 export const schedules = pgTable(
 	"schedules",
@@ -51,10 +49,3 @@ export const schedules = pgTable(
 		),
 	]
 );
-
-export const schedulesRelations = relations(schedules, ({ one }) => ({
-	seatLayout: one(seatLayouts, {
-		fields: [schedules.id],
-		references: [seatLayouts.scheduleId],
-	}),
-}));

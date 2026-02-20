@@ -1,7 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
 import { writeAuditLog } from "@/lib/audit";
 import { redis } from "@/lib/redis";
-import { getSeatsByIds } from "@/modules/seats/seats.repository";
+import { getSeatsByIds, releaseSeats } from "@/modules/seats/seats.repository";
 import {
 	createBookingWithPassengers,
 	getBookingById,
@@ -42,6 +42,11 @@ export const createBooking = async (
 		if (seat.status !== "locked" || seat.lockedByUser !== userId) {
 			throw new Error(
 				`Seat ${seat.seatLabel} is not locked by you. Lock seats before booking.`
+			);
+		}
+		if (seat.lockedUntil && seat.lockedUntil < new Date()) {
+			throw new Error(
+				`Seat lock expired for ${seat.seatLabel}. Please re-lock.`
 			);
 		}
 	}
@@ -128,6 +133,7 @@ export const cancelBooking = async (
 	}
 
 	await updateBookingStatus(bookingId, "cancelled");
+	await releaseSeats(booking.seatIds);
 
 	writeAuditLog({
 		actorId: userId,
