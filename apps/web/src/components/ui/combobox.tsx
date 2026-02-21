@@ -142,7 +142,7 @@ function ComboboxItem({
 	return (
 		<ComboboxPrimitive.Item
 			className={cn(
-				"relative flex w-full cursor-default select-none items-center gap-2 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 not-data-[variant=destructive]:data-highlighted:**:text-accent-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+				"relative flex w-full cursor-default select-none items-center gap-3 rounded-md py-2.5 pr-8 pl-3 text-base outline-hidden data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 not-data-[variant=destructive]:data-highlighted:**:text-accent-foreground [&_svg:not([class*='size-'])]:size-5 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 				className
 			)}
 			data-slot="combobox-item"
@@ -163,7 +163,7 @@ function ComboboxItem({
 function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
 	return (
 		<ComboboxPrimitive.Group
-			className={cn(className)}
+			className={cn("flex flex-col gap-0.5", className)}
 			data-slot="combobox-group"
 			{...props}
 		/>
@@ -176,7 +176,10 @@ function ComboboxLabel({
 }: ComboboxPrimitive.GroupLabel.Props) {
 	return (
 		<ComboboxPrimitive.GroupLabel
-			className={cn("px-2 py-1.5 text-muted-foreground text-xs", className)}
+			className={cn(
+				"px-3 py-2 text-muted-foreground text-sm font-medium",
+				className
+			)}
 			data-slot="combobox-label"
 			{...props}
 		/>
@@ -193,7 +196,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
 	return (
 		<ComboboxPrimitive.Empty
 			className={cn(
-				"hidden w-full justify-center py-2 text-center text-muted-foreground text-sm group-data-empty/combobox-content:flex",
+				"hidden w-full justify-center py-4 text-center text-muted-foreground text-base group-data-empty/combobox-content:flex",
 				className
 			)}
 			data-slot="combobox-empty"

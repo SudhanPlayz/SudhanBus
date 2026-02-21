@@ -83,7 +83,7 @@ function SearchSection() {
 								<CityCombobox
 									className="flex-1 [&_div[data-slot=input-group]]:border-0 [&_div[data-slot=input-group]]:bg-transparent [&_div[data-slot=input-group]]:shadow-none"
 									disabledValues={[to]}
-									icon={<MapPin className="size-4 text-muted-foreground" />}
+									icon={<MapPin className="size-5 text-muted-foreground" />}
 									label="From"
 									onRouteSelect={handleRouteSelect}
 									onValueChange={setFrom}
@@ -108,7 +108,7 @@ function SearchSection() {
 								<CityCombobox
 									className="flex-1 [&_div[data-slot=input-group]]:border-0 [&_div[data-slot=input-group]]:bg-transparent [&_div[data-slot=input-group]]:shadow-none"
 									disabledValues={[from]}
-									icon={<MapPinned className="size-4 text-muted-foreground" />}
+									icon={<MapPinned className="size-5 text-muted-foreground" />}
 									label="To"
 									onRouteSelect={handleRouteSelect}
 									onValueChange={setTo}

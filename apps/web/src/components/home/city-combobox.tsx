@@ -108,7 +108,12 @@ function CityCombobox({
 
 	return (
 		<Field className={cn("w-full sm:w-56", className)}>
-			<FieldLabel htmlFor={`city-${label.toLowerCase()}`}>{label}</FieldLabel>
+			<FieldLabel
+				className="text-base font-bold"
+				htmlFor={`city-${label.toLowerCase()}`}
+			>
+				{label}
+			</FieldLabel>
 			<Combobox
 				inputValue={inputValue}
 				onInputValueChange={setInputValue}
@@ -116,13 +121,13 @@ function CityCombobox({
 				value={selectedCity?.label ?? null}
 			>
 				<ComboboxInput
-					className="h-12 px-4 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2 group-data-[invalid]:border-transparent group-data-[invalid]:ring-0"
+					className="h-12 px-4 shadow-none outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2 group-data-[invalid]:border-transparent group-data-[invalid]:ring-0 [&_input]:md:text-base [&_input]:text-base"
 					id={`city-${label.toLowerCase()}`}
 					placeholder={placeholder}
 					showTrigger
 					startIcon={icon}
 				/>
-				<ComboboxContent className="w-64 p-2">
+				<ComboboxContent className="w-72 p-3">
 					{hasNoResults && <ComboboxEmpty>No city found.</ComboboxEmpty>}
 					{!hasNoResults && (
 						<ComboboxList>
