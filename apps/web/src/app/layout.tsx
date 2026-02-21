@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Geist, Geist_Mono, Nunito_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
 import "../index.css";
 import { Footer } from "@/components/footer";
@@ -17,11 +17,6 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-const nunitoSans = Nunito_Sans({
-	variable: "--font-nunito-sans",
-	subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
 	title: "SudhanBus",
 	description: "Book bus tickets across India",
@@ -35,7 +30,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable}${nunitoSans.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<Providers>
 					<div className="grid min-h-svh grid-rows-[auto_1fr_auto]">
