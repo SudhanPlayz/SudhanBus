@@ -1,5 +1,8 @@
 "use client";
 
+import { AboutSection } from "@/components/home/about-section";
+import { ContactSection } from "@/components/home/contact-section";
+import { FAQSection } from "@/components/home/faq-section";
 import { OffersSection } from "@/components/home/offers-section";
 import { PopularRoutesSection } from "@/components/home/popular-routes-section";
 import { SearchSection } from "@/components/home/search-section";
@@ -10,6 +13,9 @@ export default function Home() {
 			<SearchSection />
 			<OffersSection />
 			<PopularRoutesSection />
+			<AboutSection />
+			<FAQSection />
+			<ContactSection />
 		</div>
 	);
 }
