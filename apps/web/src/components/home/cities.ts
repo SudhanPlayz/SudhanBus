@@ -26,5 +26,8 @@ const CITIES: City[] = [
 	{ label: "Mangalore", value: "mangalore" },
 ];
 
-export { CITIES };
+const POPULAR_CITIES = CITIES.slice(0, 5);
+const OTHER_CITIES = CITIES.slice(5);
+
+export { CITIES, POPULAR_CITIES, OTHER_CITIES };
 export type { City };

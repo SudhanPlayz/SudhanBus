@@ -1,0 +1,7 @@
+{
+  "extends": "@sudhanbus/config/tsconfig.base.json",
+  "compilerOptions": {
+    "strictNullChecks": true
+  },
+  "include": ["stores/**/*.ts"]
+}

@@ -1,11 +1,11 @@
 "use client";
 
+import { useUserStore } from "@sudhanbus/zustand/stores/user";
 import { format } from "date-fns";
 import { ArrowRightLeft, MapPin, MapPinned, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TextAnimate } from "@/components/ui/text-animate";
@@ -14,9 +14,15 @@ import { DatePicker } from "./date-picker";
 
 function SearchSection() {
 	const router = useRouter();
+	const addRecentRoute = useUserStore((state) => state.addRecentRoute);
 	const [from, setFrom] = useState<string | null>(null);
 	const [to, setTo] = useState<string | null>(null);
 	const [date, setDate] = useState<Date | undefined>(undefined);
+
+	const handleRouteSelect = (routeFrom: string, routeTo: string) => {
+		setFrom(routeFrom);
+		setTo(routeTo);
+	};
 
 	const handleSearch = () => {
 		if (!from) {
@@ -37,6 +43,9 @@ function SearchSection() {
 			to,
 			date: format(date, "yyyy-MM-dd"),
 		});
+
+		// Persist the searched route in our Zustand store
+		addRecentRoute(from, to);
 
 		router.push(`/search?${params.toString()}` as "/");
 	};
@@ -66,7 +75,7 @@ function SearchSection() {
 
 			{/* Search Card */}
 			<div className="-mt-16 flex justify-center px-4 pb-12 md:-mt-24 md:pb-20">
-				<Card className="relative w-full max-w-4xl overflow-visible border-0 shadow-xl">
+				<Card className="relative w-full max-w-5xl overflow-visible border-0 shadow-xl">
 					<CardContent className="p-4 md:p-6">
 						<div className="flex flex-col gap-4 md:flex-row md:divide-x">
 							{/* From */}
@@ -76,6 +85,7 @@ function SearchSection() {
 									disabledValues={[to]}
 									icon={<MapPin className="size-4 text-muted-foreground" />}
 									label="From"
+									onRouteSelect={handleRouteSelect}
 									onValueChange={setFrom}
 									placeholder="Select origin"
 									value={from}
@@ -100,6 +110,7 @@ function SearchSection() {
 									disabledValues={[from]}
 									icon={<MapPinned className="size-4 text-muted-foreground" />}
 									label="To"
+									onRouteSelect={handleRouteSelect}
 									onValueChange={setTo}
 									placeholder="Select destination"
 									value={to}

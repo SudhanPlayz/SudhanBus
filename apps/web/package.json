@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sudhanbus/zustand": "workspace:*",
     "@base-ui-components/react": "1.0.0-rc.0",
     "@base-ui/react": "^1.0.0",
     "@sudhanbus/auth": "workspace:*",
