@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { LogIn } from "lucide-react";
 
 import {
 	DropdownMenu,
@@ -26,14 +27,27 @@ export default function UserMenu() {
 	if (!session) {
 		return (
 			<Link href="/auth">
-				<Button variant="outline">Sign In</Button>
+				<Button
+					className="text-base text-muted-foreground hover:text-foreground"
+					variant="ghost"
+				>
+					<LogIn className="mr-2 size-5" />
+					Sign In
+				</Button>
 			</Link>
 		);
 	}
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger render={<Button variant="outline" />}>
+			<DropdownMenuTrigger
+				render={
+					<Button
+						className="text-base text-muted-foreground hover:text-foreground"
+						variant="ghost"
+					/>
+				}
+			>
 				{session.user.name}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="bg-card">
