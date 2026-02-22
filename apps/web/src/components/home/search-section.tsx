@@ -130,7 +130,7 @@ function SearchSection() {
 						{/* Search button — flow on mobile, absolute on desktop */}
 						<div className="mt-4 flex justify-center md:absolute md:-bottom-6 md:left-1/2 md:mt-0 md:-translate-x-1/2">
 							<Button
-								className="h-12 w-full rounded-full bg-primary font-semibold text-base shadow-lg hover:bg-primary/90 md:w-48"
+								className="cursor-pointer h-12 w-full rounded-full bg-primary font-semibold text-base shadow-lg hover:bg-primary/90 md:w-48"
 								onClick={handleSearch}
 								size="lg"
 							>

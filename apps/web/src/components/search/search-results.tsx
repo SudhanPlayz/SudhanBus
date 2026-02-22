@@ -287,7 +287,7 @@ function SearchResults({
 
 					{/* Search button */}
 					<Button
-						className="mt-1 h-9 shrink-0 rounded-full bg-primary px-6 font-semibold text-sm shadow-md hover:bg-primary/90 md:mt-5"
+						className="cursor-pointer mt-1 h-9 shrink-0 rounded-full bg-primary px-6 font-semibold text-sm shadow-md hover:bg-primary/90 md:mt-5"
 						onClick={handleSearch}
 					>
 						<Search className="mr-1.5 size-4" />
