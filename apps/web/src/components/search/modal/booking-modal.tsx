@@ -26,11 +26,12 @@ import {
 } from "@/components/ui/stepper";
 
 import type { Bus } from "../bus-data";
+import { DEMO_OFFERS, OffersSheet } from "./offers-sheet";
 import { generateDemoSeatLayout } from "./seat-data";
 import { SeatLayout } from "./seat-layout";
 import { StepBoarding } from "./step-boarding";
 import { StepDropping } from "./step-dropping";
-import { type PassengerInfo, StepPassengerInfo } from "./step-passenger-info";
+import { StepPassengerInfo } from "./step-passenger-info";
 import { StepPayment } from "./step-payment";
 import { StepReview } from "./step-review";
 
@@ -65,6 +66,7 @@ export function BookingModal({ bus }: BookingModalProps) {
 		resetBooking,
 		busId,
 	} = useBookingStore();
+	const [isOffersOpen, setIsOffersOpen] = useState(false);
 
 	// If this modal opens for a DIFFERENT bus, reset the booking state to start fresh
 	const [hasAutoResumed, setHasAutoResumed] = useState(false);
@@ -107,6 +109,30 @@ export function BookingModal({ bus }: BookingModalProps) {
 		() => selectedSeats.reduce((sum, id) => sum + (seatPrices[id] || 0), 0),
 		[selectedSeats, seatPrices]
 	);
+
+	const [appliedOfferCode, setAppliedOfferCode] = useState<string | null>(null);
+
+	const appliedOffer = useMemo(() => {
+		if (!appliedOfferCode) return null;
+		const offer = DEMO_OFFERS.find((o) => o.code === appliedOfferCode);
+		if (!offer) return null;
+		let discount = offer.value;
+		if (offer.type === "percentage") {
+			const dt = (totalPrice * offer.value) / 100;
+			discount = offer.maxDiscount ? Math.min(dt, offer.maxDiscount) : dt;
+		}
+		return { code: offer.code, discount };
+	}, [appliedOfferCode, totalPrice]);
+
+	const handleApplyPromo = useCallback((code: string) => {
+		const offer = DEMO_OFFERS.find((o) => o.code === code.toUpperCase());
+		if (offer) {
+			setAppliedOfferCode(offer.code);
+			setIsOffersOpen(false);
+			return true;
+		}
+		return false;
+	}, []);
 
 	const handleNext = () => {
 		setDirection(1);
@@ -178,7 +204,7 @@ export function BookingModal({ bus }: BookingModalProps) {
 			<DialogPortal>
 				<DialogOverlay />
 				<div
-					className="fixed inset-0 z-50 flex items-center justify-center p-4"
+					className="fixed inset-0 z-50 flex items-center justify-center gap-4 p-4"
 					onClick={handleClose}
 					onKeyDown={(e) => {
 						if (e.key === "Escape") {
@@ -187,11 +213,13 @@ export function BookingModal({ bus }: BookingModalProps) {
 					}}
 					role="presentation"
 				>
-					<div
+					<m.div
+						animate={{ x: isOffersOpen ? -150 : 0 }}
 						className="relative flex h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl bg-background shadow-2xl ring-1 ring-foreground/10"
 						onClick={(e) => e.stopPropagation()}
 						onKeyDown={(e) => e.stopPropagation()}
 						role="dialog"
+						transition={{ type: "spring", bounce: 0, duration: 0.4 }}
 					>
 						{/* Header */}
 						<div className="flex items-center justify-between border-b px-5 py-3">
@@ -325,11 +353,15 @@ export function BookingModal({ bus }: BookingModalProps) {
 											)}
 											{activeStep === 6 && (
 												<StepPayment
+													appliedOffer={appliedOffer}
 													boardingPoint={boardingPoint}
 													busName={bus.name}
 													droppingPoint={droppingPoint}
+													onApplyPromo={handleApplyPromo}
+													onRemovePromo={() => setAppliedOfferCode(null)}
 													passengers={passengers}
 													selectedSeats={selectedSeats}
+													setIsOffersOpen={setIsOffersOpen}
 													totalPrice={totalPrice}
 												/>
 											)}
@@ -352,7 +384,17 @@ export function BookingModal({ bus }: BookingModalProps) {
 								</Button>
 							</div>
 						)}
-					</div>
+					</m.div>
+
+					{/* SHEET */}
+					{activeStep === 6 && (
+						<OffersSheet
+							appliedCode={appliedOfferCode}
+							onApply={handleApplyPromo}
+							onOpenChange={setIsOffersOpen}
+							open={isOffersOpen}
+						/>
+					)}
 				</div>
 			</DialogPortal>
 		</Dialog>
