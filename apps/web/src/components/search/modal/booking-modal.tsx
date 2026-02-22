@@ -67,12 +67,39 @@ export function BookingModal({ bus }: BookingModalProps) {
 	} = useBookingStore();
 
 	// If this modal opens for a DIFFERENT bus, reset the booking state to start fresh
+	const [hasAutoResumed, setHasAutoResumed] = useState(false);
+
 	useEffect(() => {
 		if (busId && busId !== bus.id) {
 			resetBooking();
+			setBus(bus.id, bus);
+			setHasAutoResumed(true);
+		} else if (busId === bus.id && !hasAutoResumed) {
+			// Auto-resume to the furthest valid step
+			let step = 1;
+			if (selectedSeats.length > 0) step = 2;
+			if (step === 2 && boardingPoint !== null) step = 3;
+			if (step === 3 && droppingPoint !== null) step = 4;
+			if (step === 4 && passengers.every((p) => p.name.trim() && p.age))
+				step = 5;
+
+			setActiveStep(step);
+			setHasAutoResumed(true);
+		} else if (!busId) {
+			setBus(bus.id, bus);
+			setHasAutoResumed(true);
 		}
-		setBus(bus.id, bus);
-	}, [bus.id, busId, resetBooking, setBus]);
+	}, [
+		bus.id,
+		busId,
+		resetBooking,
+		setBus,
+		hasAutoResumed,
+		selectedSeats.length,
+		boardingPoint,
+		droppingPoint,
+		passengers,
+	]);
 
 	const decks = useMemo(() => generateDemoSeatLayout(), []);
 
