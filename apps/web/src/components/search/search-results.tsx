@@ -19,7 +19,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { BusCard } from "./bus-card";
 import { DEMO_BUSES } from "./bus-data";
-import { FilterCard } from "./filter-card";
+import {
+	AMENITIES,
+	BUS_FEATURES,
+	BUS_OPERATORS,
+	FilterCard,
+	type FilterState,
+} from "./filter-card";
 
 const SORT_OPTIONS = ["Ratings", "Departure time", "Price"] as const;
 type SortOption = (typeof SORT_OPTIONS)[number];
@@ -39,8 +45,18 @@ function SearchResults({
 	const [activeSort, setActiveSort] = useState<SortOption>("Ratings");
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-	const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-	const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
+	const [filters, setFilters] = useState<FilterState>({
+		departureTimes: [],
+		arrivalTimes: [],
+		busTypes: [],
+		seaterSleeper: [],
+		features: [],
+		operators: [],
+		boardingPoints: [],
+		droppingPoints: [],
+		amenities: [],
+		specialFeatures: [],
+	});
 
 	const [from, setFrom] = useState<string | null>(initialFrom);
 	const [to, setTo] = useState<string | null>(initialTo);
@@ -82,23 +98,24 @@ function SearchResults({
 		router.push(`/search?${params.toString()}` as "/");
 	};
 
-	const handleTypeChange = (type: string, checked: boolean) => {
-		setSelectedTypes((prev) =>
-			checked ? [...prev, type] : prev.filter((t) => t !== type)
-		);
-	};
-
-	const handleTimeChange = (time: string, checked: boolean) => {
-		setSelectedTimes((prev) =>
-			checked ? [...prev, time] : prev.filter((t) => t !== time)
-		);
+	const handleFilterChange = (
+		category: keyof FilterState,
+		id: string,
+		checked: boolean
+	) => {
+		setFilters((prev) => ({
+			...prev,
+			[category]: checked
+				? [...prev[category], id]
+				: prev[category].filter((val) => val !== id),
+		}));
 	};
 
 	const filteredBuses = DEMO_BUSES.filter((bus) => {
-		// Type filter
-		if (selectedTypes.length > 0) {
+		// Bus Type
+		if (filters.busTypes.length > 0) {
 			const typeLower = bus.type.toLowerCase();
-			const matchesType = selectedTypes.some((type) => {
+			const matchesType = filters.busTypes.some((type) => {
 				if (type === "ac") {
 					return typeLower.includes("a/c") && !typeLower.includes("non a/c");
 				}
@@ -118,27 +135,85 @@ function SearchResults({
 			}
 		}
 
-		// Time filter
-		if (selectedTimes.length > 0) {
+		// Departure Time
+		if (filters.departureTimes.length > 0) {
 			const hour = Number.parseInt(bus.departureTime.split(":")[0], 10);
-			const matchesTime = selectedTimes.some((time) => {
-				if (time === "morning") {
-					return hour >= 6 && hour < 12;
-				}
-				if (time === "afternoon") {
-					return hour >= 12 && hour < 18;
-				}
-				if (time === "evening") {
-					return hour >= 18 && hour < 24;
-				}
-				if (time === "night") {
-					return hour >= 0 && hour < 6;
+			const matchesTime = filters.departureTimes.some((time) => {
+				if (time === "morning") return hour >= 6 && hour < 12;
+				if (time === "afternoon") return hour >= 12 && hour < 18;
+				if (time === "evening") return hour >= 18 && hour < 24;
+				if (time === "night") return hour >= 0 && hour < 6;
+				return false;
+			});
+			if (!matchesTime) return false;
+		}
+
+		// Arrival Time
+		if (filters.arrivalTimes.length > 0) {
+			const hour = Number.parseInt(bus.arrivalTime.split(":")[0], 10);
+			const matchesTime = filters.arrivalTimes.some((time) => {
+				if (time === "morning") return hour >= 6 && hour < 12;
+				if (time === "afternoon") return hour >= 12 && hour < 18;
+				if (time === "evening") return hour >= 18 && hour < 24;
+				if (time === "night") return hour >= 0 && hour < 6;
+				return false;
+			});
+			if (!matchesTime) return false;
+		}
+
+		// Operators
+		if (filters.operators.length > 0) {
+			const matchesOperator = filters.operators.some((opId) => {
+				const opDef = BUS_OPERATORS.find((op) => op.id === opId);
+				return opDef
+					? bus.name.toLowerCase().includes(opDef.label.toLowerCase())
+					: false;
+			});
+			if (!matchesOperator) return false;
+		}
+
+		// Features
+		if (filters.features.length > 0) {
+			const matchesAllFeatures = filters.features.map((fId) => {
+				const fDef = BUS_FEATURES.find((f) => f.id === fId);
+				return fDef
+					? bus.amenities.some(
+							(a) => a.toLowerCase() === fDef.label.toLowerCase()
+						)
+					: false;
+			});
+			// Must have ALL selected features? Let's use EVERY. Wait, if array of booleans, use .every
+			const hasAll = matchesAllFeatures.every(Boolean);
+			if (!hasAll) return false;
+		}
+
+		// Amenities
+		if (filters.amenities.length > 0) {
+			const matchesAllAmenities = filters.amenities.map((aId) => {
+				const aDef = AMENITIES.find((a) => a.id === aId);
+				return aDef
+					? bus.amenities.some(
+							(a) => a.toLowerCase() === aDef.label.toLowerCase()
+						)
+					: false;
+			});
+			const hasAll = matchesAllAmenities.every(Boolean);
+			if (!hasAll) return false;
+		}
+
+		// Single Window Seater/Sleeper
+		if (filters.seaterSleeper.length > 0) {
+			const matchesSeaterSleeper = filters.seaterSleeper.some((id) => {
+				if (id === "single") {
+					return (
+						bus.type.includes("2+1") ||
+						bus.type.includes("1+1") ||
+						bus.type.includes("1+2")
+					);
 				}
 				return false;
 			});
-			if (!matchesTime) {
-				return false;
-			}
+			if (!matchesSeaterSleeper) return false;
 		}
 
 		return true;
@@ -300,12 +375,7 @@ function SearchResults({
 			<div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-6 px-4 py-6 md:grid-cols-[280px_1fr]">
 				{/* Filter sidebar — sticky on desktop, hidden on mobile */}
 				<aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-hidden md:block">
-					<FilterCard
-						onTimeChange={handleTimeChange}
-						onTypeChange={handleTypeChange}
-						selectedTimes={selectedTimes}
-						selectedTypes={selectedTypes}
-					/>
+					<FilterCard filters={filters} onFilterChange={handleFilterChange} />
 				</aside>
 
 				{/* Bus cards */}

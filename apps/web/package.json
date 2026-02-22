@@ -8,11 +8,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "@sudhanbus/zustand": "workspace:*",
     "@base-ui-components/react": "1.0.0-rc.0",
     "@base-ui/react": "^1.0.0",
+    "@floating-ui/react": "^0.27.18",
     "@sudhanbus/auth": "workspace:*",
     "@sudhanbus/env": "workspace:*",
+    "@sudhanbus/zustand": "workspace:*",
     "@tanstack/react-form": "catalog:",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",

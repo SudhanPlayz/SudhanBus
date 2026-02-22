@@ -14,6 +14,11 @@ import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Bus } from "./bus-data";
 
 interface BusCardProps {
@@ -43,8 +48,26 @@ function OfferBadge({ text }: { text: string }) {
 	);
 }
 
+function getRatingDemographics(rating: number, total: number) {
+	// Simple deterministic breakdown
+	const r5 = Math.floor(total * (rating / 5) * 0.8);
+	const r4 = Math.floor(total * (rating / 5) * 0.15);
+	const r3 = Math.floor(total * 0.05);
+	const r2 = Math.floor(total * 0.02);
+	const r1 = total - (r5 + r4 + r3 + r2);
+
+	return [
+		{ stars: 5, count: Math.max(0, r5) },
+		{ stars: 4, count: Math.max(0, r4) },
+		{ stars: 3, count: Math.max(0, r3) },
+		{ stars: 2, count: Math.max(0, r2) },
+		{ stars: 1, count: Math.max(0, r1) },
+	];
+}
+
 function BusCard({ bus }: BusCardProps) {
 	const hasDiscount = bus.price < bus.originalPrice;
+	const ratingData = getRatingDemographics(bus.rating, bus.totalRatings);
 
 	return (
 		<Card className="border-gray-300 transition-shadow hover:shadow-md">
@@ -55,13 +78,44 @@ function BusCard({ bus }: BusCardProps) {
 						<div className="flex flex-wrap items-center gap-2">
 							<h4 className="truncate font-semibold text-sm">{bus.name}</h4>
 							{/* Rating badge */}
-							<Badge
-								className="gap-1 rounded-md px-1.5 py-0.5 text-[11px]"
-								variant="default"
-							>
-								<Star className="size-3 fill-current" />
-								{bus.rating}
-							</Badge>
+							<Tooltip>
+								<TooltipTrigger className="cursor-pointer">
+									<Badge
+										className="gap-1 rounded-md px-1.5 py-0.5 text-[11px]"
+										variant="default"
+									>
+										<Star className="size-3 fill-current" />
+										{bus.rating.toFixed(1)}
+									</Badge>
+								</TooltipTrigger>
+								<TooltipContent className="w-64 p-3 bg-popover text-popover-foreground border shadow-md">
+									<div className="space-y-2">
+										<p className="font-semibold text-sm">Rating Breakdown</p>
+										{ratingData.map((row) => (
+											<div
+												className="flex items-center gap-2 text-xs"
+												key={row.stars}
+											>
+												<div className="flex w-8 items-center gap-1 font-medium">
+													{row.stars}{" "}
+													<Star className="size-3 fill-current text-muted-foreground" />
+												</div>
+												<div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
+													<div
+														className="h-full bg-primary"
+														style={{
+															width: `${Math.max(0, Math.min(100, (row.count / bus.totalRatings) * 100))}%`,
+														}}
+													/>
+												</div>
+												<div className="w-8 text-right text-muted-foreground">
+													{row.count}
+												</div>
+											</div>
+										))}
+									</div>
+								</TooltipContent>
+							</Tooltip>
 							<span className="text-muted-foreground text-xs">
 								({bus.totalRatings.toLocaleString()})
 							</span>

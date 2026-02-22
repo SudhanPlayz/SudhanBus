@@ -11,79 +11,91 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
-const BUS_TYPES = [
+export const BUS_TYPES = [
 	{ id: "ac", label: "AC" },
 	{ id: "non-ac", label: "Non AC" },
 	{ id: "sleeper", label: "Sleeper" },
 	{ id: "seater", label: "Seater" },
 ];
 
-const DEPARTURE_TIMES = [
+export const DEPARTURE_TIMES = [
 	{ id: "morning", label: "06:00 – 12:00" },
 	{ id: "afternoon", label: "12:00 – 18:00" },
 	{ id: "evening", label: "18:00 – 24:00" },
 	{ id: "night", label: "00:00 – 06:00" },
 ];
 
-const ARRIVAL_TIMES = [
+export const ARRIVAL_TIMES = [
 	{ id: "morning", label: "06:00 – 12:00" },
 	{ id: "afternoon", label: "12:00 – 18:00" },
 	{ id: "evening", label: "18:00 – 24:00" },
 	{ id: "night", label: "00:00 – 06:00" },
 ];
 
-const SEATER_SLEEPER_TYPES = [{ id: "single", label: "Single Window Seater" }];
+export const SEATER_SLEEPER_TYPES = [
+	{ id: "single", label: "Single Window Seater" },
+];
 
-const BUS_FEATURES = [
+export const BUS_FEATURES = [
 	{ id: "wifi", label: "WIFI" },
 	{ id: "water", label: "Water Bottle" },
 	{ id: "blanket", label: "Blanket" },
 	{ id: "charging", label: "Charging Point" },
 ];
 
-const BUS_OPERATORS = [
+export const BUS_OPERATORS = [
 	{ id: "intrCity", label: "IntrCity SmartBus" },
 	{ id: "zingbus", label: "Zingbus" },
 	{ id: "nueGo", label: "NueGo" },
 	{ id: "srs", label: "SRS Travels" },
 ];
 
-const BOARDING_POINTS = [
+export const BOARDING_POINTS = [
 	{ id: "kashmere_gate", label: "Kashmere Gate" },
 	{ id: "anand_vihar", label: "Anand Vihar" },
 	{ id: "majnu_ka_tila", label: "Majnu Ka Tila" },
 ];
 
-const DROPPING_POINTS = [
+export const DROPPING_POINTS = [
 	{ id: "manali", label: "Manali Bus Stand" },
 	{ id: "kullu", label: "Kullu" },
 	{ id: "bhuntar", label: "Bhuntar" },
 ];
 
-const AMENITIES = [
+export const AMENITIES = [
 	{ id: "toilet", label: "Toilet" },
 	{ id: "cctv", label: "CCTV" },
 	{ id: "gps", label: "GPS Tracking" },
 ];
 
-const SPECIAL_FEATURES = [
+export const SPECIAL_FEATURES = [
 	{ id: "live_tracking", label: "Live Tracking" },
 	{ id: "m_ticket", label: "M-Ticket Accepted" },
 ];
 
-interface FilterCardProps {
-	onTimeChange: (time: string, checked: boolean) => void;
-	onTypeChange: (type: string, checked: boolean) => void;
-	selectedTimes: string[];
-	selectedTypes: string[];
+export interface FilterState {
+	amenities: string[];
+	arrivalTimes: string[];
+	boardingPoints: string[];
+	busTypes: string[];
+	departureTimes: string[];
+	droppingPoints: string[];
+	features: string[];
+	operators: string[];
+	seaterSleeper: string[];
+	specialFeatures: string[];
 }
 
-function FilterCard({
-	selectedTypes,
-	onTypeChange,
-	selectedTimes,
-	onTimeChange,
-}: FilterCardProps) {
+interface FilterCardProps {
+	filters: FilterState;
+	onFilterChange: (
+		category: keyof FilterState,
+		id: string,
+		checked: boolean
+	) => void;
+}
+
+function FilterCard({ filters, onFilterChange }: FilterCardProps) {
 	return (
 		<Card className="h-full flex flex-col border shadow-sm">
 			<CardContent className="p-0 flex flex-col flex-1 min-h-0">
@@ -116,9 +128,13 @@ function FilterCard({
 												key={time.id}
 											>
 												<Checkbox
-													checked={selectedTimes.includes(time.id)}
+													checked={filters.departureTimes.includes(time.id)}
 													onCheckedChange={(checked) =>
-														onTimeChange(time.id, checked as boolean)
+														onFilterChange(
+															"departureTimes",
+															time.id,
+															checked as boolean
+														)
 													}
 												/>
 												{time.label}
@@ -140,7 +156,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={time.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.arrivalTimes.includes(time.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"arrivalTimes",
+															time.id,
+															checked as boolean
+														)
+													}
+												/>
 												{time.label}
 											</label>
 										))}
@@ -161,9 +186,13 @@ function FilterCard({
 												key={type.id}
 											>
 												<Checkbox
-													checked={selectedTypes.includes(type.id)}
+													checked={filters.busTypes.includes(type.id)}
 													onCheckedChange={(checked) =>
-														onTypeChange(type.id, checked as boolean)
+														onFilterChange(
+															"busTypes",
+															type.id,
+															checked as boolean
+														)
 													}
 												/>
 												{type.label}
@@ -190,7 +219,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={type.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.seaterSleeper.includes(type.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"seaterSleeper",
+															type.id,
+															checked as boolean
+														)
+													}
+												/>
 												{type.label}
 											</label>
 										))}
@@ -210,7 +248,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={feature.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.features.includes(feature.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"features",
+															feature.id,
+															checked as boolean
+														)
+													}
+												/>
 												{feature.label}
 											</label>
 										))}
@@ -230,7 +277,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={op.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.operators.includes(op.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"operators",
+															op.id,
+															checked as boolean
+														)
+													}
+												/>
 												{op.label}
 											</label>
 										))}
@@ -250,7 +306,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={pt.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.boardingPoints.includes(pt.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"boardingPoints",
+															pt.id,
+															checked as boolean
+														)
+													}
+												/>
 												{pt.label}
 											</label>
 										))}
@@ -270,7 +335,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={pt.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.droppingPoints.includes(pt.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"droppingPoints",
+															pt.id,
+															checked as boolean
+														)
+													}
+												/>
 												{pt.label}
 											</label>
 										))}
@@ -293,7 +367,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={am.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.amenities.includes(am.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"amenities",
+															am.id,
+															checked as boolean
+														)
+													}
+												/>
 												{am.label}
 											</label>
 										))}
@@ -316,7 +399,16 @@ function FilterCard({
 												className="flex cursor-pointer items-center gap-2 text-sm"
 												key={sf.id}
 											>
-												<Checkbox />
+												<Checkbox
+													checked={filters.specialFeatures.includes(sf.id)}
+													onCheckedChange={(checked) =>
+														onFilterChange(
+															"specialFeatures",
+															sf.id,
+															checked as boolean
+														)
+													}
+												/>
 												{sf.label}
 											</label>
 										))}
