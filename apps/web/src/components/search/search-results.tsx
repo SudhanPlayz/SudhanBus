@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { CityCombobox } from "@/components/home/city-combobox";
 import { DatePicker } from "@/components/home/date-picker";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { cn } from "@/lib/utils";
 import { BusCard } from "./bus-card";
 import { DEMO_BUSES } from "./bus-data";
@@ -160,7 +160,7 @@ function SearchResults({
 	});
 
 	return (
-		<div className="flex h-[calc(100svh-3rem)] flex-col bg-gray-100/50">
+		<div className="flex min-h-[calc(100svh-4rem)] flex-col bg-gray-100/50">
 			{/* Search bar */}
 			<div className="border-b bg-card px-4 py-3">
 				<div className="mx-auto flex max-w-6xl flex-col gap-3 md:flex-row md:items-end md:gap-2">
@@ -297,22 +297,20 @@ function SearchResults({
 			</div>
 
 			{/* Main content */}
-			<div className="mx-auto flex w-full max-w-6xl flex-1 gap-5 overflow-hidden px-4 py-4">
+			<div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-6 px-4 py-6 md:grid-cols-[280px_1fr]">
 				{/* Filter sidebar — sticky on desktop, hidden on mobile */}
-				<aside className="hidden w-[280px] shrink-0 md:block">
-					<div className="sticky top-0">
-						<FilterCard
-							onTimeChange={handleTimeChange}
-							onTypeChange={handleTypeChange}
-							selectedTimes={selectedTimes}
-							selectedTypes={selectedTypes}
-						/>
-					</div>
+				<aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] overflow-hidden md:block">
+					<FilterCard
+						onTimeChange={handleTimeChange}
+						onTypeChange={handleTypeChange}
+						selectedTimes={selectedTimes}
+						selectedTypes={selectedTypes}
+					/>
 				</aside>
 
-				{/* Bus cards — scrollable */}
-				<ScrollArea className="flex-1">
-					<div className="space-y-3 pr-3 pb-4">
+				{/* Bus cards */}
+				<main>
+					<div className="space-y-3 pb-4">
 						{sortedBuses.map((bus) => (
 							<BusCard bus={bus} key={bus.id} />
 						))}
@@ -322,7 +320,7 @@ function SearchResults({
 							</div>
 						)}
 					</div>
-				</ScrollArea>
+				</main>
 			</div>
 		</div>
 	);
