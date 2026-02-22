@@ -86,11 +86,21 @@ function Calendar({
 	locale,
 	formatters,
 	components,
+	startMonth,
+	endMonth,
 	...props
 }: React.ComponentProps<typeof DayPicker> & {
 	buttonVariant?: React.ComponentProps<typeof Button>["variant"];
 }) {
 	const defaultClassNames = getDefaultClassNames();
+
+	const today = new Date();
+	const defaultStartMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+	const defaultEndMonth = new Date(
+		today.getFullYear(),
+		today.getMonth() + 4,
+		today.getDate()
+	);
 
 	return (
 		<CalendarLocaleContext.Provider value={locale}>
@@ -199,6 +209,7 @@ function Calendar({
 					WeekNumber: CalendarWeekNumber,
 					...components,
 				}}
+				endMonth={endMonth ?? defaultEndMonth}
 				formatters={{
 					formatMonthDropdown: (date) =>
 						date.toLocaleString(locale?.code, { month: "short" }),
@@ -206,6 +217,7 @@ function Calendar({
 				}}
 				locale={locale}
 				showOutsideDays={showOutsideDays}
+				startMonth={startMonth ?? defaultStartMonth}
 				{...props}
 			/>
 		</CalendarLocaleContext.Provider>

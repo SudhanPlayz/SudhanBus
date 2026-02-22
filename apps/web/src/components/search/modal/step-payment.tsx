@@ -99,7 +99,7 @@ export function StepPayment({
 				</div>
 			</div>
 
-			<Button className="h-11 w-full rounded-xl bg-primary font-bold text-white shadow-lg hover:bg-primary/90">
+			<Button className="cursor-pointer h-11 w-full rounded-xl bg-primary font-bold text-white shadow-lg hover:bg-primary/90">
 				<CreditCard className="mr-2 size-4" />
 				Proceed to Pay ₹{totalPrice.toLocaleString()}
 			</Button>
