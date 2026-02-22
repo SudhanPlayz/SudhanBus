@@ -212,7 +212,7 @@ function Calendar({
 				endMonth={endMonth ?? defaultEndMonth}
 				formatters={{
 					formatMonthDropdown: (date) =>
-						date.toLocaleString(locale?.code, { month: "short" }),
+						date.toLocaleString(locale?.code, { month: "long" }),
 					...formatters,
 				}}
 				locale={locale}

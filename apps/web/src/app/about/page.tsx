@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
+export const dynamic = "force-static";
+
 export const metadata = {
 	title: "About Us | SudhanBus",
 	description:

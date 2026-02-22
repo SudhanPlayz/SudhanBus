@@ -1,6 +1,8 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
+export const dynamic = "force-static";
+
 export const metadata = {
 	title: "Contact Us | SudhanBus",
 	description:

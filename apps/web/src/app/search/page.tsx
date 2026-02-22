@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import { SearchResults } from "@/components/search/search-results";
+
+export const runtime = "edge";
 
 interface SearchPageProps {
 	searchParams: Promise<{
@@ -17,5 +20,15 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 		redirect("/");
 	}
 
-	return <SearchResults date={date} from={from} to={to} />;
+	return (
+		<Suspense
+			fallback={
+				<div className="flex min-h-[50svh] items-center justify-center text-muted-foreground">
+					Loading search results...
+				</div>
+			}
+		>
+			<SearchResults date={date} from={from} to={to} />
+		</Suspense>
+	);
 }

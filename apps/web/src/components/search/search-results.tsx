@@ -5,6 +5,7 @@ import {
 	ArrowDown,
 	ArrowRightLeft,
 	ArrowUp,
+	CalendarIcon,
 	MapPin,
 	MapPinned,
 	Search,
@@ -13,8 +14,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { CityCombobox } from "@/components/home/city-combobox";
-import { DatePicker } from "@/components/home/date-picker";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 
 import { cn } from "@/lib/utils";
 import { BusCard } from "./bus-card";
@@ -60,6 +67,7 @@ function SearchResults({
 
 	const [from, setFrom] = useState<string | null>(initialFrom);
 	const [to, setTo] = useState<string | null>(initialTo);
+	const [datePickerOpen, setDatePickerOpen] = useState(false);
 	const [date, setDate] = useState<Date | undefined>(() => {
 		try {
 			const d = new Date(initialDate);
@@ -277,12 +285,41 @@ function SearchResults({
 					</div>
 
 					{/* Date */}
-					<div className="flex flex-1 items-start overflow-visible">
-						<DatePicker
-							className="[&_button]:h-9 [&_button]:text-sm"
-							date={date}
-							onDateChange={setDate}
-						/>
+					<div className="flex items-start overflow-visible shrink-0">
+						<Field className="w-auto">
+							<FieldLabel className="text-base font-bold" htmlFor="search-date">
+								Date
+							</FieldLabel>
+							<Popover onOpenChange={setDatePickerOpen} open={datePickerOpen}>
+								<PopoverTrigger
+									className={cn(
+										buttonVariants({ variant: "outline" }),
+										"h-9 w-full justify-start text-left font-normal text-sm px-3 shadow-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-2",
+										!date && "text-muted-foreground"
+									)}
+									id="search-date"
+								>
+									<CalendarIcon className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
+									{date ? format(date, "dd/MM/yy") : <span>Pick a date</span>}
+								</PopoverTrigger>
+								<PopoverContent align="start" className="w-auto p-0">
+									<Calendar
+										captionLayout="dropdown"
+										disabled={{
+											before: new Date(new Date().setHours(0, 0, 0, 0)),
+										}}
+										mode="single"
+										onSelect={(d) => {
+											setDate(d);
+											setDatePickerOpen(false);
+										}}
+										selected={date}
+										showOutsideDays={false}
+										startMonth={new Date(new Date().setHours(0, 0, 0, 0))}
+									/>
+								</PopoverContent>
+							</Popover>
+						</Field>
 					</div>
 
 					{/* Search button */}

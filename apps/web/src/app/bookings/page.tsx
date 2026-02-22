@@ -12,6 +12,9 @@ import {
 	EmptyTitle,
 } from "@/components/ui/empty";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
 	title: "My Bookings – SudhanBus",
 	description: "View and manage all your bus ticket bookings on SudhanBus.",
