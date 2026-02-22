@@ -1,9 +1,10 @@
 "use client";
 
+import { useBookingStore } from "@sudhanbus/zustand/stores/booking";
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "motion/react";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -50,11 +51,28 @@ export function BookingModal({ bus }: BookingModalProps) {
 	const router = useRouter();
 	const [activeStep, setActiveStep] = useState(1);
 	const [direction, setDirection] = useState(1); // 1 = forward, -1 = back
-	const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-	const [seatPrices, setSeatPrices] = useState<Record<string, number>>({});
-	const [boardingPoint, setBoardingPoint] = useState<string | null>(null);
-	const [droppingPoint, setDroppingPoint] = useState<string | null>(null);
-	const [passengers, setPassengers] = useState<PassengerInfo[]>([]);
+	const {
+		selectedSeats,
+		seatPrices,
+		boardingPoint,
+		droppingPoint,
+		passengers,
+		toggleSeat: handleSeatToggle,
+		setBoardingPoint,
+		setDroppingPoint,
+		setPassengers,
+		setBus,
+		resetBooking,
+		busId,
+	} = useBookingStore();
+
+	// If this modal opens for a DIFFERENT bus, reset the booking state to start fresh
+	useEffect(() => {
+		if (busId && busId !== bus.id) {
+			resetBooking();
+		}
+		setBus(bus.id, bus);
+	}, [bus.id, busId, resetBooking, setBus]);
 
 	const decks = useMemo(() => generateDemoSeatLayout(), []);
 
@@ -62,23 +80,6 @@ export function BookingModal({ bus }: BookingModalProps) {
 		() => selectedSeats.reduce((sum, id) => sum + (seatPrices[id] || 0), 0),
 		[selectedSeats, seatPrices]
 	);
-
-	const handleSeatToggle = useCallback((seatId: string, price: number) => {
-		setSelectedSeats((prev) => {
-			if (prev.includes(seatId)) {
-				return prev.filter((id) => id !== seatId);
-			}
-			return [...prev, seatId];
-		});
-		setSeatPrices((prev) => ({ ...prev, [seatId]: price }));
-		setPassengers((prev) => {
-			const isRemoving = prev.some((p) => p.seatId === seatId);
-			if (isRemoving) {
-				return prev.filter((p) => p.seatId !== seatId);
-			}
-			return [...prev, { seatId, name: "", age: "", gender: "male" as const }];
-		});
-	}, []);
 
 	const handleNext = () => {
 		setDirection(1);
